@@ -233,7 +233,7 @@ const certificates = [
 
 const SOCIALS = [
   {
-    href: "mailto:mahesh.moholkar.2023@gmail.com",
+    href: "mailto:mahesh.moholkar.dev@gmail.com",
     label: "Email",
     icon: (
       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -323,7 +323,7 @@ export default function Home() {
               ))}
             </div>
             <motion.a
-              href="mailto:mahesh.moholkar.2023@gmail.com"
+              href="mailto:mahesh.moholkar.dev@gmail.com"
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.2 }}
