@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 const projects = [
@@ -56,7 +56,7 @@ const projects = [
     status: "Completed",
     date: "2025",
     description:
-      "A sophisticated blockchain SaaS platform built with Astro.js and modern web technologies. Features revolutionary blockchain API, decentralized data solutions, next-gen smart contracts, and seamless blockchain integration for Web3 applications.",
+      "A blockchain SaaS landing page built with Astro.js and modern web technologies. Also includes blogs section.",
     tech: ["React", "Astro.js", "TypeScript", "TailwindCSS", "Framer Motion"],
     website: "https://blockforge-one.vercel.app/",
     source: "https://github.com/MaheshMoholkar/blockforge",
@@ -113,7 +113,8 @@ const experience = [
   {
     title: "Full Stack Developer",
     company: "Vision",
-    date: "Jan 2025 - Present",
+    date: "Jan 2025 - August 2025",
+    duration: "8 months",
     location: "Kuwait (Remote)",
     description:
       "Building a comprehensive inventory management system for a Kuwait-based startup. Developing full-stack solutions with modern web technologies to streamline business operations and improve efficiency.",
@@ -132,7 +133,8 @@ const experience = [
   {
     title: "Junior Software Engineer",
     company: "DPU Unitech Foundation",
-    date: "Aug 2024 - Present",
+    date: "Aug 2024 - Aug 2025",
+    duration: "1 year",
     location: "Pune, India",
     description:
       "Promoted to Junior Software Engineer. Continuing development of Campus ERP Web App and other internal tools. Optimized API performance and implemented caching strategies. Leading development initiatives and mentoring new team members.",
@@ -144,6 +146,7 @@ const experience = [
     title: "Software Engineer Intern",
     company: "DPU Unitech Foundation",
     date: "Aug 2023 - Aug 2024",
+    duration: "1 year",
     location: "Pune, India",
     description:
       "Developed and maintained Campus ERP Web App using React and .NET, serving 2000+ students and faculty across university and colleges. Built chatbot using React, LLAMA, and Golang. Collaborated with cross-functional teams to deliver high-quality software solutions.",
@@ -155,6 +158,7 @@ const experience = [
     title: "Fellowship",
     company: "Cloud Native Computing Foundation(CNCF)",
     date: "Aug 2023 - Sep 2023",
+    duration: "2 months",
     location: "Remote",
     description:
       "Participated in the Zero To Merge Incubation program. Zero to Merge Incubator Program helps communicating with CNCF staff to identify existing problems, collaborate on open GitHub issues, and create Pull Requests(PRs) for approval.",
@@ -189,6 +193,8 @@ const skills = [
   "Next.js",
   "React Native",
   "Node.js",
+  "Java",
+  "Spring Boot",
   "Golang",
   ".NET",
   "SQL",
@@ -252,7 +258,7 @@ const SOCIALS = [
     ),
   },
   {
-    href: "https://linkedin.com/in/maheshmoholkar",
+    href: "https://linkedin.com/in/mahesh1822",
     label: "LinkedIn",
     icon: (
       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -272,6 +278,9 @@ const SOCIALS = [
 ];
 
 export default function Home() {
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  const displayedProjects = showAllProjects ? projects : projects.slice(0, 4);
+
   return (
     <main className="min-h-screen bg-white text-gray-900 font-sans">
       {/* Hero Section */}
@@ -357,14 +366,14 @@ export default function Home() {
       </section>
 
       {/* Experience Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-12">
+      <section className="container mx-auto px-4 py-12 md:py-20">
+        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-8 md:mb-12">
           <motion.h2
             initial={{ y: 50, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-3xl font-bold font-serif"
+            className="text-2xl md:text-3xl font-bold font-serif"
           >
             Professional Experience
           </motion.h2>
@@ -383,7 +392,7 @@ export default function Home() {
           {/* Timeline line */}
           <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-300"></div>
 
-          <div className="space-y-12">
+          <div className="space-y-8 md:space-y-12">
             {experience.map((exp, idx) => (
               <motion.div
                 key={idx}
@@ -404,7 +413,12 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="block"
                   >
-                    <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow relative">
+                      <div className="absolute top-4 right-4">
+                        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md font-medium border border-gray-200">
+                          {exp.duration}
+                        </span>
+                      </div>
                       <div className="flex items-center gap-3 mb-3">
                         <Image
                           src={exp.logo}
@@ -417,7 +431,7 @@ export default function Home() {
                           }}
                         />
                         <div>
-                          <h3 className="font-bold text-xl text-gray-900">
+                          <h3 className="font-bold text-lg md:text-xl text-gray-900">
                             {exp.title}
                           </h3>
                           <span className="text-sm text-gray-600 font-semibold">
@@ -434,14 +448,14 @@ export default function Home() {
                           {exp.location}
                         </span>
                       </div>
-                      <p className="text-base text-gray-700 leading-relaxed mb-4">
+                      <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-3 md:mb-4">
                         {exp.description}
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {exp.tech.map((tech, i) => (
                           <span
                             key={tech + i}
-                            className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-lg font-medium border border-gray-200"
+                            className="text-xs bg-gray-100 text-gray-700 px-2 md:px-3 py-1 rounded-lg font-medium border border-gray-200"
                           >
                             {tech}
                           </span>
@@ -450,7 +464,12 @@ export default function Home() {
                     </div>
                   </a>
                 ) : (
-                  <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow relative">
+                    <div className="absolute top-4 right-4">
+                      <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md font-medium border border-gray-200">
+                        {exp.duration}
+                      </span>
+                    </div>
                     <div className="flex items-center gap-3 mb-3">
                       <Image
                         src={exp.logo}
@@ -463,7 +482,7 @@ export default function Home() {
                         }}
                       />
                       <div>
-                        <h3 className="font-bold text-xl text-gray-900">
+                        <h3 className="font-bold text-lg md:text-xl text-gray-900">
                           {exp.title}
                         </h3>
                         <span className="text-sm text-gray-600 font-semibold">
@@ -480,14 +499,14 @@ export default function Home() {
                         {exp.location}
                       </span>
                     </div>
-                    <p className="text-base text-gray-700 leading-relaxed mb-4">
+                    <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-3 md:mb-4">
                       {exp.description}
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {exp.tech.map((tech, i) => (
                         <span
                           key={tech + i}
-                          className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-lg font-medium border border-gray-200"
+                          className="text-xs bg-gray-100 text-gray-700 px-2 md:px-3 py-1 rounded-lg font-medium border border-gray-200"
                         >
                           {tech}
                         </span>
@@ -502,14 +521,14 @@ export default function Home() {
       </section>
 
       {/* Education Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-12">
+      <section className="container mx-auto px-4 py-12 md:py-20">
+        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-8 md:mb-12">
           <motion.h2
             initial={{ y: 50, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-3xl font-bold font-serif"
+            className="text-2xl md:text-3xl font-bold font-serif"
           >
             Education
           </motion.h2>
@@ -523,7 +542,7 @@ export default function Home() {
             Academic excellence and continuous learning journey
           </motion.p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl lg:max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-4xl lg:max-w-6xl mx-auto">
           {education.map((edu, idx) => (
             <motion.div
               key={idx}
@@ -531,19 +550,19 @@ export default function Home() {
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: idx * 0.2 }}
-              className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
+              className="bg-white border border-gray-200 rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow"
             >
               <div>
-                <h3 className="text-2xl font-bold font-serif text-gray-900 mb-2">
+                <h3 className="text-xl md:text-2xl font-bold font-serif text-gray-900 mb-2">
                   {edu.degree}
                 </h3>
-                <p className="text-lg text-gray-600 font-semibold mb-1">
+                <p className="text-base md:text-lg text-gray-600 font-semibold mb-1">
                   {edu.institution}
                 </p>
                 <p className="text-sm text-gray-500 mb-2">
                   {edu.date} • {edu.location}
                 </p>
-                <p className="text-base text-gray-700 leading-relaxed">
+                <p className="text-sm md:text-base text-gray-700 leading-relaxed">
                   {edu.details}
                 </p>
               </div>
@@ -553,14 +572,14 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-12">
+      <section className="container mx-auto px-4 py-12 md:py-20">
+        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-8 md:mb-12">
           <motion.h2
             initial={{ y: 50, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-3xl font-bold font-serif"
+            className="text-2xl md:text-3xl font-bold font-serif"
           >
             Projects
           </motion.h2>
@@ -574,8 +593,8 @@ export default function Home() {
             Innovative solutions and cutting-edge applications
           </motion.p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl lg:max-w-6xl mx-auto">
-          {projects.map((p, index) => (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-4xl lg:max-w-6xl mx-auto">
+          {displayedProjects.map((p, index) => (
             <motion.a
               key={p.name}
               href={p.website}
@@ -588,7 +607,7 @@ export default function Home() {
               className="group block bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow"
             >
               {/* Image Preview Area */}
-              <div className="w-full h-64 overflow-hidden rounded-t-lg">
+              <div className="w-full h-48 md:h-64 overflow-hidden rounded-t-lg">
                 <Image
                   src={p.image}
                   alt={`${p.name} preview`}
@@ -599,10 +618,10 @@ export default function Home() {
               </div>
 
               {/* Project Content */}
-              <div className="p-6 space-y-4">
+              <div className="p-4 md:p-6 space-y-3 md:space-y-4">
                 <div className="flex items-center gap-4">
                   <div>
-                    <p className="text-xl font-bold font-serif text-gray-900">
+                    <p className="text-lg md:text-xl font-bold font-serif text-gray-900">
                       {p.name}
                     </p>
                     <p className="text-sm text-gray-500">
@@ -619,7 +638,7 @@ export default function Home() {
                   {p.tech.map((tech, i) => (
                     <span
                       key={tech + i}
-                      className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-lg font-medium border border-gray-200"
+                      className="text-xs bg-gray-100 text-gray-700 px-2 md:px-3 py-1 rounded-lg font-medium border border-gray-200"
                     >
                       {tech}
                     </span>
@@ -627,7 +646,7 @@ export default function Home() {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 transition-colors">
+                  <span className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm">
                     View Project
                     <svg
                       className="w-4 h-4"
@@ -648,7 +667,7 @@ export default function Home() {
                       e.stopPropagation();
                       window.open(p.source, "_blank", "noopener,noreferrer");
                     }}
-                    className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors"
+                    className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm"
                   >
                     Source Code
                     <svg
@@ -670,17 +689,35 @@ export default function Home() {
             </motion.a>
           ))}
         </div>
+
+        {/* Load More Button */}
+        {!showAllProjects && projects.length > 4 && (
+          <motion.div
+            className="flex justify-center mt-8"
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <button
+              onClick={() => setShowAllProjects(true)}
+              className="px-8 py-3 bg-black text-white font-bold uppercase shadow-[5px_5px_0px_0px_#6c6c6c] hover:shadow-[7px_7px_0px_0px_#6c6c6c] transition-all duration-300"
+            >
+              Load More Projects
+            </button>
+          </motion.div>
+        )}
       </section>
 
       {/* Skills Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-12">
+      <section className="container mx-auto px-4 py-12 md:py-20">
+        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-8 md:mb-12">
           <motion.h2
             initial={{ y: 50, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-3xl font-bold font-serif"
+            className="text-2xl md:text-3xl font-bold font-serif"
           >
             Skills
           </motion.h2>
@@ -695,7 +732,7 @@ export default function Home() {
           </motion.p>
         </div>
         <motion.div
-          className="flex flex-wrap gap-4 justify-center max-w-4xl lg:max-w-6xl mx-auto"
+          className="flex flex-wrap gap-3 md:gap-4 justify-center max-w-4xl lg:max-w-6xl mx-auto"
           initial={{ y: 50, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
@@ -704,7 +741,7 @@ export default function Home() {
           {skills.map((skill) => (
             <span
               key={skill}
-              className="text-sm bg-white text-gray-900 px-4 py-3 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow font-medium"
+              className="text-sm bg-white text-gray-900 px-3 md:px-4 py-2 md:py-3 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow font-medium"
             >
               {skill}
             </span>
@@ -713,14 +750,14 @@ export default function Home() {
       </section>
 
       {/* Certificates Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-12">
+      <section className="container mx-auto px-4 py-12 md:py-20">
+        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-8 md:mb-12">
           <motion.h2
             initial={{ y: 50, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-3xl font-bold font-serif"
+            className="text-2xl md:text-3xl font-bold font-serif"
           >
             Certificates
           </motion.h2>
@@ -734,7 +771,7 @@ export default function Home() {
             Professional certifications and achievements
           </motion.p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl lg:max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl lg:max-w-6xl mx-auto">
           {certificates.map((cert, index) => (
             <motion.div
               key={cert.title}
@@ -747,10 +784,10 @@ export default function Home() {
                 href={cert.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
+                className="group block bg-white border border-gray-200 rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div>
-                  <p className="text-xl font-bold font-serif text-gray-900">
+                  <p className="text-lg md:text-xl font-bold font-serif text-gray-900">
                     {cert.title}
                   </p>
                   <p className="text-sm text-gray-500">
