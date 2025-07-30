@@ -389,21 +389,21 @@ export default function Home() {
           </motion.p>
         </div>
         <div className="relative max-w-4xl lg:max-w-6xl mx-auto">
-          {/* Timeline line */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-300"></div>
+          {/* Timeline line - hidden on mobile */}
+          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-300 hidden md:block"></div>
 
           <div className="space-y-8 md:space-y-12">
             {experience.map((exp, idx) => (
               <motion.div
                 key={idx}
-                className="relative pl-16"
+                className="relative md:pl-16"
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: idx * 0.2 }}
               >
-                {/* Timeline dot */}
-                <div className="absolute left-6 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-gray-900 rounded-full border-4 border-white shadow-lg z-10"></div>
+                {/* Timeline dot - hidden on mobile */}
+                <div className="absolute left-6 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-gray-900 rounded-full border-4 border-white shadow-lg z-10 hidden md:block"></div>
 
                 {/* Content */}
                 {exp.link !== "#" ? (
