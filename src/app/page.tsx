@@ -113,7 +113,7 @@ const experience = [
   {
     title: "Full Stack Developer",
     company: "Vision",
-    date: "Jan 2025 - August 2025",
+    date: "Jan 2025 - Aug 2025",
     duration: "8 months",
     location: "Kuwait (Remote)",
     description:
