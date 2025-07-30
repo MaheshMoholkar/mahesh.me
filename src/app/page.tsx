@@ -664,9 +664,11 @@ export default function Home() {
                   </span>
                   <button
                     onClick={(e) => {
+                      e.preventDefault();
                       e.stopPropagation();
                       window.open(p.source, "_blank", "noopener,noreferrer");
                     }}
+                    onMouseDown={(e) => e.stopPropagation()}
                     className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm"
                   >
                     Source Code
