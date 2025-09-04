@@ -6,6 +6,30 @@ import { motion } from "framer-motion";
 
 const projects = [
   {
+    name: "NextTube",
+    status: "Completed",
+    date: "2025",
+    description:
+      "A video streaming platform built with Next.js, tRPC, DrizzleORM, PostgreSQL, Mux, and Ollama. Features video upload, streaming, and user authentication. AI-generated thumbnails, titles and descriptions.",
+    tech: [
+      "React",
+      "TypeScript",
+      "Next.js",
+      "tRPC",
+      "Upstash",
+      "Uploadthing",
+      "TailwindCSS",
+      "Better-Auth",
+      "DrizzleORM",
+      "PostgreSQL",
+      "Mux",
+      "Ollama",
+    ],
+    website: "https://nexttube-black.vercel.app/",
+    source: "https://github.com/MaheshMoholkar/nexttube",
+    image: "/nexttube.png",
+  },
+  {
     name: "Ignite+ LMS",
     status: "Completed",
     date: "2025",
@@ -29,6 +53,7 @@ const projects = [
     source: "https://github.com/MaheshMoholkar/ignite-plus-lms",
     image: "/ignite-lms.png",
   },
+
   {
     name: "3D Portfolio",
     status: "Completed",
