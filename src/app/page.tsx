@@ -4,7 +4,78 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
+const currentMonthYear = new Date().toLocaleString("default", {
+  month: "short",
+  year: "numeric",
+});
+
+const calculateDurationInMonths = (
+  start: { year: number; month: number },
+  end: Date = new Date()
+) => {
+  const totalMonthsStart = start.year * 12 + start.month;
+  const totalMonthsEnd = end.getFullYear() * 12 + end.getMonth();
+  const diff = totalMonthsEnd - totalMonthsStart + 1;
+  return Math.max(1, diff);
+};
+
+const formatDuration = (totalMonths: number) => {
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+  const parts = [];
+
+  if (years) {
+    parts.push(`${years} year${years > 1 ? "s" : ""}`);
+  }
+
+  if (months) {
+    parts.push(`${months} month${months > 1 ? "s" : ""}`);
+  }
+
+  return parts.join(" ");
+};
+
 const projects = [
+  {
+    name: "Vyavasay",
+    status: "Completed",
+    date: "2026",
+    description:
+      "A full-stack GST billing and business management platform for Indian SMEs with invoicing, inventory, sales/purchase workflows, role-based access, and analytics dashboards.",
+    tech: [
+      "React",
+      "Vite",
+      "TypeScript",
+      "Go",
+      "Gin",
+      "PostgreSQL",
+      "Docker",
+    ],
+    website: "https://vyavasayapp.in",
+    image: "/vyavasay.png",
+  },
+  {
+    name: "Slack",
+    status: "Completed",
+    date: "2026",
+    description:
+      "A full-stack Slack-style team chat application with channels, direct messages, threaded conversations, reactions, and real-time updates over WebSockets. Built with React + Vite frontend and Spring Boot backend, with split Docker deployment for UI and API.",
+    tech: [
+      "React",
+      "Vite",
+      "TypeScript",
+      "Spring Boot",
+      "Java",
+      "PostgreSQL",
+      "WebSocket",
+      "SockJS",
+      "Docker",
+      "Nginx",
+    ],
+    website: "https://slack-app.up.railway.app/",
+    source: "https://github.com/MaheshMoholkar/slack",
+    image: "/slackhome.png",
+  },
   {
     name: "NextTube",
     status: "Completed",
@@ -52,6 +123,26 @@ const projects = [
     website: "https://ignite-plus-lms.vercel.app/",
     source: "https://github.com/MaheshMoholkar/ignite-plus-lms",
     image: "/ignite-lms.png",
+  },
+  {
+    name: "AdFlow",
+    status: "Completed",
+    date: "2026",
+    description:
+      "A call automation platform monorepo with Go API, Flutter Android app for call detection and SMS follow-ups, React admin console, and Next.js public landing pages. Includes template/rules management, contact sync, and deployment with Docker.",
+    tech: [
+      "Go",
+      "Flutter",
+      "React",
+      "Next.js",
+      "TypeScript",
+      "PostgreSQL",
+      "Docker",
+      "TailwindCSS",
+    ],
+    website: "https://adflowapp.vercel.app/",
+    source: "https://github.com/MaheshMoholkar/adflow",
+    image: "/adflow.png",
   },
 
   {
@@ -136,30 +227,11 @@ const projects = [
 
 const experience = [
   {
-    title: "Full Stack Developer",
-    company: "Vision",
-    date: "Jan 2025 - Aug 2025",
-    duration: "8 months",
-    location: "Kuwait (Remote)",
-    description:
-      "Building a comprehensive inventory management system for a Kuwait-based startup. Developing full-stack solutions with modern web technologies to streamline business operations and improve efficiency.",
-    tech: [
-      "React",
-      "TypeScript",
-      "Spring Boot",
-      "PostgreSQL",
-      "Docker",
-      "BitBucket",
-      "AWS",
-    ],
-    link: "#",
-    logo: "/vision.png",
-  },
-  {
-    title: "Junior Software Engineer",
     company: "DPU Unitech Foundation",
-    date: "Aug 2024 - Aug 2025",
-    duration: "1 year",
+    date: `Aug 2024 - ${currentMonthYear}`,
+    duration: formatDuration(
+      calculateDurationInMonths({ year: 2024, month: 7 })
+    ),
     location: "Pune, India",
     description:
       "Promoted to Junior Software Engineer. Continuing development of Campus ERP Web App and other internal tools. Optimized API performance and implemented caching strategies. Leading development initiatives and mentoring new team members.",
@@ -168,10 +240,14 @@ const experience = [
     logo: "/dpu.png",
   },
   {
-    title: "Software Engineer Intern",
     company: "DPU Unitech Foundation",
-    date: "Aug 2023 - Aug 2024",
-    duration: "1 year",
+    date: "Aug 2023 - Jul 2024",
+    duration: formatDuration(
+      calculateDurationInMonths(
+        { year: 2023, month: 7 },
+        new Date(2024, 6)
+      )
+    ),
     location: "Pune, India",
     description:
       "Developed and maintained Campus ERP Web App using React and .NET, serving 2000+ students and faculty across university and colleges. Built chatbot using React, LLAMA, and Golang. Collaborated with cross-functional teams to deliver high-quality software solutions.",
@@ -180,10 +256,14 @@ const experience = [
     logo: "/dpu.png",
   },
   {
-    title: "Fellowship",
     company: "Cloud Native Computing Foundation(CNCF)",
     date: "Aug 2023 - Sep 2023",
-    duration: "2 months",
+    duration: formatDuration(
+      calculateDurationInMonths(
+        { year: 2023, month: 7 },
+        new Date(2023, 8)
+      )
+    ),
     location: "Remote",
     description:
       "Participated in the Zero To Merge Incubation program. Zero to Merge Incubator Program helps communicating with CNCF staff to identify existing problems, collaborate on open GitHub issues, and create Pull Requests(PRs) for approval.",
@@ -217,6 +297,7 @@ const skills = [
   "React",
   "Next.js",
   "React Native",
+  "Flutter",
   "Node.js",
   "Java",
   "Spring Boot",
@@ -456,9 +537,6 @@ export default function Home() {
                           }}
                         />
                         <div>
-                          <h3 className="font-bold text-lg md:text-xl text-gray-900">
-                            {exp.title}
-                          </h3>
                           <span className="text-sm text-gray-600 font-semibold">
                             {exp.company}
                           </span>
@@ -507,9 +585,6 @@ export default function Home() {
                         }}
                       />
                       <div>
-                        <h3 className="font-bold text-lg md:text-xl text-gray-900">
-                          {exp.title}
-                        </h3>
                         <span className="text-sm text-gray-600 font-semibold">
                           {exp.company}
                         </span>
@@ -629,7 +704,7 @@ export default function Home() {
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
-              className="group block bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+              className="group flex h-full flex-col bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow"
             >
               {/* Image Preview Area */}
               <div className="w-full h-48 md:h-64 overflow-hidden rounded-t-lg">
@@ -643,7 +718,7 @@ export default function Home() {
               </div>
 
               {/* Project Content */}
-              <div className="p-4 md:p-6 space-y-3 md:space-y-4">
+              <div className="flex flex-1 flex-col p-4 md:p-6 space-y-3 md:space-y-4">
                 <div className="flex items-center gap-4">
                   <div>
                     <p className="text-lg md:text-xl font-bold font-serif text-gray-900">
@@ -670,7 +745,37 @@ export default function Home() {
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between">
+                <div
+                  className={`mt-auto flex items-center ${
+                    p.source ? "justify-between" : "justify-end"
+                  }`}
+                >
+                  {p.source && (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.open(p.source, "_blank", "noopener,noreferrer");
+                      }}
+                      onMouseDown={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm"
+                    >
+                      Source Code
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                        />
+                      </svg>
+                    </button>
+                  )}
                   <span className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm">
                     View Project
                     <svg
@@ -687,30 +792,6 @@ export default function Home() {
                       />
                     </svg>
                   </span>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      window.open(p.source, "_blank", "noopener,noreferrer");
-                    }}
-                    onMouseDown={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm"
-                  >
-                    Source Code
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                      />
-                    </svg>
-                  </button>
                 </div>
               </div>
             </motion.a>
