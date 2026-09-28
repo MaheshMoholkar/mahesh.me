@@ -37,19 +37,25 @@ const formatDuration = (totalMonths: number) => {
 
 const projects = [
   {
-    name: "Vyavasay",
+    name: "Vyavasay AI ERP",
     status: "Completed",
     date: "2026",
     description:
-      "A full-stack GST billing and business management platform for Indian SMEs with invoicing, inventory, sales/purchase workflows, role-based access, and analytics dashboards.",
+      "Multi-tenant GST billing and inventory SaaS for Indian SMEs: quote-to-cash and purchase cycles, GST (CGST/SGST/IGST, HSN, GSTR returns), double-entry GL, multi-location inventory with batch/expiry, online storefront and Expo mobile app, LLM bill OCR and pgvector image search; ADR-driven with 370+ integration test files.",
     tech: [
+      ".NET 10",
+      "EF Core",
       "React",
-      "Vite",
       "TypeScript",
-      "Go",
-      "Gin",
+      "TanStack Router",
+      "Expo",
       "PostgreSQL",
+      "pgvector",
+      "Hangfire",
+      "SignalR",
+      "LLM APIs",
       "Docker",
+      "Railway",
     ],
     website: "https://vyavasayapp.in",
     image: "/vyavasay.png",
@@ -227,36 +233,76 @@ const projects = [
 
 const experience = [
   {
-    company: "DPU Unitech Foundation",
-    date: `Aug 2024 - ${currentMonthYear}`,
+    company: "Shivam Enterprises",
+    role: "Full-Stack Developer",
+    date: `Aug 2023 - ${currentMonthYear}`,
     duration: formatDuration(
-      calculateDurationInMonths({ year: 2024, month: 7 })
+      calculateDurationInMonths({ year: 2023, month: 7 })
     ),
     location: "Pune, India",
     description:
-      "Promoted to Junior Software Engineer. Continuing development of Campus ERP Web App and other internal tools. Optimized API performance and implemented caching strategies. Leading development initiatives and mentoring new team members.",
-    tech: ["React", "TypeScript", ".NET", "Redis", "Leadership"],
-    link: "https://dypdpu.edu.in",
-    logo: "/dpu.png",
+      "Built a multi-college Campus ERP for a university and 6 colleges as a single Next.js + FastAPI + PostgreSQL platform with colleges as tenants, serving 8000+ users.",
+    highlights: [
+      "Onboarded 6 colleges without code branches; scaled to 8000+ users with Redis caching, pg_stat_statements-driven indexing and k6 peak tests (p95 under 400 ms).",
+      "Built shared Identity (OIDC, permission manifest), Payments (idempotent intents, webhook reconciliation, refunds, ledger) and Notifications (outbox to RabbitMQ, Celery email/SMS/push workers with retries and delivery tracking) services.",
+      "Delivered admissions, exams, fees, HR, research and procurement modules end to end: SQLAlchemy audit hooks, state machines, Celery beat jobs, Next.js portals with generated OpenAPI clients and PDF/Excel pipelines.",
+      "Built LLM-powered features (Python/FastAPI, PostgreSQL + pgvector): helpdesk assistant with citations, ticket triage with confidence gating, natural-language report queries via a semantic layer, document extraction; eval gates before rollout.",
+      "Set up structured logging with correlation IDs, OpenTelemetry/Grafana, a health dashboard and GitHub Actions CI/CD with pytest + Testcontainers, Docker and blue/green deploys; wrote ADRs and the onboarding runbook; mentored interns.",
+    ],
+    tech: [
+      "Python",
+      "FastAPI",
+      "SQLAlchemy",
+      "Next.js",
+      "TypeScript",
+      "PostgreSQL",
+      "pgvector",
+      "Redis",
+      "RabbitMQ",
+      "Celery",
+      "LLM APIs",
+      "OpenTelemetry",
+      "Docker",
+      "GitHub Actions",
+    ],
+    logo: "/logo.svg",
   },
   {
-    company: "DPU Unitech Foundation",
-    date: "Aug 2023 - Jul 2024",
+    company: "Vision - Multi-tenant SaaS ERP for GCC SMEs",
+    role: "Full-Stack Developer (Part-time, Remote)",
+    date: "Jan 2025 - Dec 2025",
     duration: formatDuration(
       calculateDurationInMonths(
-        { year: 2023, month: 7 },
-        new Date(2024, 6)
+        { year: 2025, month: 0 },
+        new Date(2025, 11)
       )
     ),
-    location: "Pune, India",
+    location: "Kuwait (Remote)",
     description:
-      "Developed and maintained Campus ERP Web App using React and .NET, serving 2000+ students and faculty across university and colleges. Built chatbot using React, LLAMA, and Golang. Collaborated with cross-functional teams to deliver high-quality software solutions.",
-    tech: ["React", "TypeScript", ".NET", "Golang", "LLAMA"],
-    link: "https://dypdpu.edu.in",
-    logo: "/dpu.png",
+      "Built inventory modules end to end for a multi-tenant SaaS ERP on FastAPI + SQLAlchemy/Alembic + PostgreSQL with bilingual English/Arabic Next.js screens.",
+    highlights: [
+      "Purchase/sales orders, delivery notes, product catalogue and stock transfers, with English/Arabic (RTL) Next.js screens and React Native (Expo) screens for invoicing and inventory lookup.",
+      "Shipped LLM invoice OCR and pgvector product image search; pytest integration tests; Docker on AWS ECS Fargate, RDS and S3 with GitHub Actions CI/CD.",
+    ],
+    tech: [
+      "Python",
+      "FastAPI",
+      "SQLAlchemy",
+      "Alembic",
+      "Next.js",
+      "TypeScript",
+      "React Native",
+      "PostgreSQL",
+      "pgvector",
+      "Docker",
+      "AWS",
+      "GitHub Actions",
+    ],
+    logo: "/vision.png",
   },
   {
-    company: "Cloud Native Computing Foundation(CNCF)",
+    company: "Cloud Native Computing Foundation (CNCF)",
+    role: "Fellowship - Zero to Merge Program",
     date: "Aug 2023 - Sep 2023",
     duration: formatDuration(
       calculateDurationInMonths(
@@ -266,8 +312,11 @@ const experience = [
     ),
     location: "Remote",
     description:
-      "Participated in the Zero To Merge Incubation program. Zero to Merge Incubator Program helps communicating with CNCF staff to identify existing problems, collaborate on open GitHub issues, and create Pull Requests(PRs) for approval.",
-    tech: ["GitHub", "Open Source", "CNCF"],
+      "CNCF mentored open-source program (Incubator Badge): scoped issues with maintainers and submitted PRs to Kubernetes-ecosystem projects in Go.",
+    highlights: [
+      "Bug fix merged into Ockam (Rust); documentation contributions to Kubernetes SIGs and EvalML.",
+    ],
+    tech: ["Go", "Rust", "Kubernetes", "Open Source"],
     link: "https://www.credly.com/badges/c439e57f-40af-461d-af6f-561de418046f",
     logo: "/cncf.jpeg",
   },
@@ -291,23 +340,30 @@ const education = [
 ];
 
 const skills = [
-  "JavaScript",
-  "TypeScript",
-  "TailwindCSS",
-  "React",
+  "Python",
+  "FastAPI",
+  "SQLAlchemy",
+  "Celery",
   "Next.js",
+  "React",
+  "TypeScript",
+  "TanStack Query",
+  "Zustand",
+  "Tailwind CSS",
   "React Native",
-  "Flutter",
-  "Node.js",
-  "Java",
-  "Spring Boot",
-  "Golang",
-  ".NET",
-  "SQL",
+  "PostgreSQL",
+  "pgvector",
   "Redis",
+  "RabbitMQ",
+  "LLM APIs",
+  "RAG",
   "Docker",
   "AWS",
-  "Git & GitHub",
+  "GitHub Actions",
+  "OpenTelemetry",
+  "Grafana",
+  "Go",
+  ".NET",
 ];
 
 const certificates = [
@@ -416,9 +472,12 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-sm md:text-base text-gray-500 leading-7 max-w-xl"
             >
-              Passionate Full Stack Developer with expertise in React, Next.js,
-              Node.js, and cloud technologies. Building modern and scalable web
-              applications.
+              Full-stack developer (3+ years) building campus ERPs on Next.js,
+              FastAPI and PostgreSQL: a multi-college platform serving 8000+
+              users, with shared identity, payments and notification services,
+              tenant-scoped data, Redis/RabbitMQ, CI/CD and observability, plus
+              production LLM features (helpdesk assistant, ticket triage,
+              natural-language reporting).
             </motion.p>
             <div className="flex gap-4 mt-4">
               {SOCIALS.map((s, index) => (
@@ -540,6 +599,9 @@ export default function Home() {
                           <span className="text-sm text-gray-600 font-semibold">
                             {exp.company}
                           </span>
+                          {exp.role && (
+                            <p className="text-xs text-gray-500">{exp.role}</p>
+                          )}
                         </div>
                       </div>
                       <div className="flex flex-wrap gap-2 mb-3">
@@ -551,9 +613,16 @@ export default function Home() {
                           {exp.location}
                         </span>
                       </div>
-                      <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-3 md:mb-4">
+                      <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-3">
                         {exp.description}
                       </p>
+                      {exp.highlights && (
+                        <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700 mb-3 md:mb-4">
+                          {exp.highlights.map((h, i) => (
+                            <li key={i}>{h}</li>
+                          ))}
+                        </ul>
+                      )}
                       <div className="flex flex-wrap gap-2">
                         {exp.tech.map((tech, i) => (
                           <span
@@ -588,6 +657,9 @@ export default function Home() {
                         <span className="text-sm text-gray-600 font-semibold">
                           {exp.company}
                         </span>
+                        {exp.role && (
+                          <p className="text-xs text-gray-500">{exp.role}</p>
+                        )}
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-2 mb-3">
@@ -599,9 +671,16 @@ export default function Home() {
                         {exp.location}
                       </span>
                     </div>
-                    <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-3 md:mb-4">
+                    <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-3">
                       {exp.description}
                     </p>
+                    {exp.highlights && (
+                      <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700 mb-3 md:mb-4">
+                        {exp.highlights.map((h, i) => (
+                          <li key={i}>{h}</li>
+                        ))}
+                      </ul>
+                    )}
                     <div className="flex flex-wrap gap-2">
                       {exp.tech.map((tech, i) => (
                         <span
