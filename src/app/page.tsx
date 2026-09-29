@@ -41,7 +41,7 @@ const projects = [
     status: "Completed",
     date: "2026",
     description:
-      "Multi-tenant GST billing and inventory SaaS for Indian SMEs: quote-to-cash and purchase cycles, GST (CGST/SGST/IGST, HSN, GSTR returns), double-entry GL, multi-location inventory with batch/expiry, online storefront and Expo mobile app, LLM bill OCR and pgvector image search; ADR-driven with 370+ integration test files.",
+      "Multi-tenant GST billing and inventory SaaS for Indian SMEs: quote-to-cash and purchase cycles, GST (CGST/SGST/IGST, HSN, GSTR returns), double-entry GL, multi-location inventory with batch/expiry, online storefront and Expo mobile app; ADR-driven with 370+ integration test files.",
     tech: [
       ".NET 10",
       "EF Core",
@@ -50,10 +50,8 @@ const projects = [
       "TanStack Router",
       "Expo",
       "PostgreSQL",
-      "pgvector",
       "Hangfire",
       "SignalR",
-      "LLM APIs",
       "Docker",
       "Railway",
     ],
@@ -241,62 +239,66 @@ const experience = [
     ),
     location: "Pune, India",
     description:
-      "Built a multi-college Campus ERP for a university and 6 colleges as a single Next.js + FastAPI + PostgreSQL platform with colleges as tenants, serving 8000+ users.",
+      "Led the migration of a WebForms Campus ERP for a university and 6 colleges to a single .NET 8 + React monolith with colleges as tenants, serving 8000+ users.",
     highlights: [
-      "Onboarded 6 colleges without code branches; scaled to 8000+ users with Redis caching, pg_stat_statements-driven indexing and k6 peak tests (p95 under 400 ms).",
-      "Built shared Identity (OIDC, permission manifest), Payments (idempotent intents, webhook reconciliation, refunds, ledger) and Notifications (outbox to RabbitMQ, Celery email/SMS/push workers with retries and delivery tracking) services.",
-      "Delivered admissions, exams, fees, HR, research and procurement modules end to end: SQLAlchemy audit hooks, state machines, Celery beat jobs, Next.js portals with generated OpenAPI clients and PDF/Excel pipelines.",
-      "Built LLM-powered features (Python/FastAPI, PostgreSQL + pgvector): helpdesk assistant with citations, ticket triage with confidence gating, natural-language report queries via a semantic layer, document extraction; eval gates before rollout.",
-      "Set up structured logging with correlation IDs, OpenTelemetry/Grafana, a health dashboard and GitHub Actions CI/CD with pytest + Testcontainers, Docker and blue/green deploys; wrote ADRs and the onboarding runbook; mentored interns.",
+      "Onboarded 6 colleges and retired the legacy system; scaled to 8000+ users with Redis HybridCache, Query Store-driven indexing and k6 peak tests (p95 under 400 ms).",
+      "Built the monolith's authentication and RBAC (OpenIddict OIDC, permission manifest), fee payments (idempotent intents, webhook reconciliation, refunds, ledger) and notifications (outbox + Hangfire workers: SendGrid email, SMS and push with retries and delivery tracking).",
+      "Delivered admissions, exams, fees, HR, research and procurement modules end to end: EF Core audit interceptors, state machines, Hangfire jobs, REST APIs with hand-written React/TypeScript clients and PDF/Excel report pipelines.",
+      "Set up Serilog with correlation IDs, OpenTelemetry/Grafana, a HealthChecks dashboard and Azure DevOps CI/CD with Testcontainers tests, Docker and blue/green deploys; wrote ADRs and the onboarding runbook; mentored interns.",
     ],
     tech: [
-      "Python",
-      "FastAPI",
-      "SQLAlchemy",
-      "Next.js",
+      "ASP.NET Core",
+      "EF Core",
+      "React",
       "TypeScript",
-      "PostgreSQL",
-      "pgvector",
+      "SQL Server",
       "Redis",
-      "RabbitMQ",
-      "Celery",
-      "LLM APIs",
+      "Hangfire",
+      "SendGrid",
+      "OpenIddict",
+      "Serilog",
       "OpenTelemetry",
       "Docker",
-      "GitHub Actions",
+      "Azure DevOps",
     ],
     logo: "/logo.svg",
   },
   {
     company: "Vision - Multi-tenant SaaS ERP for GCC SMEs",
-    role: "Full-Stack Developer (Part-time, Remote)",
-    date: "Jan 2025 - Dec 2025",
+    role: "Frontend Developer (Part-time, Remote)",
+    date: "Jan 2025 - Jun 2026",
     duration: formatDuration(
       calculateDurationInMonths(
         { year: 2025, month: 0 },
-        new Date(2025, 11)
+        new Date(2026, 5)
       )
     ),
     location: "Kuwait (Remote)",
     description:
-      "Built inventory modules end to end for a multi-tenant SaaS ERP on FastAPI + SQLAlchemy/Alembic + PostgreSQL with bilingual English/Arabic Next.js screens.",
+      "Built the React 18 + TypeScript client (Vite) for a multi-tenant GCC ERP: quotation, sales order, delivery note, invoice, returns, purchase order and bill screens, inventory, parties and VAT-aware totals as typed forms (React Hook Form + Zod) with state-driven edit/post/void actions.",
     highlights: [
-      "Purchase/sales orders, delivery notes, product catalogue and stock transfers, with English/Arabic (RTL) Next.js screens and React Native (Expo) screens for invoicing and inventory lookup.",
-      "Shipped LLM invoice OCR and pgvector product image search; pytest integration tests; Docker on AWS ECS Fargate, RDS and S3 with GitHub Actions CI/CD.",
+      "Owned the client data layer: TanStack Router (loaders, search-param filters), TanStack Query with per-document cache invalidation and optimistic updates, Zustand for session state, real-time notifications over SignalR.",
+      "Shipped a bilingual English/Arabic RTL-first UI (i18next, shadcn/Radix + Tailwind design system), permission-manifest-driven navigation, printable document views and a shared component library reused across the web app, public storefront and admin app.",
+      "Kept quality high with Vitest + Testing Library (290+ test files), Playwright smoke tests, strict TypeScript and ESLint; GitHub Actions CI with Docker builds deployed on AWS.",
     ],
     tech: [
-      "Python",
-      "FastAPI",
-      "SQLAlchemy",
-      "Alembic",
-      "Next.js",
+      "React 18",
       "TypeScript",
-      "React Native",
-      "PostgreSQL",
-      "pgvector",
+      "Vite",
+      "TanStack Router",
+      "TanStack Query",
+      "Zustand",
+      "React Hook Form",
+      "Zod",
+      "Tailwind CSS",
+      "shadcn/Radix",
+      "i18next",
+      "SignalR",
+      "Vitest",
+      "Playwright",
       "Docker",
-      "AWS",
       "GitHub Actions",
+      "AWS",
     ],
     logo: "/vision.png",
   },
@@ -340,30 +342,35 @@ const education = [
 ];
 
 const skills = [
-  "Python",
-  "FastAPI",
-  "SQLAlchemy",
-  "Celery",
-  "Next.js",
+  "C#/.NET",
+  "ASP.NET Core",
+  "EF Core",
+  "SignalR",
+  "Hangfire",
   "React",
   "TypeScript",
+  "Vite",
   "TanStack Query",
+  "TanStack Router",
   "Zustand",
   "Tailwind CSS",
-  "React Native",
+  "MUI",
+  "SQL Server",
   "PostgreSQL",
-  "pgvector",
   "Redis",
-  "RabbitMQ",
-  "LLM APIs",
-  "RAG",
   "Docker",
   "AWS",
+  "Azure DevOps",
   "GitHub Actions",
+  "Railway",
+  "Serilog",
   "OpenTelemetry",
   "Grafana",
+  "xUnit",
+  "Testcontainers",
+  "Vitest",
+  "Playwright",
   "Go",
-  ".NET",
 ];
 
 const certificates = [
@@ -472,12 +479,11 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-sm md:text-base text-gray-500 leading-7 max-w-xl"
             >
-              Full-stack developer (3+ years) building campus ERPs on Next.js,
-              FastAPI and PostgreSQL: a multi-college platform serving 8000+
-              users, with shared identity, payments and notification services,
-              tenant-scoped data, Redis/RabbitMQ, CI/CD and observability, plus
-              production LLM features (helpdesk assistant, ticket triage,
-              natural-language reporting).
+              Full-stack developer (3+ years) building ERPs on .NET and React:
+              led a WebForms-to-.NET/React migration into one multi-college
+              monolith serving 8000+ users, with built-in auth/RBAC, fee
+              payments, notifications, tenant-scoped data, Redis caching,
+              observability and CI/CD.
             </motion.p>
             <div className="flex gap-4 mt-4">
               {SOCIALS.map((s, index) => (
