@@ -479,11 +479,11 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.6 }}
               className="text-sm md:text-base text-gray-500 leading-7 max-w-xl"
             >
-              Full-stack developer (3+ years) building ERPs on .NET and React:
-              led a WebForms-to-.NET/React migration into one multi-college
-              monolith serving 8000+ users, with built-in auth/RBAC, fee
-              payments, notifications, tenant-scoped data, Redis caching,
-              observability and CI/CD.
+              Full-stack developer with 3+ years building ERP and SaaS products
+              used by 8000+ users. I work across the whole system: ASP.NET Core
+              backends, REST APIs, auth and RBAC, payments, background jobs,
+              caching, CI/CD, and React/TypeScript frontends, with a focus on
+              reliability and scale.
             </motion.p>
             <div className="flex gap-4 mt-4">
               {SOCIALS.map((s, index) => (
