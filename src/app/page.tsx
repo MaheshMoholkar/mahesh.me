@@ -4,6 +4,9 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
+// Compiled from resume-nextjs-python-ai.tex; replace the file in public/ when the resume changes
+const RESUME_PDF = "/Mahesh-Moholkar-Resume.pdf";
+
 const currentMonthYear = new Date().toLocaleString("default", {
   month: "short",
   year: "numeric",
@@ -640,15 +643,40 @@ export default function Home() {
                 </motion.a>
               ))}
             </div>
-            <motion.a
-              href="mailto:mahesh.moholkar.dev@gmail.com"
+            <motion.div
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.2 }}
-              className="mt-6 w-fit mx-auto md:mx-0 px-8 py-4 bg-black text-white font-bold uppercase shadow-[5px_5px_0px_0px_#6c6c6c] hover:shadow-[7px_7px_0px_0px_#6c6c6c] transition-all duration-300"
+              className="mt-6 flex flex-wrap justify-center md:justify-start gap-4"
             >
-              Hire Me!
-            </motion.a>
+              <a
+                href="mailto:mahesh.moholkar.dev@gmail.com"
+                className="px-8 py-4 bg-black text-white font-bold uppercase shadow-[5px_5px_0px_0px_#6c6c6c] hover:shadow-[7px_7px_0px_0px_#6c6c6c] transition-all duration-300"
+              >
+                Hire Me!
+              </a>
+              <a
+                href={RESUME_PDF}
+                download
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black border border-black font-bold uppercase shadow-[5px_5px_0px_0px_#6c6c6c] hover:shadow-[7px_7px_0px_0px_#6c6c6c] transition-all duration-300"
+              >
+                Resume
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                  />
+                </svg>
+              </a>
+            </motion.div>
           </div>
           {/* Image section - shown above the text on mobile */}
           <div className="order-first md:order-none flex flex-col items-center justify-center">
