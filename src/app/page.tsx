@@ -41,7 +41,7 @@ const projects = [
     status: "Completed",
     date: "2026",
     description:
-      "Multi-tenant GST billing and inventory SaaS for Indian SMEs: quote-to-cash and purchase cycles, GST (CGST/SGST/IGST, HSN, GSTR returns), double-entry GL, multi-location inventory with batch/expiry, online storefront and Expo mobile app; ADR-driven with 370+ integration test files.",
+      "Multi-tenant GST billing and inventory SaaS for Indian SMEs: quote-to-cash and purchase cycles, GST (CGST/SGST/IGST, HSN, GSTR returns), double-entry GL, multi-location inventory with batch/expiry, online storefront and Expo mobile app; LLM bill OCR and pgvector image search; ADR-driven design with 370+ integration test files (Testcontainers).",
     tech: [
       ".NET 10",
       "EF Core",
@@ -50,8 +50,10 @@ const projects = [
       "TanStack Router",
       "Expo",
       "PostgreSQL",
+      "pgvector",
       "Hangfire",
       "SignalR",
+      "LLM APIs",
       "Docker",
       "Railway",
     ],
@@ -239,15 +241,18 @@ const experience = [
     ),
     location: "Pune, India",
     description:
-      "Led the migration of a WebForms Campus ERP for a university and 6 colleges to a single .NET 8 + React monolith with colleges as tenants, serving 8000+ users.",
+      "Built a Campus ERP for a university and its affiliated colleges on .NET 10 + React: one platform with colleges as tenants, serving 8000+ users.",
     highlights: [
-      "Onboarded 6 colleges and retired the legacy system; scaled to 8000+ users with Redis HybridCache, Query Store-driven indexing and k6 peak tests (p95 under 400 ms).",
-      "Built the monolith's authentication and RBAC (OpenIddict OIDC, permission manifest), fee payments (idempotent intents, webhook reconciliation, refunds, ledger) and notifications (outbox + Hangfire workers: SendGrid email, SMS and push with retries and delivery tracking).",
-      "Delivered admissions, exams, fees, HR, research and procurement modules end to end: EF Core audit interceptors, state machines, Hangfire jobs, REST APIs with hand-written React/TypeScript clients and PDF/Excel report pipelines.",
-      "Set up Serilog with correlation IDs, OpenTelemetry/Grafana, a HealthChecks dashboard and Azure DevOps CI/CD with Testcontainers tests, Docker and blue/green deploys; wrote ADRs and the onboarding runbook; mentored interns.",
+      "Brought p95 under 400 ms at k6 peak load with Redis HybridCache.",
+      "Built two separate LLM projects on Python/FastAPI (PostgreSQL + pgvector): a helpdesk assistant answering from policies and circulars with citations, and Campus Support, a Next.js service desk for staff requests to the dev team where an LLM checks ticket completeness, classifies requests and suggests the assignee with confidence gating; added natural-language report queries and document extraction to the main ERP.",
+      "Built the RAG and evaluation pipeline: hybrid retrieval (pgvector + BM25, reciprocal-rank fusion, reranking), tool calls with per-user access checks for personal data, golden-set evals with LLM-as-judge in CI.",
+      "Built shared auth (JWT, role- and menu-based access control) and notification (outbox + Hangfire workers: SendGrid email, SMS and push with retries and delivery tracking) microservices used by every ERP.",
+      "Built separate Admissions, Management and Procurement ERPs (7-stage admissions pipeline; directors' console across all colleges; vendor portal, quotations, indents), each with its own database: React UI, .NET 10 REST APIs, EF Core schema and migrations, using the shared auth and notification microservices.",
+      "Built the React/TypeScript UI for the main ERP's exams, fees, HR, attendance, LMS and research modules with typed API clients; worked with the backend team on API contracts.",
+      "Set up Serilog with correlation IDs, OpenTelemetry/Grafana, a HealthChecks dashboard and Azure DevOps CI/CD with Testcontainers tests and Docker builds; wrote ADRs and the onboarding runbook; mentored interns.",
     ],
     tech: [
-      "ASP.NET Core",
+      ".NET 10",
       "EF Core",
       "React",
       "TypeScript",
@@ -255,7 +260,13 @@ const experience = [
       "Redis",
       "Hangfire",
       "SendGrid",
-      "OpenIddict",
+      "JWT",
+      "Python",
+      "FastAPI",
+      "Next.js",
+      "PostgreSQL",
+      "pgvector",
+      "LLM APIs",
       "Serilog",
       "OpenTelemetry",
       "Docker",
@@ -277,7 +288,7 @@ const experience = [
     description:
       "Built the React 18 + TypeScript client (Vite) for a multi-tenant GCC ERP: quotation, sales order, delivery note, invoice, returns, purchase order and bill screens, inventory, parties and VAT-aware totals as typed forms (React Hook Form + Zod) with state-driven edit/post/void actions.",
     highlights: [
-      "Owned the client data layer: TanStack Router (loaders, search-param filters), TanStack Query with per-document cache invalidation and optimistic updates, Zustand for session state, real-time notifications over SignalR.",
+      "Owned the client data layer: TanStack Router (loaders, search-param filters), TanStack Query with per-document cache invalidation and optimistic updates, Zustand for session state, real-time notifications over WebSockets.",
       "Shipped a bilingual English/Arabic RTL-first UI (i18next, shadcn/Radix + Tailwind design system), permission-manifest-driven navigation, printable document views and a shared component library reused across the web app, public storefront and admin app.",
       "Kept quality high with Vitest + Testing Library (290+ test files), Playwright smoke tests, strict TypeScript and ESLint; GitHub Actions CI with Docker builds deployed on AWS.",
     ],
@@ -293,7 +304,6 @@ const experience = [
       "Tailwind CSS",
       "shadcn/Radix",
       "i18next",
-      "SignalR",
       "Vitest",
       "Playwright",
       "Docker",
@@ -342,19 +352,32 @@ const education = [
 ];
 
 const skills = [
-  "C#/.NET",
-  "ASP.NET Core",
+  "Python",
+  "FastAPI",
+  "Pydantic",
+  "C#",
+  ".NET 10",
   "EF Core",
   "SignalR",
   "Hangfire",
   "React",
+  "Next.js",
   "TypeScript",
   "Vite",
   "TanStack Query",
   "TanStack Router",
   "Zustand",
-  "Tailwind CSS",
+  "React Hook Form",
+  "Zod",
   "MUI",
+  "Tailwind CSS",
+  "Radix UI",
+  "i18next",
+  "React Native (Expo)",
+  "LLM APIs",
+  "RAG",
+  "pgvector",
+  "NL-to-SQL",
   "SQL Server",
   "PostgreSQL",
   "Redis",
@@ -367,8 +390,10 @@ const skills = [
   "OpenTelemetry",
   "Grafana",
   "xUnit",
+  "pytest",
   "Testcontainers",
   "Vitest",
+  "k6",
   "Playwright",
   "Go",
 ];
@@ -383,7 +408,7 @@ const certificates = [
   {
     title: "Introduction to Linux",
     issuedBy: "EDX",
-    from: "IBM",
+    from: "The Linux Foundation",
     link: "https://courses.edx.org/certificates/e5034ac1683444a885d05c8bfe051a3f",
   },
   {
@@ -401,7 +426,7 @@ const certificates = [
   {
     title: "Rust Programming",
     issuedBy: "Coursera",
-    from: "Meta",
+    from: "Duke University",
     link: "https://www.coursera.org/account/accomplishments/specialization/KLANCTJBOT8F",
   },
 ];
@@ -446,6 +471,116 @@ const SOCIALS = [
   },
 ];
 
+const ExternalLinkIcon = () => (
+  <svg
+    className="w-4 h-4"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+    />
+  </svg>
+);
+
+// Highlights shown on phones before the "Show more" toggle; desktop shows all
+const MOBILE_HIGHLIGHT_COUNT = 2;
+
+function ExperienceCard({ exp }: { exp: (typeof experience)[number] }) {
+  const [expanded, setExpanded] = useState(false);
+  const extraHighlights = exp.highlights.length - MOBILE_HIGHLIGHT_COUNT;
+  // Hiding a single highlight saves less space than the toggle takes
+  const collapsible = extraHighlights > 1;
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow relative">
+      <div className="mb-3 w-fit md:mb-0 md:absolute md:top-4 md:right-4">
+        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md font-medium border border-gray-200">
+          {exp.duration}
+        </span>
+      </div>
+      <div className="flex items-center gap-3 mb-3">
+        <Image
+          src={exp.logo}
+          alt={`${exp.company} logo`}
+          className="w-8 h-8 rounded-full"
+          width={32}
+          height={32}
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+          }}
+        />
+        <div>
+          <span className="text-sm text-gray-600 font-semibold">
+            {exp.company}
+          </span>
+          {exp.role && <p className="text-xs text-gray-500">{exp.role}</p>}
+        </div>
+      </div>
+      <div className="flex flex-wrap gap-2 mb-3">
+        <span className="text-sm text-gray-500 font-medium">{exp.date}</span>
+        <span className="text-sm text-gray-400">•</span>
+        <span className="text-sm text-gray-400">{exp.location}</span>
+      </div>
+      <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-3">
+        {exp.description}
+      </p>
+      <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700 mb-3 md:mb-4">
+        {exp.highlights.map((h, i) => (
+          <li
+            key={i}
+            className={
+              collapsible && !expanded && i >= MOBILE_HIGHLIGHT_COUNT
+                ? "hidden md:list-item"
+                : undefined
+            }
+          >
+            {h}
+          </li>
+        ))}
+      </ul>
+      {collapsible && (
+        <button
+          type="button"
+          onClick={() => setExpanded(!expanded)}
+          aria-expanded={expanded}
+          className="relative z-10 md:hidden mb-3 min-h-11 text-sm font-bold text-gray-600 hover:text-gray-900 underline underline-offset-4"
+        >
+          {expanded ? "Show less" : `Show ${extraHighlights} more`}
+        </button>
+      )}
+      <div className="flex flex-wrap gap-2">
+        {exp.tech.map((tech, i) => (
+          <span
+            key={tech + i}
+            className="text-xs bg-gray-100 text-gray-700 px-2 md:px-3 py-1 rounded-lg font-medium border border-gray-200"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+      {exp.link && (
+        <div className="mt-4">
+          {/* Stretched link: the ::after overlay makes the whole card clickable */}
+          <a
+            href={exp.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm after:absolute after:inset-0"
+          >
+            View Credential
+            <ExternalLinkIcon />
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Home() {
   const [showAllProjects, setShowAllProjects] = useState(false);
   const displayedProjects = showAllProjects ? projects : projects.slice(0, 4);
@@ -454,9 +589,9 @@ export default function Home() {
     <main className="min-h-screen bg-white text-gray-900 font-sans">
       {/* Hero Section */}
       <section className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 md:min-h-[600px] gap-10 pt-20">
+        <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto] md:min-h-[600px] gap-10 lg:gap-16 pt-20">
           {/* Text section */}
-          <div className="flex flex-col justify-center gap-7 md:pr-8 xl:pr-20 text-center md:text-left">
+          <div className="flex flex-col justify-center gap-7 text-center md:text-left">
             <motion.h1
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -477,15 +612,18 @@ export default function Home() {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-sm md:text-base text-gray-500 leading-7 max-w-xl"
+              className="text-sm md:text-base text-gray-500 leading-7 max-w-3xl"
             >
-              Full-stack developer with 3+ years building ERP and SaaS products
-              used by 8000+ users. I work across the whole system: ASP.NET Core
-              backends, REST APIs, auth and RBAC, payments, background jobs,
-              caching, CI/CD, and React/TypeScript frontends, with a focus on
-              reliability and scale.
+              Full-stack developer with 3+ years on .NET and React: built a
+              Campus ERP for a university and its affiliated colleges serving
+              8000+ users, with shared auth and notification microservices,
+              tenant-scoped data, Redis caching, observability and CI/CD. Also
+              build LLM projects on Python/FastAPI and Next.js: a
+              retrieval-augmented helpdesk assistant, a service desk with LLM
+              ticket routing, natural-language reporting and document
+              extraction, with evals in CI.
             </motion.p>
-            <div className="flex gap-4 mt-4">
+            <div className="flex justify-center md:justify-start gap-4 mt-4">
               {SOCIALS.map((s, index) => (
                 <motion.a
                   key={s.href}
@@ -507,13 +645,13 @@ export default function Home() {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.2 }}
-              className="mt-6 w-fit px-8 py-4 bg-black text-white font-bold uppercase shadow-[5px_5px_0px_0px_#6c6c6c] hover:shadow-[7px_7px_0px_0px_#6c6c6c] transition-all duration-300"
+              className="mt-6 w-fit mx-auto md:mx-0 px-8 py-4 bg-black text-white font-bold uppercase shadow-[5px_5px_0px_0px_#6c6c6c] hover:shadow-[7px_7px_0px_0px_#6c6c6c] transition-all duration-300"
             >
               Hire Me!
             </motion.a>
           </div>
-          {/* Image section */}
-          <div className="flex flex-col items-center justify-center">
+          {/* Image section - shown above the text on mobile */}
+          <div className="order-first md:order-none flex flex-col items-center justify-center">
             <motion.div
               initial={{ x: 100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -523,10 +661,10 @@ export default function Home() {
               <Image
                 src="/profile.png"
                 alt="mahesh profile"
-                width={400}
-                height={400}
+                width={320}
+                height={320}
                 priority
-                className="w-[80%] md:w-[400px] object-cover border-[1px] border-black/30 shadow-[7px_7px_0px_0px_#6c6c6c] group-hover:shadow-[10px_10px_0px_0px_#6c6c6c] transition-all duration-300"
+                className="w-56 md:w-64 lg:w-80 object-cover border-[1px] border-black/30 shadow-[7px_7px_0px_0px_#6c6c6c] group-hover:shadow-[10px_10px_0px_0px_#6c6c6c] transition-all duration-300"
               />
               <span className="absolute bottom-4 right-4 bg-black text-white px-4 py-2 text-sm font-bold shadow-[3px_3px_0px_0px_#6c6c6c]">
                 Pune, India
@@ -577,128 +715,7 @@ export default function Home() {
                 <div className="absolute left-6 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-gray-900 rounded-full border-4 border-white shadow-lg z-10 hidden md:block"></div>
 
                 {/* Content */}
-                {exp.link !== "#" ? (
-                  <a
-                    href={exp.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block"
-                  >
-                    <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow relative">
-                      <div className="absolute top-4 right-4">
-                        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md font-medium border border-gray-200">
-                          {exp.duration}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-3 mb-3">
-                        <Image
-                          src={exp.logo}
-                          alt={`${exp.company} logo`}
-                          className="w-8 h-8 rounded-full"
-                          width={32}
-                          height={32}
-                          onError={(e) => {
-                            e.currentTarget.style.display = "none";
-                          }}
-                        />
-                        <div>
-                          <span className="text-sm text-gray-600 font-semibold">
-                            {exp.company}
-                          </span>
-                          {exp.role && (
-                            <p className="text-xs text-gray-500">{exp.role}</p>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        <span className="text-sm text-gray-500 font-medium">
-                          {exp.date}
-                        </span>
-                        <span className="text-sm text-gray-400">•</span>
-                        <span className="text-sm text-gray-400">
-                          {exp.location}
-                        </span>
-                      </div>
-                      <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-3">
-                        {exp.description}
-                      </p>
-                      {exp.highlights && (
-                        <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700 mb-3 md:mb-4">
-                          {exp.highlights.map((h, i) => (
-                            <li key={i}>{h}</li>
-                          ))}
-                        </ul>
-                      )}
-                      <div className="flex flex-wrap gap-2">
-                        {exp.tech.map((tech, i) => (
-                          <span
-                            key={tech + i}
-                            className="text-xs bg-gray-100 text-gray-700 px-2 md:px-3 py-1 rounded-lg font-medium border border-gray-200"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </a>
-                ) : (
-                  <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow relative">
-                    <div className="absolute top-4 right-4">
-                      <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md font-medium border border-gray-200">
-                        {exp.duration}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3 mb-3">
-                      <Image
-                        src={exp.logo}
-                        alt={`${exp.company} logo`}
-                        className="w-8 h-8 rounded-full"
-                        width={32}
-                        height={32}
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none";
-                        }}
-                      />
-                      <div>
-                        <span className="text-sm text-gray-600 font-semibold">
-                          {exp.company}
-                        </span>
-                        {exp.role && (
-                          <p className="text-xs text-gray-500">{exp.role}</p>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex flex-wrap gap-2 mb-3">
-                      <span className="text-sm text-gray-500 font-medium">
-                        {exp.date}
-                      </span>
-                      <span className="text-sm text-gray-400">•</span>
-                      <span className="text-sm text-gray-400">
-                        {exp.location}
-                      </span>
-                    </div>
-                    <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-3">
-                      {exp.description}
-                    </p>
-                    {exp.highlights && (
-                      <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700 mb-3 md:mb-4">
-                        {exp.highlights.map((h, i) => (
-                          <li key={i}>{h}</li>
-                        ))}
-                      </ul>
-                    )}
-                    <div className="flex flex-wrap gap-2">
-                      {exp.tech.map((tech, i) => (
-                        <span
-                          key={tech + i}
-                          className="text-xs bg-gray-100 text-gray-700 px-2 md:px-3 py-1 rounded-lg font-medium border border-gray-200"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                <ExperienceCard exp={exp} />
               </motion.div>
             ))}
           </div>
@@ -780,16 +797,13 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-4xl lg:max-w-6xl mx-auto">
           {displayedProjects.map((p, index) => (
-            <motion.a
+            <motion.div
               key={p.name}
-              href={p.website}
-              target="_blank"
-              rel="noopener noreferrer"
               initial={{ y: 50, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
-              className="group flex h-full flex-col bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+              className="group relative flex h-full flex-col bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow"
             >
               {/* Image Preview Area */}
               <div className="w-full h-48 md:h-64 overflow-hidden rounded-t-lg">
@@ -799,6 +813,7 @@ export default function Home() {
                   className="w-full h-full object-cover object-top"
                   width={1200}
                   height={800}
+                  sizes="(min-width: 1024px) 560px, 100vw"
                 />
               </div>
 
@@ -836,14 +851,12 @@ export default function Home() {
                   }`}
                 >
                   {p.source && (
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        window.open(p.source, "_blank", "noopener,noreferrer");
-                      }}
-                      onMouseDown={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm"
+                    <a
+                      href={p.source}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Source Code: ${p.name}`}
+                      className="relative z-10 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm"
                     >
                       Source Code
                       <svg
@@ -859,27 +872,22 @@ export default function Home() {
                           d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
                         />
                       </svg>
-                    </button>
+                    </a>
                   )}
-                  <span className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm">
+                  {/* Stretched link: the ::after overlay makes the whole card clickable */}
+                  <a
+                    href={p.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View Project: ${p.name}`}
+                    className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm after:absolute after:inset-0"
+                  >
                     View Project
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                      />
-                    </svg>
-                  </span>
+                    <ExternalLinkIcon />
+                  </a>
                 </div>
               </div>
-            </motion.a>
+            </motion.div>
           ))}
         </div>
 
@@ -980,13 +988,17 @@ export default function Home() {
                 className="group block bg-white border border-gray-200 rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow"
               >
                 <div>
-                  <p className="text-lg md:text-xl font-bold font-serif text-gray-900">
+                  <p className="text-lg md:text-xl font-bold font-serif text-gray-900 group-hover:underline underline-offset-4">
                     {cert.title}
                   </p>
                   <p className="text-sm text-gray-500">
                     {cert.issuedBy} • {cert.from}
                   </p>
                 </div>
+                <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-gray-600 group-hover:text-gray-900 transition-colors border border-gray-200 group-hover:border-gray-300 px-3 py-2 rounded-lg group-hover:shadow-sm">
+                  View Certificate
+                  <ExternalLinkIcon />
+                </span>
               </a>
             </motion.div>
           ))}
