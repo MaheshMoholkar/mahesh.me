@@ -1,0 +1,150 @@
+\documentclass[letterpaper,10pt]{article}
+\usepackage{charter}
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks,pdfnewwindow=true]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\setlength{\multicolsep}{-3.0pt}
+\setlength{\columnsep}{-1pt}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.19in}
+\addtolength{\topmargin}{-.8in}
+\addtolength{\textheight}{1.7in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-6pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-4pt}]
+
+\pdfgentounicode=1
+
+\newcommand{\resumeItem}[1]{\item\small{{#1 \vspace{-1.5pt}}}}
+\newcommand{\resumeTech}[1]{\item[]{\small\textit{Stack:} #1}\vspace{0pt}}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{\small #2} \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textbf{\small #2}\\
+    \end{tabular*}\vspace{-4pt}
+}
+\newcommand{\resumeItemListStart}{\begin{itemize}[label={\textbullet}, leftmargin=0.18in, topsep=2pt, itemsep=0pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-4pt}}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}, topsep=2pt, itemsep=1pt]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+
+\begin{document}
+
+%----------HEADING----------
+\begin{center}
+    {\Huge \scshape Mahesh Moholkar} \\ \vspace{6pt}
+    {\large \scshape Full-Stack Developer} \\ \vspace{6pt}
+    \small \faMapMarker\ Pune, India ~
+    \faPhone\ +91-9579047391 ~
+    \href{mailto:mahesh.moholkar.dev@gmail.com}{\faEnvelope\ \underline{mahesh.moholkar.dev@gmail.com}} \\ \vspace{1pt}
+    \small \href{https://linkedin.com/in/mahesh1822}{\faLinkedin\ \underline{linkedin.com/in/mahesh1822}} ~
+    \href{https://github.com/maheshmoholkar}{\faGithub\ \underline{github.com/maheshmoholkar}} ~
+    \href{https://maheshmoholkar.in}{\faGlobe\ \underline{maheshmoholkar.in}}
+\end{center}
+\vspace{-6pt}
+
+%-----------SUMMARY-----------
+\section{Summary}
+Full-Stack Developer (3+ years) on .NET and React: built a Campus ERP for a university and its affiliated colleges serving 8000+ users, with shared auth and notification microservices -- plus LLM projects on Python/FastAPI and Next.js (RAG helpdesk assistant, service desk with LLM ticket routing, natural-language reporting, document extraction) with evals in CI.
+
+%-----------EXPERIENCE-----------
+\section{Professional Experience}
+\resumeSubHeadingListStart
+
+  \resumeSubheading
+    {Full-Stack Developer}{Aug 2023 -- Present \textmd{\textit{$\cdot$ 3 yrs 2 mos}}}
+    {Shivam Enterprises}{Pune, India}
+    \resumeItemListStart
+      \resumeItem{Built a \textbf{Campus ERP for a university and its affiliated colleges} on \textbf{.NET 10 + React} -- one platform with colleges as tenants, serving \textbf{8000+ users}; brought p95 under 400 ms at k6 peak load with Redis HybridCache.}
+      \resumeItem{Built two separate LLM projects on \textbf{Python/FastAPI} (PostgreSQL + pgvector): a \textbf{helpdesk assistant} answering from policies and circulars with citations, and \textbf{Campus Support}, a Next.js service desk for staff requests to the dev team where an LLM checks ticket completeness, classifies requests and suggests the assignee with confidence gating; added natural-language report queries and document extraction to the main ERP.}
+      \resumeItem{Built the \textbf{RAG and evaluation pipeline}: hybrid retrieval (pgvector + BM25, reciprocal-rank fusion, reranking), tool calls with per-user access checks for personal data, golden-set evals with LLM-as-judge in CI.}
+      \resumeItem{Built shared \textbf{auth} (JWT, role- and menu-based access control) and \textbf{notification} (outbox + Hangfire workers: SendGrid email, SMS and push with retries, delivery tracking) \textbf{microservices} used by every ERP.}
+      \resumeItem{Built separate \textbf{Admissions, Management and Procurement ERPs} (7-stage admissions pipeline; directors' console across all colleges; vendor portal, quotations, indents), each with its own database -- React UI, .NET 10 REST APIs, EF Core schema and migrations -- using the shared auth and notification microservices.}
+      \resumeItem{Built the \textbf{React/TypeScript UI} for the main ERP's exams, fees, HR, attendance, LMS and research modules with typed API clients; worked with the backend team on API contracts.}
+      \resumeItem{Set up Serilog + correlation IDs, OpenTelemetry/Grafana, a HealthChecks dashboard and \textbf{Azure DevOps CI/CD} with Testcontainers tests and Docker builds; wrote ADRs and the onboarding runbook; mentored interns.}
+    \resumeItemListEnd
+    \resumeTech{.NET 10, React, TypeScript, SQL Server, Redis, Python, FastAPI, Next.js, PostgreSQL, pgvector, LLM APIs, Docker, Azure DevOps}
+
+  \resumeSubheading
+    {Frontend Developer (Part-time, Remote)}{Jan 2025 -- Jun 2026 \textmd{\textit{$\cdot$ 1 yr 6 mos}}}
+    {Vision -- Multi-tenant SaaS ERP for GCC SMEs}{Kuwait}
+    \resumeItemListStart
+      \resumeItem{Built the \textbf{React 18 + TypeScript client} (Vite) for a multi-tenant GCC ERP -- quotation, sales order, invoice, returns, purchase order and bill screens, inventory and VAT-aware totals -- as typed forms (React Hook Form + Zod) with state-driven edit/post/void actions.}
+      \resumeItem{Owned the client data layer: TanStack Router (loaders, search-param filters), TanStack Query with per-document cache invalidation and optimistic updates, Zustand for session state, real-time notifications over WebSockets.}
+      \resumeItem{Shipped a bilingual \textbf{English/Arabic RTL-first UI} (i18next, shadcn/Radix + Tailwind design system), permission-manifest-driven navigation, printable document views, and a shared component library reused across the web app, public storefront and admin app.}
+      \resumeItem{Tested with \textbf{Vitest + Testing Library} (290+ test files) and Playwright; GitHub Actions CI with Docker builds deployed on \textbf{AWS}.}
+    \resumeItemListEnd
+    \resumeTech{React 18, TypeScript, Vite, TanStack Router, TanStack Query, Zustand, React Hook Form, Zod, Tailwind CSS, shadcn/Radix, i18next}
+
+  \resumeSubheading
+    {Fellowship -- Zero to Merge Program}{Aug 2023 -- Sep 2023 \textmd{\textit{$\cdot$ 2 mos}}}
+    {Cloud Native Computing Foundation (CNCF)}{Remote}
+    \resumeItemListStart
+      \resumeItem{CNCF mentored open-source program (Incubator Badge): PRs to Kubernetes-ecosystem projects (Go); bug fix merged into \textbf{Ockam} (Rust); documentation contributions to Kubernetes SIGs and EvalML.}
+    \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+
+%-----------SKILLS-----------
+\section{Skills}
+\begin{itemize}[leftmargin=0.15in, label={}, itemsep=1pt, topsep=3pt]
+  \small
+  \item \textbf{Backend:} Python (FastAPI, Pydantic), C\#/.NET 10 (EF Core, SignalR, Hangfire), REST APIs (OpenAPI), JWT auth, RBAC, SendGrid, Go
+  \item \textbf{Frontend:} React, Next.js, TypeScript, TanStack Query, TanStack Router, Zustand, React Hook Form, Zod, Tailwind CSS, i18next, Expo
+  \item \textbf{AI/ML:} LLM APIs (tool use, structured outputs, prompt caching), RAG (embeddings, hybrid retrieval, reranking), NL-to-SQL, evals
+  \item \textbf{Data \& Infra:} SQL Server, PostgreSQL, pgvector, Redis, Docker, AWS, Azure DevOps, GitHub Actions, Railway, Serilog, OpenTelemetry, Grafana, xUnit, pytest, Testcontainers, Vitest, k6, Playwright
+\end{itemize}
+
+%-----------PROJECTS-----------
+\section{Projects}
+\resumeSubHeadingListStart
+  \resumeProjectHeading
+    {\textbf{Vyavasay AI ERP -- GST Billing \& Inventory SaaS for Indian SMEs} \normalfont\small(2026)}
+    {\href{https://vyavasayapp.in}{\faGlobe\ \underline{vyavasayapp.in}}}
+    \resumeItemListStart
+      \resumeItem{Multi-tenant ERP: quote-to-cash and purchase cycles, GST (CGST/SGST/IGST, HSN, GSTR returns), double-entry GL, multi-location inventory, storefront and Expo mobile app; \textbf{LLM bill OCR} and \textbf{pgvector} image search; 370+ integration test files (Testcontainers).}
+    \resumeItemListEnd
+    \resumeTech{.NET 10, EF Core, React, TypeScript, TanStack Router, Expo, PostgreSQL, pgvector, Hangfire, SignalR, LLM APIs, Docker, Railway}
+\resumeSubHeadingListEnd
+
+%-----------EDUCATION-----------
+\section{Education}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {Dr. D. Y. Patil Institute of Management and Research}{2022 -- 2024}
+    {Master's in Computer Application -- CGPA: 8.0 / 10}{Pune, India}
+\resumeSubHeadingListEnd
+
+\end{document}
