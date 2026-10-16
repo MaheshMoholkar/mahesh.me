@@ -42,3 +42,6 @@ next-env.d.ts
 
 # career notes (private: colleagues, employer internals)
 notes/
+
+# playwright MCP screenshots and logs
+.playwright-mcp/

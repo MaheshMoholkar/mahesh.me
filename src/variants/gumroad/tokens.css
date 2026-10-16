@@ -1,0 +1,48 @@
+/* Mahesh Moholkar — generated from tokens.json. The .type-* classes at the end are optional text-style helpers; the components do not need them. */
+:root {
+  color-scheme: light;
+  --surface: #F4F2EC;
+  --surface-raised: #FFFFFF;
+  --surface-sunken: #E8E5DB;
+  --ink: #0B0B0C;
+  --ink-muted: #47464D;
+  --blue: #5C8DFF;
+  --blue-text: #1E44D8;
+  --yellow: #FFD23F;
+  --mint: #7BE3B8;
+  --pink: #FF9FC8;
+  --on-fill: #0B0B0C;
+  --focus: var(--ink);
+  --shadow-hard: 4px 4px 0 0 #0B0B0C;
+  --shadow-hard-lg: 8px 8px 0 0 #0B0B0C;
+}
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --radius-0: 0px;
+  --radius-full: 999px;
+  --stroke: 2px;
+  --content-max: 1120px;
+  --measure: 60ch;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Space Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.type-display { font-family: var(--font-sans); font-size: 72px; line-height: 68px; font-weight: 800; letter-spacing: -0.02em; }
+.type-h2 { font-family: var(--font-sans); font-size: 40px; line-height: 44px; font-weight: 800; letter-spacing: -0.01em; }
+.type-stat { font-family: var(--font-sans); font-size: 40px; line-height: 40px; font-weight: 800; letter-spacing: -0.02em; }
+.type-h3 { font-family: var(--font-sans); font-size: 20px; line-height: 26px; font-weight: 700; }
+.type-lede { font-family: var(--font-sans); font-size: 20px; line-height: 30px; font-weight: 500; }
+.type-body { font-family: var(--font-sans); font-size: 16px; line-height: 26px; font-weight: 400; }
+.type-body-sm { font-family: var(--font-sans); font-size: 15px; line-height: 22px; font-weight: 400; }
+.type-body-xs { font-family: var(--font-sans); font-size: 14px; line-height: 22px; font-weight: 400; }
+.type-label { font-family: var(--font-mono); font-size: 12px; line-height: 16px; font-weight: 700; letter-spacing: 0.06em; }
+.type-meta { font-family: var(--font-mono); font-size: 13px; line-height: 18px; font-weight: 400; }
+.type-chip { font-family: var(--font-mono); font-size: 12px; line-height: 16px; font-weight: 400; }
