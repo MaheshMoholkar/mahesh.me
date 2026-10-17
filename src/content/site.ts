@@ -191,22 +191,38 @@ export const flagship: Project = {
   name: "Vyavasay AI ERP",
   subtitle: "Multi-Tenant Accounting, Inventory & AI ERP Platform",
   summary:
-    "Production multi-tenant SaaS ERP for Indian SMEs featuring a double-entry general ledger, GST compliance engine, multi-location batch inventory, storefront + Expo mobile app.",
+    "Designed, built and run a live multi-tenant GST ERP for Indian SMEs end to end: .NET API, React web app, Next.js storefront and Expo Android app.",
   highlights: [
     {
-      lead: "Core Accounting & Compliance:",
-      text: "Architected end-to-end quote-to-cash and procure-to-pay lifecycles, automated double-entry General Ledger postings, and full GST compliance (CGST/SGST/IGST, HSN validation, GSTR return generation).",
+      lead: "Transactional Posting:",
+      text: "Sales and purchase documents run as state machines (draft → posted → cancelled); posting moves stock, books double-entry ledger entries and updates balances in one transaction, and cancelling reverses it.",
     },
     {
-      lead: "Inventory & Omnichannel:",
-      text: "Built multi-location warehouse tracking with batch/expiry controls, real-time SignalR notifications, background Hangfire jobs, a Next.js online storefront, and a cross-platform Expo mobile app.",
+      lead: "GST Compliance:",
+      text: "CGST/SGST/IGST split by place of supply, tax snapshotted when a document posts, GSTR-1/3B generated from posted documents, and filed periods locked against edits, cancels and back-dated posts.",
     },
     {
-      lead: "Engineering Rigor:",
-      text: "ADR-driven system design, with automated integration tests verifying financial invariants and tenant isolation.",
+      lead: "Tenant Isolation:",
+      text: "Every tenant-owned table is scoped to the signed-in business by a global query filter in the data layer, so a missed WHERE clause can't leak another business's data.",
+    },
+    {
+      lead: "Contract-First Clients:",
+      text: "One OpenAPI contract generates the types for the React web app, Next.js storefront and Expo mobile app, so an API change breaks the build instead of production.",
+    },
+    {
+      lead: "Inventory:",
+      text: "Batch and expiry stock with first-expiry-first-out picking, multi-location transfers and moving-average valuation.",
+    },
+    {
+      lead: "AI:",
+      text: "Claude reads a supplier's bill photo into a draft purchase bill with structured output; the mobile app finds products by photo using Cohere image embeddings in pgvector.",
+    },
+    {
+      lead: "Integrations:",
+      text: "Storage, email, WhatsApp, push and the LLM each sit behind an adapter with a no-op fallback, so the system runs and is tested without any of them.",
     },
   ],
-  stack: [".NET 10", "EF Core", "PostgreSQL", "React", "Next.js", "TypeScript", "TanStack Router", "Expo", "Hangfire", "SignalR", "Docker", "Railway"],
+  stack: ["Next.js", "React", "TypeScript", "TanStack Router", "Expo", "PostgreSQL", "pgvector", ".NET 10", "EF Core", "Hangfire", "SignalR", "Claude", "Cohere", "Docker", "Railway"],
   image: { src: "/vyavasay.png", width: 1440, height: 900 },
   links: [{ label: "Live", href: "https://vyavasayapp.in/" }],
 };
