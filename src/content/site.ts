@@ -123,7 +123,7 @@ export const experience: ExperienceItem[] = [
     ...tenure("2025-01", "2026-06"),
     location: "Remote",
     summary:
-      "Owned the frontend architecture for a multi-tenant GCC SaaS ERP, shipping a shared RTL-first bilingual (English/Arabic) design system across three web applications and a 290+ suite automated testing pipeline.",
+      "Owned the frontend architecture for a multi-tenant GCC SaaS ERP, shipping a shared RTL-first bilingual (English/Arabic) design system across three web applications.",
     highlights: [
       {
         lead: "Client Data Layer:",
@@ -135,7 +135,7 @@ export const experience: ExperienceItem[] = [
       },
       {
         lead: "Release Engineering:",
-        text: "Maintained release reliability with 290+ Vitest + Testing Library suites, Playwright E2E smoke tests, and Dockerized GitHub Actions CI/CD deployed on AWS.",
+        text: "Maintained release reliability with Vitest + Testing Library unit tests, Playwright E2E smoke tests, and Dockerized GitHub Actions CI/CD deployed on AWS.",
       },
     ],
     stack: [
@@ -187,7 +187,7 @@ export const flagship: Project = {
   name: "Vyavasay AI ERP",
   subtitle: "Multi-Tenant Accounting, Inventory & AI ERP Platform",
   summary:
-    "Production multi-tenant SaaS ERP for Indian SMEs featuring a double-entry general ledger, GST compliance engine, multi-location batch inventory, storefront + Expo mobile app, backed by 370+ integration test suites.",
+    "Production multi-tenant SaaS ERP for Indian SMEs featuring a double-entry general ledger, GST compliance engine, multi-location batch inventory, storefront + Expo mobile app.",
   highlights: [
     {
       lead: "Core Accounting & Compliance:",
@@ -199,7 +199,7 @@ export const flagship: Project = {
     },
     {
       lead: "Engineering Rigor:",
-      text: "ADR-driven system design backed by 370+ automated integration test files verifying financial invariants and tenant isolation.",
+      text: "ADR-driven system design, with automated integration tests verifying financial invariants and tenant isolation.",
     },
   ],
   stack: [".NET 10", "EF Core", "PostgreSQL", "React", "TypeScript", "TanStack Router", "Expo", "Hangfire", "SignalR", "Docker", "Railway"],
