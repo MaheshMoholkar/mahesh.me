@@ -50,8 +50,8 @@
     \end{tabular*}\vspace{-5pt}
 }
 \newcommand{\resumeProjectHeading}[2]{
-    \item
-    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
+    \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
       \small#1 & \textbf{\small #2}\\
     \end{tabular*}\vspace{-4pt}
 }
@@ -65,7 +65,6 @@
 %----------HEADING----------
 \begin{center}
     {\Huge \scshape Mahesh Moholkar} \\ \vspace{6pt}
-    {\large \scshape Full-Stack Developer} \\ \vspace{6pt}
     \small \faMapMarker\ Pune, India ~
     \faPhone\ +91-9579047391 ~
     \href{mailto:mahesh.moholkar.dev@gmail.com}{\faEnvelope\ \underline{mahesh.moholkar.dev@gmail.com}} \\ \vspace{1pt}
@@ -77,7 +76,7 @@
 
 %-----------SUMMARY-----------
 \section{Summary}
-Full-Stack Developer (3+ years) on React and .NET: built a Campus ERP for a university and its affiliated colleges serving 8000+ users, with shared auth and notification microservices, tenant-scoped data, Redis caching, observability and CI/CD.
+Software Engineer (3+ years) on React and .NET: built a Campus ERP for a university and its affiliated colleges serving 8,000+ users, with shared auth and notification microservices, tenant-scoped data, Redis caching, observability and CI/CD.
 
 %-----------EXPERIENCE-----------
 \section{Professional Experience}
@@ -87,7 +86,7 @@ Full-Stack Developer (3+ years) on React and .NET: built a Campus ERP for a univ
     {Software Engineer (Full-Stack \& Applied AI)}{Aug 2023 -- Present \textmd{\textit{$\cdot$ 3 yrs 3 mos}}}
     {Shivam Enterprises}{Pune, India}
     \resumeItemListStart
-      \resumeItem{Built a \textbf{Campus ERP for a university and its affiliated colleges} on \textbf{React + .NET 10} -- one platform with colleges as tenants, serving \textbf{8000+ users}; brought p95 under 400 ms at k6 peak load with Redis HybridCache.}
+      \resumeItem{Built a \textbf{Campus ERP for a university and its affiliated colleges} on \textbf{React + .NET 10} -- one platform with colleges as tenants, serving \textbf{8,000+ users}; brought p95 under 400 ms at k6 peak load with Redis HybridCache.}
       \resumeItem{Built shared \textbf{auth} (JWT, role- and menu-based access control) and \textbf{notification} (outbox + Hangfire workers: SendGrid email, SMS and push with retries, delivery tracking) \textbf{microservices} used by every ERP.}
       \resumeItem{Built separate \textbf{Admissions, Management and Procurement ERPs} (7-stage admissions pipeline; directors' console across all colleges; vendor portal, quotations, indents), each with its own database -- React UI, .NET 10 REST APIs, EF Core schema and migrations -- using the shared auth and notification microservices.}
       \resumeItem{Built the \textbf{React/TypeScript UI} for the main ERP's exams, fees, HR, attendance, LMS and research modules with typed API clients; worked with the backend team on API contracts.}
@@ -96,7 +95,7 @@ Full-Stack Developer (3+ years) on React and .NET: built a Campus ERP for a univ
     \resumeTech{React, TypeScript, .NET 10, EF Core, SQL Server, Redis, Hangfire, SendGrid, JWT, Serilog, OpenTelemetry, Docker, Azure DevOps}
 
   \resumeSubheading
-    {Frontend Engineer (Remote)}{Jan 2025 -- Jun 2026 \textmd{\textit{$\cdot$ 1 yr 6 mos}}}
+    {Frontend Engineer (Part-time, Remote)}{Jan 2025 -- Jun 2026 \textmd{\textit{$\cdot$ 1 yr 6 mos}}}
     {Vision -- Multi-tenant SaaS ERP for GCC SMEs}{Kuwait}
     \resumeItemListStart
       \resumeItem{Built the \textbf{React 18 + TypeScript client} (Vite) for a multi-tenant GCC ERP -- quotation, sales order, delivery note, invoice, returns, purchase order and bill screens, inventory, parties and VAT-aware totals -- as typed forms (React Hook Form + Zod) with state-driven edit/post/void actions.}
@@ -117,7 +116,7 @@ Full-Stack Developer (3+ years) on React and .NET: built a Campus ERP for a univ
 
 %-----------SKILLS-----------
 \section{Skills}
-\begin{itemize}[leftmargin=0.15in, label={}, itemsep=1pt, topsep=3pt]
+\begin{itemize}[leftmargin=0.15in, label={}, itemsep=1pt, parsep=0pt, topsep=3pt]
   \small
   \item \textbf{Backend:} C\#/.NET 10 (EF Core, SignalR, Hangfire), REST APIs (OpenAPI), JWT auth, RBAC, SendGrid, Go
   \item \textbf{Frontend:} React, TypeScript, Vite, TanStack Query, TanStack Router, Zustand, React Hook Form, Zod, MUI, Tailwind CSS, Radix UI, i18next

@@ -123,7 +123,7 @@ export const experience: ExperienceItem[] = [
   },
   {
     company: "Vision — Multi-Tenant SaaS ERP (GCC Market)",
-    title: "Frontend Engineer (Remote)",
+    title: "Frontend Engineer (Part-time, Remote)",
     ...tenure("2025-01", "2026-06"),
     location: "Remote",
     summary:
