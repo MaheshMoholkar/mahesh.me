@@ -8,8 +8,8 @@ export function ThemeButton() {
   const { theme, toggle } = useTheme();
   return (
     <button type="button" className="theme-btn" onClick={toggle} aria-label="Dark mode" aria-pressed={theme === "dark"} title="Dark mode (D)">
-      <MoonIcon className="theme-btn__moon" />
-      <SunIcon className="theme-btn__sun" />
+      <MoonIcon className="icon theme-btn__moon" />
+      <SunIcon className="icon theme-btn__sun" />
     </button>
   );
 }
