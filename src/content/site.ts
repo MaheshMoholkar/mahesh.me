@@ -28,7 +28,7 @@ export const hero = {
   location: "Pune, India",
   status: "Open to roles",
   workMode: "Pune / Remote",
-  bio: "Designing and shipping multi-tenant ERP platforms, distributed backends, and production LLM systems. Previously architected university-wide platforms serving 8,000+ users; currently building AI-native enterprise workflows across .NET, Python, and React.",
+  bio: "Designing and shipping multi-tenant ERP platforms, distributed backends, and production LLM systems. Previously architected university-wide platforms serving 8,000+ users; currently building AI-native enterprise workflows across Next.js/React, Python, and .NET.",
 };
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
