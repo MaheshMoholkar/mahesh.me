@@ -11,44 +11,50 @@ import {
   SOCIALS,
   stackIndex,
   type Highlight,
+  type Link,
   type Project,
 } from "@/content/site";
-import { ChevronIcon, FileIcon, GitHubIcon, GlobeIcon, LinkedInIcon, MailIcon, XIcon } from "../shared/icons";
+import { ArrowUpRightIcon, DownloadIcon } from "../shared/icons";
 import { LocalTime } from "../shared/LocalTime";
 import { ThemeToggle } from "./ThemeToggle";
 
 const social = Object.fromEntries(SOCIALS.map((s) => [s.label, s.href]));
-
-// One short paragraph per sentence reads closer to the reference than a single block
 const bio = hero.bio.split(/(?<=\.)\s+/);
 
-function InlineLink({ href, icon, children, download }: { href: string; icon: ReactNode; children: ReactNode; download?: boolean }) {
-  const external = href.startsWith("http");
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/** "Aug 2023 – Present" → "2023.08 – now", the spec-sheet way of writing a range. */
+const numericRange = (dates: string) =>
+  dates.replace(/([A-Z][a-z]{2}) (\d{4})/g, (_, m: string, y: string) => `${y}.${String(MONTHS.indexOf(m) + 1).padStart(2, "0")}`).replace("Present", "now");
+
+/** "3 yrs 3 mos" → "3y 3m" */
+const shortDuration = (d: string) => d.replace(/(\d+) yrs?/, "$1y").replace(/(\d+) mos?/, "$1m");
+
+function Section({ n, label, children }: { n: string; label: string; children: ReactNode }) {
   return (
-    <a className="ilink" href={href} {...(download ? { download: true } : external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
-      {icon}
-      {children}
-    </a>
+    <section className="sec" aria-labelledby={`sec-${n}`}>
+      <h2 className="sec__label" id={`sec-${n}`}>
+        <span className="sec__num">{n}</span>
+        {label}
+      </h2>
+      <div className="sec__body">{children}</div>
+    </section>
   );
 }
 
-/** A row title whose chevron stays glued to the last word, so a wrapped title never leaves it alone on a line. */
-function Title({ text }: { text: string }) {
-  const cut = text.lastIndexOf(" ") + 1;
+function TextLink({ href, children, download }: { href: string; children: ReactNode; download?: boolean }) {
+  const external = href.startsWith("http");
   return (
-    <span className="item__title">
-      {text.slice(0, cut)}
-      <span className="item__last">
-        {text.slice(cut)}
-        <ChevronIcon />
-      </span>
-    </span>
+    <a className="tlink" href={href} {...(download ? { download: true } : external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+      {children}
+      {download ? <DownloadIcon /> : <ArrowUpRightIcon />}
+    </a>
   );
 }
 
 function Highlights({ items }: { items: Highlight[] }) {
   return (
-    <ul>
+    <ul className="points">
       {items.map((item, i) => (
         <li key={i}>
           {typeof item === "object" ? (
@@ -64,38 +70,41 @@ function Highlights({ items }: { items: Highlight[] }) {
   );
 }
 
-function ProjectItem({ project }: { project: Project }) {
+const linkLabel = (l: Link) => (l.label === "GitHub" ? "code" : l.label.toLowerCase());
+
+function ProjectRow({ project }: { project: Project }) {
   return (
-    // Links sit beside the <details>, not inside its <summary>, so they stay links instead of becoming part of a toggle
-    <div className="item item--links">
+    // Links sit beside the <details>, not in its <summary>, so they stay links instead of toggling the row
+    <div className="row row--links" style={{ "--links": project.links.length } as React.CSSProperties}>
       <details>
-        <summary className="item__row">
-          <Image className="thumb" src={project.image.src} alt="" width={36} height={36} sizes="36px" />
-          <span className="item__main">
-            <Title text={project.name} />
-            <span className="item__desc">{project.summary}</span>
+        <summary className="row__head">
+          <span className="row__main">
+            <span className="row__title">{project.name}</span>
+            <span className="row__sub">{project.subtitle ?? project.summary}</span>
           </span>
+          <span className="row__spacer" />
+          <span className="row__toggle" aria-hidden="true" />
         </summary>
-        <div className="more">
-          <a href={project.image.src} target="_blank" rel="noopener noreferrer" aria-label={`Open ${project.name} screenshot at full size`}>
+        <div className="row__body">
+          <p>{project.summary}</p>
+          <a className="shot" href={project.image.src} target="_blank" rel="noopener noreferrer" aria-label={`Open ${project.name} screenshot at full size`}>
             <Image
-              className="more__shot"
               src={project.image.src}
               alt={`${project.name} screenshot`}
               width={project.image.width}
               height={project.image.height}
-              sizes="(max-width: 700px) 100vw, 610px"
+              sizes="(max-width: 640px) 100vw, 600px"
             />
           </a>
-          {project.subtitle ? <p className="more__sub">{project.subtitle}</p> : null}
           <Highlights items={project.highlights} />
-          <p className="more__stack">{project.stack.join(" · ")}</p>
+          <p className="tags">{project.stack.join(" / ")}</p>
         </div>
       </details>
-      <span className="item__links">
+      <span className="row__links">
         {project.links.map((l) => (
           <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" aria-label={`${project.name}: ${l.label}`}>
-            {l.label === "GitHub" ? <GitHubIcon /> : <GlobeIcon />}
+            {linkLabel(l)}
+            <ArrowUpRightIcon />
           </a>
         ))}
       </span>
@@ -105,97 +114,80 @@ function ProjectItem({ project }: { project: Project }) {
 
 export default function Page() {
   return (
-    <main className="wrap">
-      <header className="head">
-        <Image className="avatar" src="/profile.png" alt={hero.name} width={52} height={52} priority />
-        <div className="head__text">
-          <h1 className="name">
-            {hero.name}
+    <main className="sheet">
+      <header className="top">
+        <div className="top__id">
+          <h1 className="top__name">{hero.name}</h1>
+          <p className="top__role">{hero.headline}</p>
+          <p className="top__meta">
             <span className="status">{hero.status}</span>
-          </h1>
-          <p className="role">{hero.headline}</p>
+            <span>
+              {hero.location}
+              <LocalTime className="clock" />
+            </span>
+          </p>
         </div>
         <ThemeToggle />
       </header>
 
-      <div className="intro">
-        {bio.map((sentence) => (
-          <p key={sentence}>{sentence}</p>
-        ))}
-        <p>
-          Reach me via{" "}
-          <InlineLink href={`mailto:${EMAIL}`} icon={<MailIcon />}>
-            email
-          </InlineLink>{" "}
-          · see my code on{" "}
-          <InlineLink href={social.GitHub} icon={<GitHubIcon />}>
-            GitHub
-          </InlineLink>
-          .
-        </p>
-        <p>
-          Find me on{" "}
-          <InlineLink href={social.LinkedIn} icon={<LinkedInIcon />}>
-            LinkedIn
-          </InlineLink>{" "}
-          and{" "}
-          <InlineLink href={social.X} icon={<XIcon />}>
-            X
-          </InlineLink>
-          , or grab my{" "}
-          <InlineLink href={RESUME_PDF} icon={<FileIcon />} download>
-            resume
-          </InlineLink>
-          .
-        </p>
-      </div>
+      <nav className="links" aria-label="Contact">
+        <TextLink href={`mailto:${EMAIL}`}>email</TextLink>
+        <TextLink href={social.GitHub}>github</TextLink>
+        <TextLink href={social.LinkedIn}>linkedin</TextLink>
+        <TextLink href={social.X}>x</TextLink>
+        <TextLink href={RESUME_PDF} download>
+          resume
+        </TextLink>
+      </nav>
 
-      <section className="section">
-        <h2># experience</h2>
+      <Section n="01" label="About">
+        <div className="prose">
+          {bio.map((sentence) => (
+            <p key={sentence}>{sentence}</p>
+          ))}
+        </div>
+      </Section>
+
+      <Section n="02" label="Work">
         {experience.map((exp) => (
-          <div key={exp.company} className="item">
-            <details>
-              <summary className="item__row">
-                <span className="mark" aria-hidden="true">
-                  {exp.company[0]}
+          <details key={exp.company} className="row">
+            <summary className="row__head">
+              <span className="row__main">
+                <span className="row__title">{exp.company}</span>
+                <span className="row__sub">{exp.title}</span>
+              </span>
+              <span className="row__meta">
+                <span>{numericRange(exp.dates)}</span>
+                <span className="row__dim">
+                  {shortDuration(exp.duration)} · {exp.location}
                 </span>
-                <span className="item__main">
-                  <Title text={exp.company} />
-                  <span className="item__sub">{exp.title}</span>
-                </span>
-                <span className="item__meta">
-                  <span className="item__when">{exp.dates}</span>
-                  <span>
-                    {exp.duration} · {exp.location}
-                  </span>
-                </span>
-              </summary>
-              <div className="more">
-                <p>{exp.summary}</p>
-                <Highlights items={exp.highlights} />
-                {exp.stack?.length ? <p className="more__stack">{exp.stack.join(" · ")}</p> : null}
-              </div>
-            </details>
-          </div>
+              </span>
+              <span className="row__toggle" aria-hidden="true" />
+            </summary>
+            <div className="row__body">
+              <p>{exp.summary}</p>
+              <Highlights items={exp.highlights} />
+              {exp.stack?.length ? <p className="tags">{exp.stack.join(" / ")}</p> : null}
+              {exp.link ? (
+                <p>
+                  <TextLink href={exp.link.href}>{exp.link.label.toLowerCase()}</TextLink>
+                </p>
+              ) : null}
+            </div>
+          </details>
         ))}
-      </section>
+      </Section>
 
-      <section className="section">
-        <h2># projects</h2>
+      <Section n="03" label="Projects">
         {[flagship, ...projects].map((p) => (
-          <ProjectItem key={p.name} project={p} />
+          <ProjectRow key={p.name} project={p} />
         ))}
-        <p className="note">
-          more on{" "}
-          <a className="ilink" href={social.GitHub} target="_blank" rel="noopener noreferrer">
-            GitHub
-          </a>
-          .
+        <p className="aside">
+          more on <TextLink href={social.GitHub}>github</TextLink>
         </p>
-      </section>
+      </Section>
 
-      <section className="section">
-        <h2># stack</h2>
+      <Section n="04" label="Stack">
         <dl className="stack">
           {stackIndex.map((g) => (
             <div key={g.name}>
@@ -204,37 +196,30 @@ export default function Page() {
             </div>
           ))}
         </dl>
-      </section>
+      </Section>
 
-      <section className="section">
-        <h2># education</h2>
+      <Section n="05" label="Education">
         {education.map((e) => (
-          <div key={e.degree} className="item">
-            <div className="item__row item__row--static">
-              <span className="mark" aria-hidden="true">
-                {e.school[0]}
+          <div key={e.degree} className="row">
+            <div className="row__head row__head--static">
+              <span className="row__main">
+                <span className="row__title">{e.degree}</span>
+                <span className="row__sub">{e.school}</span>
               </span>
-              <span className="item__main">
-                <span className="item__title">{e.degree}</span>
-                <span className="item__sub">{e.school}</span>
-              </span>
-              <span className="item__meta">
-                <span>{e.years}</span>
-                <span>{e.result}</span>
+              <span className="row__meta">
+                <span>{e.years.replace(/\s*–\s*/, " – ")}</span>
+                <span className="row__dim">{e.result}</span>
               </span>
             </div>
           </div>
         ))}
-      </section>
+      </Section>
 
       <footer className="foot">
         <span>
-          {hero.location}
-          <LocalTime className="foot__time" />
-        </span>
-        <span>
           © {new Date().getFullYear()} {hero.name}
         </span>
+        <span>press d to switch theme</span>
       </footer>
     </main>
   );

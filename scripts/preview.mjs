@@ -18,7 +18,7 @@ const EXPORT = /^export \* from "\.\/variants\/([\w-]+)";$/m;
 // What the comparison page says about each variant; any other variant folder gets its name only
 const ABOUT = {
   boxy: "Square boxes in 2px ink, a tone per box, details in modals. Fits one desktop screen.",
-  minimal: "One narrow column, small type and a grey hierarchy. Rows expand in place.",
+  minimal: "A spec sheet: numbered labels in a left column, mono figures, rows that expand in place.",
   cozy: "Warm paper, a soft serif, rounded cards and a timeline. The long-form page.",
 };
 const ORDER = ["boxy", "minimal", "cozy"];
@@ -65,7 +65,7 @@ var more=t.closest(".more-btn");if(more){var list=more.previousElementSibling,is
 });
 window.addEventListener("keydown",function(e){if(e.key.toLowerCase()!=="d"||e.metaKey||e.ctrlKey||e.altKey||e.repeat)return;var g=e.target;if(g.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(g.tagName))return;flip()});
 var clock=new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Kolkata",hour:"numeric",minute:"2-digit"});
-function tick(){document.querySelectorAll("time.foot__time").forEach(function(el){el.textContent=clock.format(new Date())})}
+function tick(){document.querySelectorAll("time.foot__time,time.clock").forEach(function(el){el.textContent=clock.format(new Date())})}
 tick();setInterval(tick,30000);sync();
 })()</script>`;
 
