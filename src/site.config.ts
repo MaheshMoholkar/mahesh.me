@@ -9,4 +9,4 @@
  * It is a re-export rather than a string setting on purpose: only the chosen variant's code, fonts and
  * global CSS end up in the build, so the variants' resets and :root tokens never meet.
  */
-export * from "./variants/boxy";
+export * from "./variants/minimal";
