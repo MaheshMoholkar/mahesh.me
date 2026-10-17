@@ -1,4 +1,4 @@
-// Site content for maheshmoholkar.in
+// Site content for maheshmoholkar.in. Every variant reads from this file, so one edit updates them all.
 
 // Compiled from resume/resume-nextjs-python-ai.tex; replace the file in public/ when the resume changes
 export const RESUME_PDF = "/Mahesh-Moholkar-Resume.pdf";
@@ -12,6 +12,14 @@ export const SOCIALS: Link[] = [
   { label: "LinkedIn", href: "https://linkedin.com/in/mahesh1822" },
   { label: "X", href: "https://x.com/maheshstwt" },
 ];
+
+/** Page title, description and canonical address, shared by every variant's layout. */
+export const site = {
+  title: "Mahesh Moholkar — Software Engineer",
+  description:
+    "Mahesh Moholkar builds multi-tenant ERP platforms, distributed .NET and Python backends, and production LLM systems. Based in Pune, open to roles.",
+  url: "https://maheshmoholkar.in",
+};
 
 export const hero = {
   name: "Mahesh Moholkar",
@@ -56,6 +64,10 @@ export type ExperienceItem = {
   summary: string;
   highlights: Highlight[];
   stack?: string[];
+  /** Square mark in public/; variants without one fall back to the company's initial. */
+  logo?: string;
+  /** Credential or company page. */
+  link?: Link;
 };
 
 export const experience: ExperienceItem[] = [
@@ -103,6 +115,7 @@ export const experience: ExperienceItem[] = [
       "Docker",
       "Azure DevOps",
     ],
+    logo: "/logo.svg",
   },
   {
     company: "Vision — Multi-Tenant SaaS ERP (GCC Market)",
@@ -141,6 +154,7 @@ export const experience: ExperienceItem[] = [
       "Docker",
       "AWS",
     ],
+    logo: "/vision.png",
   },
   {
     company: "Cloud Native Computing Foundation (CNCF)",
@@ -153,6 +167,9 @@ export const experience: ExperienceItem[] = [
       "Selected for CNCF's Zero to Merge program; collaborated with upstream maintainers to scope issues and ship pull requests to Kubernetes-ecosystem projects in Go.",
       "Shipped merged upstream bug fixes to Ockam (Rust) and contributed technical documentation to Kubernetes SIGs and EvalML.",
     ],
+    stack: ["Go", "Rust", "Kubernetes", "Open Source"],
+    logo: "/cncf.jpeg",
+    link: { label: "Credential", href: "https://www.credly.com/badges/c439e57f-40af-461d-af6f-561de418046f" },
   },
 ];
 
@@ -232,4 +249,134 @@ export const stackIndex = [
   { name: "Frontend", items: ["TypeScript", "React", "Next.js", "React Native"] },
   { name: "Data", items: ["PostgreSQL", "SQL Server", "Redis", "MongoDB"] },
   { name: "Cloud & DevOps", items: ["AWS", "Azure", "Docker"] },
+];
+
+/** Earlier and smaller builds: a name, one line, the screenshot and its links. */
+export type SideProject = {
+  name: string;
+  year: string;
+  summary: string;
+  stack: string[];
+  image: string;
+  links: Link[];
+};
+
+export const sideProjects: SideProject[] = [
+  {
+    name: "Slack",
+    year: "2026",
+    summary: "Team chat with channels, DMs, threads, reactions and live updates over WebSockets; React + Vite UI on a Spring Boot API.",
+    stack: ["React", "TypeScript", "Spring Boot", "Java", "PostgreSQL", "WebSocket", "Docker"],
+    image: "/slackhome.png",
+    links: [
+      { label: "GitHub", href: "https://github.com/MaheshMoholkar/slack" },
+      { label: "Live", href: "https://slack-app.up.railway.app/" },
+    ],
+  },
+  {
+    name: "AdFlow",
+    year: "2026",
+    summary: "Call-automation monorepo: Go API, Flutter Android app for call detection and SMS follow-ups, React admin console, Next.js landing pages.",
+    stack: ["Go", "Flutter", "React", "Next.js", "PostgreSQL", "Docker"],
+    image: "/adflow.png",
+    links: [
+      { label: "GitHub", href: "https://github.com/MaheshMoholkar/adflow" },
+      { label: "Live", href: "https://adflowapp.vercel.app/" },
+    ],
+  },
+  {
+    name: "3D Portfolio",
+    year: "2025",
+    summary: "An earlier portfolio in React, Vite and Three.js, with interactive 3D elements and Framer Motion animation.",
+    stack: ["React", "Three.js", "React Three Fiber", "Framer Motion"],
+    image: "/3d-portfolio.png",
+    links: [
+      { label: "GitHub", href: "https://github.com/MaheshMoholkar/mahesh.moholkar" },
+      { label: "Live", href: "https://mahesh-moholkar.vercel.app/" },
+    ],
+  },
+  {
+    name: "Blockforge",
+    year: "2025",
+    summary: "Dark blockchain SaaS website with a blog, built on Astro.",
+    stack: ["Astro", "React", "TypeScript", "TailwindCSS"],
+    image: "/blockforge.png",
+    links: [
+      { label: "GitHub", href: "https://github.com/MaheshMoholkar/blockforge" },
+      { label: "Live", href: "https://blockforge-one.vercel.app/" },
+    ],
+  },
+  {
+    name: "SaaS Landing Page",
+    year: "2025",
+    summary: "Responsive SaaS landing page with smooth animations and a clean layout.",
+    stack: ["Next.js", "TailwindCSS", "Framer Motion"],
+    image: "/light-productivity.png",
+    links: [
+      { label: "GitHub", href: "https://github.com/MaheshMoholkar/landing-page-one" },
+      { label: "Live", href: "https://light-productivity-app.vercel.app/" },
+    ],
+  },
+  {
+    name: "Dark SaaS Landing Page",
+    year: "2025",
+    summary: "Dark-themed SaaS landing page with smooth animations.",
+    stack: ["Next.js", "TailwindCSS", "Framer Motion"],
+    image: "/dark-productivity.png",
+    links: [
+      { label: "GitHub", href: "https://github.com/MaheshMoholkar/landing-page-two" },
+      { label: "Live", href: "https://dark-productivity-app.vercel.app/" },
+    ],
+  },
+  {
+    name: "AI SEO Landing Page",
+    year: "2025",
+    summary: "Landing page for an AI-powered SEO product, with user testimonials.",
+    stack: ["Next.js", "TailwindCSS", "Framer Motion"],
+    image: "/ai-seo.png",
+    links: [
+      { label: "GitHub", href: "https://github.com/MaheshMoholkar/landing-page-three" },
+      { label: "Live", href: "https://ai-seo-app-one.vercel.app/" },
+    ],
+  },
+  {
+    name: "Cozy",
+    year: "2024",
+    summary: "Interior-design landing page built with React, Vite and TailwindCSS.",
+    stack: ["React", "Vite", "TailwindCSS", "Framer Motion"],
+    image: "/cozy.png",
+    links: [
+      { label: "GitHub", href: "https://github.com/MaheshMoholkar/cozy" },
+      { label: "Live", href: "https://cozy-inky.vercel.app/" },
+    ],
+  },
+];
+
+export type EducationItem = { degree: string; school: string; years: string; location: string; result: string };
+
+export const education: EducationItem[] = [
+  {
+    degree: "Master's in Computer Application",
+    school: "Dr. D. Y. Patil Institute of Management and Research",
+    years: "2022 – 2024",
+    location: "Pune, India",
+    result: "CGPA 8.0 / 10",
+  },
+  {
+    degree: "Bachelor's in Computer Science",
+    school: "B.P.H.E. Society's Ahmednagar College",
+    years: "2020 – 2022",
+    location: "Ahmednagar, India",
+    result: "CGPA 8.56 / 10",
+  },
+];
+
+export type Certificate = { title: string; issuer: string; via: string; href: string };
+
+export const certificates: Certificate[] = [
+  { title: "Meta Back-End Developer", issuer: "Meta", via: "Coursera", href: "https://www.coursera.org/account/accomplishments/specialization/ZHWRF7MG4VDG" },
+  { title: "Rust Programming", issuer: "Duke University", via: "Coursera", href: "https://www.coursera.org/account/accomplishments/specialization/KLANCTJBOT8F" },
+  { title: "Introduction to Cloud Computing", issuer: "IBM", via: "edX", href: "https://courses.edx.org/certificates/1dfc8f25fa8f4a0b82a788ad76307c21" },
+  { title: "Introduction to Linux", issuer: "The Linux Foundation", via: "edX", href: "https://courses.edx.org/certificates/e5034ac1683444a885d05c8bfe051a3f" },
+  { title: "Introduction to Web Development", issuer: "IBM", via: "edX", href: "https://courses.edx.org/certificates/8c6839bc8e4240a2a59b3ec2cedb0180" },
 ];

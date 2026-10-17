@@ -1,15 +1,8 @@
-import type { Metadata, Viewport } from "next";
+import type { Viewport } from "next";
+import { themeScript } from "../shared/themeScript";
 import "./minimal.css";
 
-export const metadata: Metadata = {
-  title: "Mahesh Moholkar",
-  description: "Mahesh Moholkar's Portfolio",
-  icons: {
-    icon: "/logo.svg",
-    shortcut: "/logo.svg",
-    apple: "/logo.svg",
-  },
-};
+export { metadata } from "../shared/metadata";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -17,9 +10,6 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
   ],
 };
-
-// Runs before first paint, so a saved (or system) dark theme never flashes light
-const themeScript = `try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t}catch(e){}`;
 
 export default function Layout({
   children,

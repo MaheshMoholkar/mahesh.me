@@ -1,4 +1,4 @@
-/* maheshmoholkar.in: boxy design (tokens.css), light only, laid out as one compact two-column screen. */
+/* maheshmoholkar.in: boxy design (tokens.css), light and dark, laid out as one compact two-column screen. */
 
 /* next/font renames the families, so point the tokens at its variables */
 :root {
@@ -65,7 +65,7 @@ html:has(.modal[open]) { overflow: hidden; }
 .bx-strip h2 { margin: 0; font: inherit; }
 
 /* Each box carries one brand tone: its header strip, row "+" on hover and modal header use it */
-.tone--blue { --tone: var(--blue-text); --on-tone: #fff; }
+.tone--blue { --tone: var(--blue-text); --on-tone: var(--on-blue-text); }
 .tone--mint { --tone: var(--mint); --on-tone: var(--on-fill); }
 .tone--pink { --tone: var(--pink); --on-tone: var(--on-fill); }
 .tone--yellow { --tone: var(--yellow); --on-tone: var(--on-fill); }
@@ -148,12 +148,34 @@ html:has(.modal[open]) { overflow: hidden; }
 .stack__items { margin: 0; display: flex; flex-wrap: wrap; font-size: 14px; line-height: 21px; }
 .stack__items span:not(:last-child)::after { content: "·"; margin: 0 6px; color: var(--ink-muted); }
 
-/* ── Footer ── */
+/* ── Footer: copyright, Pune's clock, the light/dark switch ── */
 .foot {
-  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px;
   margin-top: 4px; padding-top: 12px; border-top: var(--stroke) solid var(--ink);
   font-family: var(--font-mono); font-size: 12px; line-height: 18px; color: var(--ink-muted);
 }
+.foot__end { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+.foot__time { color: var(--ink); font-weight: 700; }
+.foot__time:not(:empty)::before { content: "· "; color: var(--ink-muted); font-weight: 400; }
+
+/* A square switch: 2px ink track, a square thumb that slides right and turns yellow in dark */
+.bx-switch {
+  all: unset; box-sizing: border-box; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 28px;
+  font-family: var(--font-mono); font-size: 11.5px; line-height: 16px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink);
+}
+.bx-switch__track { position: relative; display: block; width: 40px; height: 22px; box-sizing: border-box; border: var(--stroke) solid var(--ink); background: var(--surface-raised); }
+.bx-switch__thumb {
+  position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; background: var(--ink);
+  transition: transform var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+:root[data-theme="dark"] .bx-switch__thumb { transform: translateX(18px); background: var(--yellow); }
+.bx-switch:hover .bx-switch__track { box-shadow: 2px 2px 0 0 var(--ink); }
+.bx-switch:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.bx-key { padding: 1px 5px; border: var(--stroke) solid var(--ink); font: inherit; font-size: 10.5px; color: var(--ink-muted); }
+
+/* Project rows lead with a small screenshot; the row's title still opens the modal */
+.row__thumb { flex: none; display: block; width: 88px; height: 55px; box-sizing: border-box; border: var(--stroke) solid var(--ink); background: var(--surface-sunken); overflow: hidden; }
+.row__thumb img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; }
 
 /* ── Modal ── */
 .modal {
@@ -163,12 +185,12 @@ html:has(.modal[open]) { overflow: hidden; }
   width: min(940px, calc(100vw - 40px)); max-width: none; max-height: min(88vh, 920px);
 }
 .modal[open] { display: flex; flex-direction: column; animation: modal-in 160ms var(--ease); }
-.modal::backdrop { background: rgb(11 11 12 / 0.5); animation: fade-in 160ms var(--ease); }
+.modal::backdrop { background: var(--backdrop); animation: fade-in 160ms var(--ease); }
 @keyframes modal-in { from { opacity: 0; transform: translate(8px, 8px); } }
 @keyframes fade-in { from { opacity: 0; } }
 .modal__head {
   display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "heading links close"; align-items: start; column-gap: 20px;
-  padding: 14px 14px 14px 20px; background: var(--tone, var(--blue-text)); color: var(--on-tone, #fff); border-bottom: var(--stroke) solid var(--ink);
+  padding: 14px 14px 14px 20px; background: var(--tone, var(--blue-text)); color: var(--on-tone, var(--on-blue-text)); border-bottom: var(--stroke) solid var(--ink);
 }
 .modal__heading { grid-area: heading; min-width: 0; }
 .modal__title { margin: 0; font-size: 22px; line-height: 28px; font-weight: 800; letter-spacing: -0.01em; }
@@ -236,6 +258,7 @@ html:has(.modal[open]) { overflow: hidden; }
   .project__pin { position: static; }
 }
 @media (max-width: 560px) {
+  .row__thumb { display: none; }
   .intro__body { padding: 14px 14px 16px; }
   .intro__name { font-size: 28px; line-height: 30px; }
   .row { flex-wrap: wrap; gap: 6px 12px; padding: 12px; }
@@ -253,7 +276,7 @@ html:has(.modal[open]) { overflow: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tile, .row__plus, .modal__close { transition: none; }
+  .tile, .row__plus, .modal__close, .bx-switch__thumb { transition: none; }
   .row:hover .row__plus, .modal__close:hover { transform: none; }
   .modal[open], .modal::backdrop { animation: none; }
 }

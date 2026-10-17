@@ -1,7 +1,9 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { LocalTime } from "../shared/LocalTime";
 import { DetailRow } from "./DetailRow";
 import { TechIcon } from "./TechIcon";
+import { ThemeSwitch } from "./ThemeSwitch";
 import {
   EMAIL,
   experience,
@@ -93,7 +95,20 @@ function TechList({ items }: { items: string[] }) {
 function ProjectRow({ project }: { project: Project }) {
   const links = project.links.map((l) => <ExtLink key={l.href} {...l} />);
   return (
-    <DetailRow title={project.name} sub={project.subtitle} desc={project.summary} modalSub={project.subtitle} wide aside={links} actions={links}>
+    <DetailRow
+      title={project.name}
+      sub={project.subtitle}
+      desc={project.summary}
+      modalSub={project.subtitle}
+      wide
+      aside={links}
+      actions={links}
+      lead={
+        <span className="row__thumb" aria-hidden="true">
+          <Image src={project.image.src} alt="" width={176} height={110} sizes="88px" />
+        </span>
+      }
+    >
       <div className="project">
         <div className="project__media">
           <div className="project__pin">
@@ -247,7 +262,15 @@ export default function Home() {
       </Panel>
 
       <footer className="foot">
-        <span>© {new Date().getFullYear()} Mahesh Moholkar</span>
+        <span>
+          © {new Date().getFullYear()} {hero.name}
+        </span>
+        <div className="foot__end">
+          <span>
+            {hero.location} <LocalTime className="foot__time" />
+          </span>
+          <ThemeSwitch />
+        </div>
       </footer>
     </main>
   );
