@@ -22,11 +22,8 @@ import { ThemeToggle } from "./ThemeToggle";
 const social = Object.fromEntries(SOCIALS.map((s) => [s.label, s.href]));
 const bio = hero.bio.split(/(?<=\.)\s+/);
 
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-/** "Aug 2023 – Present" → "2023.08 – now", the spec-sheet way of writing a range. */
-const numericRange = (dates: string) =>
-  dates.replace(/([A-Z][a-z]{2}) (\d{4})/g, (_, m: string, y: string) => `${y}.${String(MONTHS.indexOf(m) + 1).padStart(2, "0")}`).replace("Present", "now");
+/** "Aug 2023 – Present" → "Aug 2023 – now" */
+const shortRange = (dates: string) => dates.replace("Present", "now");
 
 /** "3 yrs 3 mos" → "3y 3m" */
 const shortDuration = (d: string) => d.replace(/(\d+) yrs?/, "$1y").replace(/(\d+) mos?/, "$1m");
@@ -159,7 +156,7 @@ export default function Page() {
                 <span className="row__sub">{exp.title}</span>
               </span>
               <span className="row__meta">
-                <span>{numericRange(exp.dates)}</span>
+                <span>{shortRange(exp.dates)}</span>
                 <span className="row__dim">
                   {shortDuration(exp.duration)} · {exp.location}
                 </span>
