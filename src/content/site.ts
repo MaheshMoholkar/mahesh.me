@@ -39,24 +39,27 @@ const parseMonth = (ym: string) => {
 
 /**
  * A role's date range and length from its first and last month ("YYYY-MM"). Months count inclusively,
- * like the resume: Aug 2023 – Sep 2026 is 3 yrs 2 mos.
+ * like the resume: Aug 2023 – Sep 2026 is 3 yrs 2 mos. Leave out the end for a current role: it shows
+ * "Present" and counts to the month of the build.
  */
-function tenure(start: string, end: string) {
+function tenure(start: string, end?: string) {
   const s = parseMonth(start);
-  const e = parseMonth(end);
+  const now = new Date();
+  const e = end ? parseMonth(end) : { year: now.getFullYear(), month: now.getMonth() + 1 };
   const total = (e.year - s.year) * 12 + (e.month - s.month) + 1;
   const years = Math.floor(total / 12);
   const months = total % 12;
   const duration = [years ? `${years} ${years === 1 ? "yr" : "yrs"}` : "", months ? `${months} ${months === 1 ? "mo" : "mos"}` : ""]
     .filter(Boolean)
     .join(" ");
-  return { dates: `${MONTHS[s.month - 1]} ${s.year} – ${MONTHS[e.month - 1]} ${e.year}`, duration };
+  const to = end ? `${MONTHS[e.month - 1]} ${e.year}` : "Present";
+  return { dates: `${MONTHS[s.month - 1]} ${s.year} – ${to}`, duration };
 }
 
 export type ExperienceItem = {
   company: string;
   title: string;
-  /** "Aug 2023 – Sep 2026"; set with tenure() so it always agrees with duration. */
+  /** "Aug 2023 – Sep 2026" or "Aug 2023 – Present"; set with tenure() so it always agrees with duration. */
   dates: string;
   /** "3 yrs 2 mos" */
   duration: string;
@@ -74,7 +77,7 @@ export const experience: ExperienceItem[] = [
   {
     company: "Shivam Enterprises",
     title: "Software Engineer (Full-Stack & Applied AI)",
-    ...tenure("2023-08", "2026-09"),
+    ...tenure("2023-08"),
     location: "Pune, India",
     summary:
       "Architected a multi-tenant Campus ERP ecosystem (.NET 10, React) and three satellite platforms serving 8,000+ users at sub-400ms p95 peak latency, alongside the platform's Python/FastAPI LLM & RAG microservice.",
