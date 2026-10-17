@@ -212,32 +212,50 @@ export const flagship: Project = {
 
 export const projects: Project[] = [
   {
-    name: "NextTube",
+    name: "PagerSage",
+    subtitle: "Multi-Agent Incident Response over a Company Knowledge Graph",
     summary:
-      "End-to-end video ingestion and streaming pipeline with Mux adaptive playback and local LLM workers (Ollama) for automated metadata generation.",
+      "An incident brain: when an alert fires, Claude agents walk a graph of services, deploys, commits, people and past incidents to find the likely root-cause change, page the owner, and cite the last time it happened.",
     highlights: [
-      "Built an asynchronous media ingestion pipeline integrating Mux for transcoding/HLS streaming and Upstash Redis for rate-limiting and state caching.",
-      "Integrated local LLM inference via Ollama to automatically generate contextual titles, descriptions, and thumbnail prompts from video transcripts.",
+      {
+        lead: "Multi-Agent Root Cause:",
+        text: "Built a FastAPI agent pipeline (Triage, Investigator, Historian, Responder, Scribe) that computes blast radius, ranks suspect deploys and config changes, and takes the cheapest path to them through the services that are sick right now.",
+      },
+      {
+        lead: "Graph Memory:",
+        text: "FalkorDB is the only datastore: company graph, 90 days of history, agent memory and handoffs; similar past incidents come from local vector search (fastembed) reranked by what the graph knows, with the runbook that worked most often.",
+      },
+      {
+        lead: "War Room & Company Brain:",
+        text: "Next.js war room streams every tool call, decision and handoff live over the graph canvas; agents page on-call on Discord, open GitHub issues with the suspect commit, and write postmortems that re-rank runbooks. Ask “what breaks if checkout-api goes down?” and get an answer with evidence nodes linked.",
+      },
     ],
-    stack: ["React", "TypeScript", "Next.js", "tRPC", "Upstash", "Uploadthing", "TailwindCSS", "Better-Auth", "DrizzleORM", "PostgreSQL", "Mux", "Ollama"],
-    image: { src: "/nexttube.png", width: 1897, height: 910 },
-    links: [
-      { label: "GitHub", href: "https://github.com/MaheshMoholkar/nexttube" },
-      { label: "Live", href: "https://nexttube-black.vercel.app/" },
-    ],
+    stack: ["Python", "FastAPI", "Claude (Haiku + Sonnet)", "FalkorDB", "fastembed", "Next.js", "TypeScript", "TailwindCSS", "Docker"],
+    image: { src: "/pagersage.png", width: 1600, height: 1150 },
+    links: [{ label: "GitHub", href: "https://github.com/MaheshMoholkar/pagersage" }],
   },
   {
-    name: "Ignite+ LMS",
-    summary: "Full-stack learning platform with webhook-verified Razorpay checkout flows, AWS S3 media delivery, and Redis caching.",
+    name: "Echo",
+    subtitle: "Embeddable AI Customer Support: Chat + Voice",
+    summary:
+      "AI customer support you embed on a website: a chat and voice widget answered by an agent that searches the business's knowledge base and hands off to a human operator when needed.",
     highlights: [
-      "Engineered RBAC authentication (Better-Auth), transactional Razorpay payment webhooks, signed AWS S3 asset delivery, and Redis-cached course progress tracking.",
+      {
+        lead: "Grounded Agent:",
+        text: "PydanticAI agents on FastAPI answer from a per-organization knowledge base (PDF, Word, Markdown, HTML, OCR for scanned files) using pgvector search, streaming replies and escalating to a person on request.",
+      },
+      {
+        lead: "Real-Time Voice:",
+        text: "Pipecat voice bot with Silero VAD, Smart Turn v3, Whisper and Kokoro running locally on MLX, with live captions in the widget.",
+      },
+      {
+        lead: "Operator Inbox:",
+        text: "Next.js dashboard where operators see every chat and call transcript, take over from the AI, hand back and resolve; Better Auth organizations with JWTs verified by FastAPI.",
+      },
     ],
-    stack: ["React", "Next.js", "TypeScript", "TailwindCSS", "Better-Auth", "Razorpay", "Shadcn/ui", "Prisma", "PostgreSQL", "Redis", "AWS S3"],
-    image: { src: "/ignite-lms.png", width: 1899, height: 937 },
-    links: [
-      { label: "GitHub", href: "https://github.com/MaheshMoholkar/ignite-plus-lms" },
-      { label: "Live", href: "https://ignite-plus-lms.vercel.app/" },
-    ],
+    stack: ["Python", "FastAPI", "PydanticAI", "SQLAlchemy", "PostgreSQL (pgvector)", "Ollama", "Pipecat", "Whisper", "Next.js", "shadcn/ui", "Better-Auth"],
+    image: { src: "/echo.png", width: 2880, height: 1800 },
+    links: [{ label: "GitHub", href: "https://github.com/MaheshMoholkar/echo" }],
   },
 ];
 
