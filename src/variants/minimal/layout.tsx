@@ -5,10 +5,8 @@ import "./minimal.css";
 export { metadata } from "../shared/metadata";
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
-  ],
+  // Light until the visitor picks dark, so the browser bar matches the default page
+  themeColor: "#ffffff",
 };
 
 export default function Layout({

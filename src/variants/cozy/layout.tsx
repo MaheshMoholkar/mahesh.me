@@ -18,10 +18,8 @@ const geist = Geist({
 });
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fbf6ee" },
-    { media: "(prefers-color-scheme: dark)", color: "#1b1512" },
-  ],
+  // Light until the visitor picks dark, so the browser bar matches the default page
+  themeColor: "#fbf6ee",
 };
 
 export default function Layout({
