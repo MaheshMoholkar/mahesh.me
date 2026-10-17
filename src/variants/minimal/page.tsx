@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import {
+  education,
   EMAIL,
   experience,
   flagship,
@@ -12,8 +13,8 @@ import {
   type Highlight,
   type Project,
 } from "@/content/site";
-import { ChevronIcon, FileIcon, GitHubIcon, GlobeIcon, LinkedInIcon, MailIcon, XIcon } from "./icons";
-import { LocalTime } from "./LocalTime";
+import { ChevronIcon, FileIcon, GitHubIcon, GlobeIcon, LinkedInIcon, MailIcon, XIcon } from "../shared/icons";
+import { LocalTime } from "../shared/LocalTime";
 import { ThemeToggle } from "./ThemeToggle";
 
 const social = Object.fromEntries(SOCIALS.map((s) => [s.label, s.href]));
@@ -28,6 +29,20 @@ function InlineLink({ href, icon, children, download }: { href: string; icon: Re
       {icon}
       {children}
     </a>
+  );
+}
+
+/** A row title whose chevron stays glued to the last word, so a wrapped title never leaves it alone on a line. */
+function Title({ text }: { text: string }) {
+  const cut = text.lastIndexOf(" ") + 1;
+  return (
+    <span className="item__title">
+      {text.slice(0, cut)}
+      <span className="item__last">
+        {text.slice(cut)}
+        <ChevronIcon />
+      </span>
+    </span>
   );
 }
 
@@ -57,10 +72,7 @@ function ProjectItem({ project }: { project: Project }) {
         <summary className="item__row">
           <Image className="thumb" src={project.image.src} alt="" width={36} height={36} sizes="36px" />
           <span className="item__main">
-            <span className="item__title">
-              {project.name}
-              <ChevronIcon />
-            </span>
+            <Title text={project.name} />
             <span className="item__desc">{project.summary}</span>
           </span>
         </summary>
@@ -148,10 +160,7 @@ export default function Page() {
                   {exp.company[0]}
                 </span>
                 <span className="item__main">
-                  <span className="item__title">
-                    {exp.company}
-                    <ChevronIcon />
-                  </span>
+                  <Title text={exp.company} />
                   <span className="item__sub">{exp.title}</span>
                 </span>
                 <span className="item__meta">
@@ -197,10 +206,31 @@ export default function Page() {
         </dl>
       </section>
 
+      <section className="section">
+        <h2># education</h2>
+        {education.map((e) => (
+          <div key={e.degree} className="item">
+            <div className="item__row item__row--static">
+              <span className="mark" aria-hidden="true">
+                {e.school[0]}
+              </span>
+              <span className="item__main">
+                <span className="item__title">{e.degree}</span>
+                <span className="item__sub">{e.school}</span>
+              </span>
+              <span className="item__meta">
+                <span>{e.years}</span>
+                <span>{e.result}</span>
+              </span>
+            </div>
+          </div>
+        ))}
+      </section>
+
       <footer className="foot">
         <span>
           {hero.location}
-          <LocalTime />
+          <LocalTime className="foot__time" />
         </span>
         <span>
           © {new Date().getFullYear()} {hero.name}

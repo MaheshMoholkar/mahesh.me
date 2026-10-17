@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# maheshmoholkar.in
 
-## Getting Started
+Mahesh Moholkar's portfolio: one content file, three designs to choose from. Built with Next.js 15 (App Router).
 
-First, run the development server:
+## Run it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # production build of the active variant
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Variants
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Every variant reads the same content from `src/content/site.ts`, so an edit there updates all of them. The site builds with one variant at a time:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variant   | Folder                  | Look |
+| --------- | ----------------------- | ---- |
+| `boxy`    | `src/variants/boxy`     | 2px ink borders, four tones (blue, mint, pink, yellow), mono labels, rows that open into modals; the whole page fits one desktop screen. Light and dark. |
+| `cozy`    | `src/variants/cozy`     | Warm paper, Fraunces display type, rounded cards, a timeline, hard offset shadows on buttons; the long-form page with education, certificates and side projects. Light and dark. |
+| `minimal` | `src/variants/minimal`  | One narrow column, small type, a grey hierarchy, rows that expand in place. Light and dark. |
 
-## Learn More
+```bash
+npm run variant            # list variants, * marks the active one
+npm run variant cozy       # build with cozy from now on (restart `npm run dev` afterwards)
+```
 
-To learn more about Next.js, take a look at the following resources:
+The switch rewrites the one export in `src/site.config.ts`. It is a re-export rather than a runtime setting so that only the chosen variant's code, fonts and global CSS end up in the build.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To compare them, build all three into one page that shows them side by side (desktop or phone width, light or dark):
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run preview            # about two minutes; writes out/preview/
+npx serve out/preview
+```
 
-## Deploy on Vercel
+Shared pieces live in `src/variants/shared`: page metadata, the light/dark script and hook (also bound to the <kbd>D</kbd> key), Pune's local clock and the icon set.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Content
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/content/site.ts`: hero, experience, projects, side projects, skills, education, certificates and the page title and description.
+- `public/`: screenshots, logos, the portrait and `Mahesh-Moholkar-Resume.pdf`.
+- `resume/`: LaTeX sources for the resume. Rebuild the PDF and replace the one in `public/` when it changes.

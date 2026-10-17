@@ -1,4 +1,4 @@
-/* Mahesh Moholkar — generated from tokens.json. The .type-* classes at the end are optional text-style helpers; the components do not need them. */
+/* Mahesh Moholkar — Boxy tokens. Light first; :root[data-theme="dark"] overrides the colors only. The .type-* classes at the end are optional text-style helpers; the components do not need them. */
 :root {
   color-scheme: light;
   --surface: #F4F2EC;
@@ -8,13 +8,27 @@
   --ink-muted: #47464D;
   --blue: #5C8DFF;
   --blue-text: #1E44D8;
+  --on-blue-text: #FFFFFF;
   --yellow: #FFD23F;
   --mint: #7BE3B8;
   --pink: #FF9FC8;
   --on-fill: #0B0B0C;
+  --backdrop: rgb(11 11 12 / 0.5);
   --focus: var(--ink);
-  --shadow-hard: 4px 4px 0 0 #0B0B0C;
-  --shadow-hard-lg: 8px 8px 0 0 #0B0B0C;
+  --shadow-hard: 4px 4px 0 0 var(--ink);
+  --shadow-hard-lg: 8px 8px 0 0 var(--ink);
+}
+/* Dark: the cream turns to ink and the ink to cream; the four tones keep their value and keep dark text on them */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #121211;
+  --surface-raised: #1C1C1A;
+  --surface-sunken: #2B2A27;
+  --ink: #F4F2EC;
+  --ink-muted: #B4B1A8;
+  --blue-text: #7FA6FF;
+  --on-blue-text: #0B0B0C;
+  --backdrop: rgb(0 0 0 / 0.66);
 }
 :root {
   --space-1: 4px;

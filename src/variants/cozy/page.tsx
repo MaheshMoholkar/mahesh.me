@@ -1,1042 +1,372 @@
-"use client";
-
 import Image from "next/image";
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import type { CSSProperties, ReactNode } from "react";
+import {
+  certificates,
+  education,
+  EMAIL,
+  experience,
+  flagship,
+  hero,
+  projects,
+  RESUME_PDF,
+  sideProjects,
+  SOCIALS,
+  stackIndex,
+  type Link,
+  type Project,
+  type SideProject,
+} from "@/content/site";
+import { ArrowRightIcon, ArrowUpRightIcon, DownloadIcon, GitHubIcon, LinkedInIcon, MailIcon, XIcon } from "../shared/icons";
+import { LocalTime } from "../shared/LocalTime";
+import { Highlights } from "./Highlights";
+import { ThemeButton } from "./ThemeButton";
 
-// Compiled from resume-nextjs-python-ai.tex; replace the file in public/ when the resume changes
-const RESUME_PDF = "/Mahesh-Moholkar-Resume.pdf";
+// Side projects shown before "Show more"
+const SIDE_VISIBLE = 3;
 
-const currentMonthYear = new Date().toLocaleString("default", {
-  month: "short",
-  year: "numeric",
-});
-
-const calculateDurationInMonths = (
-  start: { year: number; month: number },
-  end: Date = new Date()
-) => {
-  const totalMonthsStart = start.year * 12 + start.month;
-  const totalMonthsEnd = end.getFullYear() * 12 + end.getMonth();
-  const diff = totalMonthsEnd - totalMonthsStart + 1;
-  return Math.max(1, diff);
+const SOCIAL_ICONS: Record<string, (p: { className?: string }) => ReactNode> = {
+  GitHub: GitHubIcon,
+  LinkedIn: LinkedInIcon,
+  X: XIcon,
 };
 
-const formatDuration = (totalMonths: number) => {
-  const years = Math.floor(totalMonths / 12);
-  const months = totalMonths % 12;
-  const parts = [];
+/** Stagger index for the hero's rise-in animation. */
+const at = (i: number) => ({ "--i": i }) as CSSProperties;
 
-  if (years) {
-    parts.push(`${years} year${years > 1 ? "s" : ""}`);
-  }
-
-  if (months) {
-    parts.push(`${months} month${months > 1 ? "s" : ""}`);
-  }
-
-  return parts.join(" ");
-};
-
-const projects = [
-  {
-    name: "Vyavasay AI ERP",
-    status: "Completed",
-    date: "2026",
-    description:
-      "Multi-tenant GST billing and inventory SaaS for Indian SMEs: quote-to-cash and purchase cycles, GST (CGST/SGST/IGST, HSN, GSTR returns), double-entry GL, multi-location inventory with batch/expiry, online storefront and Expo mobile app; LLM bill OCR and pgvector image search; ADR-driven design with 370+ integration test files (Testcontainers).",
-    tech: [
-      ".NET 10",
-      "EF Core",
-      "React",
-      "TypeScript",
-      "TanStack Router",
-      "Expo",
-      "PostgreSQL",
-      "pgvector",
-      "Hangfire",
-      "SignalR",
-      "LLM APIs",
-      "Docker",
-      "Railway",
-    ],
-    website: "https://vyavasayapp.in",
-    image: "/vyavasay.png",
-  },
-  {
-    name: "Slack",
-    status: "Completed",
-    date: "2026",
-    description:
-      "A full-stack Slack-style team chat application with channels, direct messages, threaded conversations, reactions, and real-time updates over WebSockets. Built with React + Vite frontend and Spring Boot backend, with split Docker deployment for UI and API.",
-    tech: [
-      "React",
-      "Vite",
-      "TypeScript",
-      "Spring Boot",
-      "Java",
-      "PostgreSQL",
-      "WebSocket",
-      "SockJS",
-      "Docker",
-      "Nginx",
-    ],
-    website: "https://slack-app.up.railway.app/",
-    source: "https://github.com/MaheshMoholkar/slack",
-    image: "/slackhome.png",
-  },
-  {
-    name: "NextTube",
-    status: "Completed",
-    date: "2025",
-    description:
-      "A video streaming platform built with Next.js, tRPC, DrizzleORM, PostgreSQL, Mux, and Ollama. Features video upload, streaming, and user authentication. AI-generated thumbnails, titles and descriptions.",
-    tech: [
-      "React",
-      "TypeScript",
-      "Next.js",
-      "tRPC",
-      "Upstash",
-      "Uploadthing",
-      "TailwindCSS",
-      "Better-Auth",
-      "DrizzleORM",
-      "PostgreSQL",
-      "Mux",
-      "Ollama",
-    ],
-    website: "https://nexttube-black.vercel.app/",
-    source: "https://github.com/MaheshMoholkar/nexttube",
-    image: "/nexttube.png",
-  },
-  {
-    name: "Ignite+ LMS",
-    status: "Completed",
-    date: "2025",
-    description:
-      "A comprehensive Learning Management System built with Next.js and modern web technologies. Features course management, user authentication with Better-Auth, payment integration with Razorpay, and a scalable architecture with Prisma, PostgreSQL, Redis, and AWS S3.",
-    tech: [
-      "React",
-      "Next.js",
-      "TypeScript",
-      "TailwindCSS",
-      "Framer Motion",
-      "Better-Auth",
-      "Razorpay",
-      "Shadcn/ui",
-      "Prisma",
-      "PostgreSQL",
-      "Redis",
-      "AWS S3",
-    ],
-    website: "https://ignite-plus-lms.vercel.app/",
-    source: "https://github.com/MaheshMoholkar/ignite-plus-lms",
-    image: "/ignite-lms.png",
-  },
-  {
-    name: "AdFlow",
-    status: "Completed",
-    date: "2026",
-    description:
-      "A call automation platform monorepo with Go API, Flutter Android app for call detection and SMS follow-ups, React admin console, and Next.js public landing pages. Includes template/rules management, contact sync, and deployment with Docker.",
-    tech: [
-      "Go",
-      "Flutter",
-      "React",
-      "Next.js",
-      "TypeScript",
-      "PostgreSQL",
-      "Docker",
-      "TailwindCSS",
-    ],
-    website: "https://adflowapp.vercel.app/",
-    source: "https://github.com/MaheshMoholkar/adflow",
-    image: "/adflow.png",
-  },
-
-  {
-    name: "3D Portfolio",
-    status: "Completed",
-    date: "2025",
-    description:
-      "An immersive 3D portfolio website built with React, Vite, and Three.js. Features interactive 3D elements, smooth animations with Framer Motion, modern UI components from Aceternity UI and Magic UI, and a dynamic tech stack showcase.",
-    tech: [
-      "React",
-      "Vite",
-      "TypeScript",
-      "TailwindCSS",
-      "Framer Motion",
-      "Three.js",
-      "React Three Fiber",
-      "Drei",
-      "Aceternity UI",
-      "Magic UI",
-    ],
-    website: "https://mahesh-moholkar.vercel.app/",
-    source: "https://github.com/MaheshMoholkar/mahesh.moholkar",
-    image: "/3d-portfolio.png",
-  },
-  {
-    name: "Dark Blockchain SaaS Website",
-    status: "Completed",
-    date: "2025",
-    description:
-      "A blockchain SaaS landing page built with Astro.js and modern web technologies. Also includes blogs section.",
-    tech: ["React", "Astro.js", "TypeScript", "TailwindCSS", "Framer Motion"],
-    website: "https://blockforge-one.vercel.app/",
-    source: "https://github.com/MaheshMoholkar/blockforge",
-    image: "/blockforge.png",
-  },
-  {
-    name: "SaaS Landing Page",
-    status: "Completed",
-    date: "2025",
-    description:
-      "A modern, responsive SaaS landing page built with React, Next.js, TailwindCSS & Framer Motion. Clean design with smooth animations and professional layout.",
-    tech: ["React", "Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
-    website: "https://light-productivity-app.vercel.app/",
-    source: "https://github.com/MaheshMoholkar/landing-page-one",
-    image: "/light-productivity.png",
-  },
-
-  {
-    name: "Dark Theme SaaS Landing Page",
-    status: "Completed",
-    date: "2025",
-    description:
-      "A sophisticated dark-themed SaaS landing page with modern UI/UX design. Clean dark interface with smooth animations and professional layout.",
-    tech: ["React", "Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
-    website: "https://dark-productivity-app.vercel.app/",
-    source: "https://github.com/MaheshMoholkar/landing-page-two",
-    image: "/dark-productivity.png",
-  },
-  {
-    name: "AI SEO Landing Page",
-    status: "Completed",
-    date: "2025",
-    description:
-      "An AI-powered SEO landing page with modern design and user testimonials. Clean interface with smooth animations and professional layout.",
-    tech: ["React", "Next.js", "TypeScript", "TailwindCSS", "Framer Motion"],
-    website: "https://ai-seo-app-one.vercel.app/",
-    source: "https://github.com/MaheshMoholkar/landing-page-three",
-    image: "/ai-seo.png",
-  },
-  {
-    name: "Cozy",
-    status: "Completed",
-    date: "2024",
-    description:
-      "A modern interior design landing page built with React, Vite, and TailwindCSS. Elegant design with smooth animations and responsive layout.",
-    tech: ["React", "Vite", "TypeScript", "TailwindCSS", "Framer Motion"],
-    website: "https://cozy-inky.vercel.app/",
-    source: "https://github.com/MaheshMoholkar/cozy",
-    image: "/cozy.png",
-  },
-];
-
-const experience = [
-  {
-    company: "Shivam Enterprises",
-    role: "Full-Stack Developer",
-    date: `Aug 2023 - ${currentMonthYear}`,
-    duration: formatDuration(
-      calculateDurationInMonths({ year: 2023, month: 7 })
-    ),
-    location: "Pune, India",
-    description:
-      "Built a Campus ERP for a university and its affiliated colleges on .NET 10 + React: one platform with colleges as tenants, serving 8000+ users.",
-    highlights: [
-      "Brought p95 under 400 ms at k6 peak load with Redis HybridCache.",
-      "Built two separate LLM projects on Python/FastAPI (PostgreSQL + pgvector): a helpdesk assistant answering from policies and circulars with citations, and Campus Support, a Next.js service desk for staff requests to the dev team where an LLM checks ticket completeness, classifies requests and suggests the assignee with confidence gating; added natural-language report queries and document extraction to the main ERP.",
-      "Built the RAG and evaluation pipeline: hybrid retrieval (pgvector + BM25, reciprocal-rank fusion, reranking), tool calls with per-user access checks for personal data, golden-set evals with LLM-as-judge in CI.",
-      "Built shared auth (JWT, role- and menu-based access control) and notification (outbox + Hangfire workers: SendGrid email, SMS and push with retries and delivery tracking) microservices used by every ERP.",
-      "Built separate Admissions, Management and Procurement ERPs (7-stage admissions pipeline; directors' console across all colleges; vendor portal, quotations, indents), each with its own database: React UI, .NET 10 REST APIs, EF Core schema and migrations, using the shared auth and notification microservices.",
-      "Built the React/TypeScript UI for the main ERP's exams, fees, HR, attendance, LMS and research modules with typed API clients; worked with the backend team on API contracts.",
-      "Set up Serilog with correlation IDs, OpenTelemetry/Grafana, a HealthChecks dashboard and Azure DevOps CI/CD with Testcontainers tests and Docker builds; wrote ADRs and the onboarding runbook; mentored interns.",
-    ],
-    tech: [
-      ".NET 10",
-      "EF Core",
-      "React",
-      "TypeScript",
-      "SQL Server",
-      "Redis",
-      "Hangfire",
-      "SendGrid",
-      "JWT",
-      "Python",
-      "FastAPI",
-      "Next.js",
-      "PostgreSQL",
-      "pgvector",
-      "LLM APIs",
-      "Serilog",
-      "OpenTelemetry",
-      "Docker",
-      "Azure DevOps",
-    ],
-    logo: "/logo.svg",
-  },
-  {
-    company: "Vision - Multi-tenant SaaS ERP for GCC SMEs",
-    role: "Frontend Developer (Part-time, Remote)",
-    date: "Jan 2025 - Jun 2026",
-    duration: formatDuration(
-      calculateDurationInMonths(
-        { year: 2025, month: 0 },
-        new Date(2026, 5)
-      )
-    ),
-    location: "Kuwait (Remote)",
-    description:
-      "Built the React 18 + TypeScript client (Vite) for a multi-tenant GCC ERP: quotation, sales order, delivery note, invoice, returns, purchase order and bill screens, inventory, parties and VAT-aware totals as typed forms (React Hook Form + Zod) with state-driven edit/post/void actions.",
-    highlights: [
-      "Owned the client data layer: TanStack Router (loaders, search-param filters), TanStack Query with per-document cache invalidation and optimistic updates, Zustand for session state, real-time notifications over WebSockets.",
-      "Shipped a bilingual English/Arabic RTL-first UI (i18next, shadcn/Radix + Tailwind design system), permission-manifest-driven navigation, printable document views and a shared component library reused across the web app, public storefront and admin app.",
-      "Kept quality high with Vitest + Testing Library (290+ test files), Playwright smoke tests, strict TypeScript and ESLint; GitHub Actions CI with Docker builds deployed on AWS.",
-    ],
-    tech: [
-      "React 18",
-      "TypeScript",
-      "Vite",
-      "TanStack Router",
-      "TanStack Query",
-      "Zustand",
-      "React Hook Form",
-      "Zod",
-      "Tailwind CSS",
-      "shadcn/Radix",
-      "i18next",
-      "Vitest",
-      "Playwright",
-      "Docker",
-      "GitHub Actions",
-      "AWS",
-    ],
-    logo: "/vision.png",
-  },
-  {
-    company: "Cloud Native Computing Foundation (CNCF)",
-    role: "Fellowship - Zero to Merge Program",
-    date: "Aug 2023 - Sep 2023",
-    duration: formatDuration(
-      calculateDurationInMonths(
-        { year: 2023, month: 7 },
-        new Date(2023, 8)
-      )
-    ),
-    location: "Remote",
-    description:
-      "CNCF mentored open-source program (Incubator Badge): scoped issues with maintainers and submitted PRs to Kubernetes-ecosystem projects in Go.",
-    highlights: [
-      "Bug fix merged into Ockam (Rust); documentation contributions to Kubernetes SIGs and EvalML.",
-    ],
-    tech: ["Go", "Rust", "Kubernetes", "Open Source"],
-    link: "https://www.credly.com/badges/c439e57f-40af-461d-af6f-561de418046f",
-    logo: "/cncf.jpeg",
-  },
-];
-
-const education = [
-  {
-    degree: "Master's in Computer Application",
-    institution: "Dr. D. Y. Patil Institute of Management and Research",
-    date: "2022 - 2024",
-    location: "Pune India",
-    details: "Graduated with 8 CGPA",
-  },
-  {
-    degree: "Bachelor's In Computer Science",
-    institution: "B.P .H.E Society's Ahmednagar College",
-    date: "2020 - 2022",
-    location: "Ahmadnagar, India",
-    details: "Graduated with 8.56 CGPA",
-  },
-];
-
-const skills = [
-  "Python",
-  "FastAPI",
-  "Pydantic",
-  "C#",
-  ".NET 10",
-  "EF Core",
-  "SignalR",
-  "Hangfire",
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Vite",
-  "TanStack Query",
-  "TanStack Router",
-  "Zustand",
-  "React Hook Form",
-  "Zod",
-  "MUI",
-  "Tailwind CSS",
-  "Radix UI",
-  "i18next",
-  "React Native (Expo)",
-  "LLM APIs",
-  "RAG",
-  "pgvector",
-  "NL-to-SQL",
-  "SQL Server",
-  "PostgreSQL",
-  "Redis",
-  "Docker",
-  "AWS",
-  "Azure DevOps",
-  "GitHub Actions",
-  "Railway",
-  "Serilog",
-  "OpenTelemetry",
-  "Grafana",
-  "xUnit",
-  "pytest",
-  "Testcontainers",
-  "Vitest",
-  "k6",
-  "Playwright",
-  "Go",
-];
-
-const certificates = [
-  {
-    title: "Introduction to Web Development",
-    issuedBy: "EDX",
-    from: "IBM",
-    link: "https://courses.edx.org/certificates/8c6839bc8e4240a2a59b3ec2cedb0180",
-  },
-  {
-    title: "Introduction to Linux",
-    issuedBy: "EDX",
-    from: "The Linux Foundation",
-    link: "https://courses.edx.org/certificates/e5034ac1683444a885d05c8bfe051a3f",
-  },
-  {
-    title: "Meta Back-End Developer",
-    issuedBy: "Coursera",
-    from: "Meta",
-    link: "https://www.coursera.org/account/accomplishments/specialization/ZHWRF7MG4VDG",
-  },
-  {
-    title: "Introduction to Cloud Computing",
-    issuedBy: "EDX",
-    from: "IBM",
-    link: "https://courses.edx.org/certificates/1dfc8f25fa8f4a0b82a788ad76307c21",
-  },
-  {
-    title: "Rust Programming",
-    issuedBy: "Coursera",
-    from: "Duke University",
-    link: "https://www.coursera.org/account/accomplishments/specialization/KLANCTJBOT8F",
-  },
-];
-
-const SOCIALS = [
-  {
-    href: "mailto:mahesh.moholkar.dev@gmail.com",
-    label: "Email",
-    icon: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-      </svg>
-    ),
-  },
-  {
-    href: "https://github.com/maheshmoholkar",
-    label: "GitHub",
-    icon: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-      </svg>
-    ),
-  },
-  {
-    href: "https://linkedin.com/in/mahesh1822",
-    label: "LinkedIn",
-    icon: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-      </svg>
-    ),
-  },
-  {
-    href: "https://x.com/maheshstwt",
-    label: "X",
-    icon: (
-      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-      </svg>
-    ),
-  },
-];
-
-const ExternalLinkIcon = () => (
-  <svg
-    className="w-4 h-4"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-    />
-  </svg>
-);
-
-// Highlights shown on phones before the "Show more" toggle; desktop shows all
-const MOBILE_HIGHLIGHT_COUNT = 2;
-
-function ExperienceCard({ exp }: { exp: (typeof experience)[number] }) {
-  const [expanded, setExpanded] = useState(false);
-  const extraHighlights = exp.highlights.length - MOBILE_HIGHLIGHT_COUNT;
-  // Hiding a single highlight saves less space than the toggle takes
-  const collapsible = extraHighlights > 1;
-
+function ExtLink({ label, href }: Link) {
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow relative">
-      <div className="mb-3 w-fit md:mb-0 md:absolute md:top-4 md:right-4">
-        <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-md font-medium border border-gray-200">
-          {exp.duration}
-        </span>
-      </div>
-      <div className="flex items-center gap-3 mb-3">
-        <Image
-          src={exp.logo}
-          alt={`${exp.company} logo`}
-          className="w-8 h-8 rounded-full"
-          width={32}
-          height={32}
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
-          }}
-        />
-        <div>
-          <span className="text-sm text-gray-600 font-semibold">
-            {exp.company}
-          </span>
-          {exp.role && <p className="text-xs text-gray-500">{exp.role}</p>}
-        </div>
-      </div>
-      <div className="flex flex-wrap gap-2 mb-3">
-        <span className="text-sm text-gray-500 font-medium">{exp.date}</span>
-        <span className="text-sm text-gray-400">•</span>
-        <span className="text-sm text-gray-400">{exp.location}</span>
-      </div>
-      <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-3">
-        {exp.description}
-      </p>
-      <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700 mb-3 md:mb-4">
-        {exp.highlights.map((h, i) => (
-          <li
-            key={i}
-            className={
-              collapsible && !expanded && i >= MOBILE_HIGHLIGHT_COUNT
-                ? "hidden md:list-item"
-                : undefined
-            }
-          >
-            {h}
-          </li>
-        ))}
-      </ul>
-      {collapsible && (
-        <button
-          type="button"
-          onClick={() => setExpanded(!expanded)}
-          aria-expanded={expanded}
-          className="relative z-10 md:hidden mb-3 min-h-11 text-sm font-bold text-gray-600 hover:text-gray-900 underline underline-offset-4"
-        >
-          {expanded ? "Show less" : `Show ${extraHighlights} more`}
-        </button>
-      )}
-      <div className="flex flex-wrap gap-2">
-        {exp.tech.map((tech, i) => (
-          <span
-            key={tech + i}
-            className="text-xs bg-gray-100 text-gray-700 px-2 md:px-3 py-1 rounded-lg font-medium border border-gray-200"
-          >
-            {tech}
-          </span>
-        ))}
-      </div>
-      {exp.link && (
-        <div className="mt-4">
-          {/* Stretched link: the ::after overlay makes the whole card clickable */}
-          <a
-            href={exp.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm after:absolute after:inset-0"
-          >
-            View Credential
-            <ExternalLinkIcon />
-          </a>
-        </div>
-      )}
-    </div>
+    <a className="link" href={href} target="_blank" rel="noopener noreferrer">
+      {label}
+      <ArrowUpRightIcon />
+    </a>
   );
 }
 
-export default function Home() {
-  const [showAllProjects, setShowAllProjects] = useState(false);
-  const displayedProjects = showAllProjects ? projects : projects.slice(0, 4);
+function Chips({ items }: { items?: string[] }) {
+  if (!items?.length) return null;
+  return (
+    <ul className="chips">
+      {items.map((t) => (
+        <li key={t} className="chip">
+          {t}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Section({ id, title, note, children }: { id: string; title: string; note?: string; children: ReactNode }) {
+  return (
+    <section id={id} className="section" aria-labelledby={`${id}-title`}>
+      <header className="section__head">
+        <h2 id={`${id}-title`} className="section__title">
+          {title}
+        </h2>
+        {note ? <p className="section__note">{note}</p> : null}
+      </header>
+      {children}
+    </section>
+  );
+}
+
+/** A screenshot that opens the project's first link; the card's own links stay separate. */
+function Shot({ project, sizes, priority }: { project: { name: string; image: { src: string; width: number; height: number }; links: Link[] }; sizes: string; priority?: boolean }) {
+  const live = project.links.find((l) => l.label === "Live") ?? project.links[0];
+  return (
+    <a className="shot" href={live.href} target="_blank" rel="noopener noreferrer" tabIndex={-1} aria-hidden="true">
+      <Image src={project.image.src} alt="" width={project.image.width} height={project.image.height} sizes={sizes} priority={priority} />
+    </a>
+  );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <article className="card project reveal">
+      <Shot project={project} sizes="(max-width: 620px) 100vw, (max-width: 1080px) 50vw, 520px" />
+      <div className="project__body">
+        <h3 className="project__title">{project.name}</h3>
+        <p className="project__summary">{project.summary}</p>
+        <Chips items={project.stack} />
+        <div className="links">
+          {project.links.map((l) => (
+            <ExtLink key={l.href} {...l} />
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function SideCard({ project }: { project: SideProject }) {
+  return (
+    <article className="card mini reveal">
+      {/* Side projects have no recorded size; every screenshot is wider than the card, so a 16:10 box is enough */}
+      <Shot project={{ ...project, image: { src: project.image, width: 1600, height: 1000 } }} sizes="(max-width: 620px) 100vw, (max-width: 900px) 50vw, 340px" />
+      <div className="mini__body">
+        <div className="mini__head">
+          <h4 className="mini__title">{project.name}</h4>
+          <span className="mini__year">{project.year}</span>
+        </div>
+        <p className="mini__summary">{project.summary}</p>
+        <p className="mini__stack">{project.stack.join(" · ")}</p>
+        <div className="links links--small">
+          {project.links.map((l) => (
+            <ExtLink key={l.href} {...l} />
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export default function Page() {
+  const year = new Date().getFullYear();
+  const hidden = sideProjects.length - SIDE_VISIBLE;
 
   return (
-    <main className="min-h-screen bg-white text-gray-900 font-sans">
-      {/* Hero Section */}
-      <section className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto] md:min-h-[600px] gap-10 lg:gap-16 pt-20">
-          {/* Text section */}
-          <div className="flex flex-col justify-center gap-7 text-center md:text-left">
-            <motion.h1
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl md:text-6xl font-bold font-serif text-gray-900"
-            >
-              MAHESH MOHOLKAR
-            </motion.h1>
-            <motion.h2
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xl md:text-2xl font-semibold text-gray-600"
-            >
-              Full Stack Developer
-            </motion.h2>
-            <motion.p
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-sm md:text-base text-gray-500 leading-7 max-w-3xl"
-            >
-              Full-stack developer with 3+ years on .NET and React: built a
-              Campus ERP for a university and its affiliated colleges serving
-              8000+ users, with shared auth and notification microservices,
-              tenant-scoped data, Redis caching, observability and CI/CD. Also
-              build LLM projects on Python/FastAPI and Next.js: a
-              retrieval-augmented helpdesk assistant, a service desk with LLM
-              ticket routing, natural-language reporting and document
-              extraction, with evals in CI.
-            </motion.p>
-            <div className="flex justify-center md:justify-start gap-4 mt-4">
-              {SOCIALS.map((s, index) => (
-                <motion.a
-                  key={s.href}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  initial={{ y: 50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.8 + index * 0.1 }}
-                  className="inline-block p-3 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow text-gray-600 hover:text-gray-900"
-                >
-                  {s.icon}
-                </motion.a>
-              ))}
-            </div>
-            <motion.div
-              initial={{ y: 50, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1.2 }}
-              className="mt-6 flex flex-wrap justify-center md:justify-start gap-4"
-            >
-              <a
-                href="mailto:mahesh.moholkar.dev@gmail.com"
-                className="px-8 py-4 bg-black text-white font-bold uppercase shadow-[5px_5px_0px_0px_#6c6c6c] hover:shadow-[7px_7px_0px_0px_#6c6c6c] transition-all duration-300"
-              >
-                Hire Me!
+    <div className="wrap" id="top">
+      <nav className="topbar" aria-label="Sections">
+        <ul className="topbar__links">
+          <li>
+            <a href="#experience">Experience</a>
+          </li>
+          <li>
+            <a href="#projects">Projects</a>
+          </li>
+          <li>
+            <a href="#skills">Skills</a>
+          </li>
+          <li>
+            <a href="#education">Education</a>
+          </li>
+          <li>
+            <a href="#contact">Contact</a>
+          </li>
+        </ul>
+        <ThemeButton />
+      </nav>
+
+      <main>
+        <header className="hero">
+          <div className="hero__text">
+            <p className="pill rise" style={at(0)}>
+              <span className="pill__dot" aria-hidden="true" />
+              {hero.status} · {hero.workMode}
+            </p>
+            <h1 className="hero__name rise" style={at(1)}>
+              {hero.name}
+            </h1>
+            <p className="hero__headline rise" style={at(2)}>
+              {hero.headline}
+            </p>
+            <p className="hero__bio rise" style={at(3)}>
+              {hero.bio}
+            </p>
+            <div className="actions rise" style={at(4)}>
+              <a className="btn btn--primary" href={`mailto:${EMAIL}`}>
+                Get in touch
+                <ArrowRightIcon />
               </a>
-              <a
-                href={RESUME_PDF}
-                download
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black border border-black font-bold uppercase shadow-[5px_5px_0px_0px_#6c6c6c] hover:shadow-[7px_7px_0px_0px_#6c6c6c] transition-all duration-300"
-              >
+              <a className="btn" href={RESUME_PDF} download>
                 Resume
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-                  />
-                </svg>
+                <DownloadIcon />
               </a>
-            </motion.div>
+            </div>
+            <ul className="socials rise" style={at(5)}>
+              {SOCIALS.map((s) => {
+                const Icon = SOCIAL_ICONS[s.label];
+                return (
+                  <li key={s.href}>
+                    <a className="social" href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
+                      {Icon ? <Icon /> : s.label}
+                    </a>
+                  </li>
+                );
+              })}
+              <li>
+                <a className="social" href={`mailto:${EMAIL}`} aria-label="Email">
+                  <MailIcon />
+                </a>
+              </li>
+            </ul>
           </div>
-          {/* Image section - shown above the text on mobile */}
-          <div className="order-first md:order-none flex flex-col items-center justify-center">
-            <motion.div
-              initial={{ x: 100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="relative group"
-            >
-              <Image
-                src="/profile.png"
-                alt="mahesh profile"
-                width={320}
-                height={320}
-                priority
-                className="w-56 md:w-64 lg:w-80 object-cover border-[1px] border-black/30 shadow-[7px_7px_0px_0px_#6c6c6c] group-hover:shadow-[10px_10px_0px_0px_#6c6c6c] transition-all duration-300"
-              />
-              <span className="absolute bottom-4 right-4 bg-black text-white px-4 py-2 text-sm font-bold shadow-[3px_3px_0px_0px_#6c6c6c]">
-                Pune, India
-              </span>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+          <figure className="portrait rise" style={at(2)}>
+            <Image src="/profile.png" alt={`Illustrated portrait of ${hero.name}`} width={320} height={320} sizes="(max-width: 900px) 220px, 320px" priority />
+            <figcaption className="portrait__tag">{hero.location}</figcaption>
+          </figure>
+        </header>
 
-      {/* Experience Section */}
-      <section className="container mx-auto px-4 py-12 md:py-20">
-        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-8 md:mb-12">
-          <motion.h2
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-2xl md:text-3xl font-bold font-serif"
-          >
-            Professional Experience
-          </motion.h2>
-          <motion.p
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-gray-500 text-sm"
-          >
-            Building innovative solutions and contributing to cutting-edge
-            projects
-          </motion.p>
-        </div>
-        <div className="relative max-w-4xl lg:max-w-6xl mx-auto">
-          {/* Timeline line - hidden on mobile */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gray-300 hidden md:block"></div>
+        <Section id="experience" title="Experience" note={`${experience.length} roles`}>
+          <ol className="timeline">
+            {experience.map((exp) => (
+              <li key={exp.company} className="job reveal">
+                <article className="card job__card">
+                  <header className="job__head">
+                    {exp.logo ? (
+                      <Image className="job__logo" src={exp.logo} alt="" width={44} height={44} />
+                    ) : (
+                      <span className="job__logo job__logo--mark" aria-hidden="true">
+                        {exp.company[0]}
+                      </span>
+                    )}
+                    <div className="job__who">
+                      <h3 className="job__company">{exp.company}</h3>
+                      <p className="job__role">{exp.title}</p>
+                    </div>
+                    <span className="tag">{exp.duration}</span>
+                  </header>
+                  <p className="job__meta">
+                    {exp.dates} · {exp.location}
+                  </p>
+                  <p className="job__summary">{exp.summary}</p>
+                  <Highlights items={exp.highlights} />
+                  <Chips items={exp.stack} />
+                  {exp.link ? (
+                    <div className="links">
+                      <ExtLink {...exp.link} />
+                    </div>
+                  ) : null}
+                </article>
+              </li>
+            ))}
+          </ol>
+        </Section>
 
-          <div className="space-y-8 md:space-y-12">
-            {experience.map((exp, idx) => (
-              <motion.div
-                key={idx}
-                className="relative md:pl-16"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: idx * 0.2 }}
-              >
-                {/* Timeline dot - hidden on mobile */}
-                <div className="absolute left-6 top-1/2 transform -translate-y-1/2 w-4 h-4 bg-gray-900 rounded-full border-4 border-white shadow-lg z-10 hidden md:block"></div>
+        <Section id="projects" title="Projects" note={`${projects.length + 1} featured · ${sideProjects.length} more`}>
+          <article className="card feature reveal">
+            <div className="feature__media">
+              <Shot project={flagship} sizes="(max-width: 900px) 100vw, 560px" />
+            </div>
+            <div className="feature__body">
+              <p className="eyebrow">Featured</p>
+              <h3 className="feature__title">{flagship.name}</h3>
+              {flagship.subtitle ? <p className="feature__sub">{flagship.subtitle}</p> : null}
+              <p className="feature__summary">{flagship.summary}</p>
+              <dl className="points">
+                {flagship.highlights.map((h, i) =>
+                  typeof h === "object" ? (
+                    <div key={i}>
+                      <dt>{h.lead.replace(/:\s*$/, "")}</dt>
+                      <dd>{h.text}</dd>
+                    </div>
+                  ) : (
+                    <div key={i}>
+                      <dd>{h}</dd>
+                    </div>
+                  )
+                )}
+              </dl>
+              <Chips items={flagship.stack} />
+              <div className="links">
+                {flagship.links.map((l) => (
+                  <ExtLink key={l.href} {...l} />
+                ))}
+              </div>
+            </div>
+          </article>
 
-                {/* Content */}
-                <ExperienceCard exp={exp} />
-              </motion.div>
+          <div className="grid grid--2">
+            {projects.map((p) => (
+              <ProjectCard key={p.name} project={p} />
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* Education Section */}
-      <section className="container mx-auto px-4 py-12 md:py-20">
-        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-8 md:mb-12">
-          <motion.h2
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-2xl md:text-3xl font-bold font-serif"
-          >
-            Education
-          </motion.h2>
-          <motion.p
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-gray-500 text-sm"
-          >
-            Academic excellence and continuous learning journey
-          </motion.p>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-4xl lg:max-w-6xl mx-auto">
-          {education.map((edu, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ y: 50, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: idx * 0.2 }}
-              className="bg-white border border-gray-200 rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div>
-                <h3 className="text-xl md:text-2xl font-bold font-serif text-gray-900 mb-2">
-                  {edu.degree}
-                </h3>
-                <p className="text-base md:text-lg text-gray-600 font-semibold mb-1">
-                  {edu.institution}
-                </p>
-                <p className="text-sm text-gray-500 mb-2">
-                  {edu.date} • {edu.location}
-                </p>
-                <p className="text-sm md:text-base text-gray-700 leading-relaxed">
-                  {edu.details}
-                </p>
+          <h3 className="subhead">More builds</h3>
+          <div className="grid grid--3">
+            {sideProjects.slice(0, SIDE_VISIBLE).map((p) => (
+              <SideCard key={p.name} project={p} />
+            ))}
+          </div>
+          {hidden > 0 ? (
+            // A <details> needs no script, so the extra cards are in the server HTML
+            <details className="more">
+              <summary className="btn btn--quiet">
+                <span className="more__show">Show {hidden} more</span>
+                <span className="more__hide">Show fewer</span>
+              </summary>
+              <div className="grid grid--3">
+                {sideProjects.slice(SIDE_VISIBLE).map((p) => (
+                  <SideCard key={p.name} project={p} />
+                ))}
               </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+            </details>
+          ) : null}
+        </Section>
 
-      {/* Projects Section */}
-      <section className="container mx-auto px-4 py-12 md:py-20">
-        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-8 md:mb-12">
-          <motion.h2
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-2xl md:text-3xl font-bold font-serif"
-          >
-            Projects
-          </motion.h2>
-          <motion.p
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-gray-500 text-sm"
-          >
-            Innovative solutions and cutting-edge applications
-          </motion.p>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-4xl lg:max-w-6xl mx-auto">
-          {displayedProjects.map((p, index) => (
-            <motion.div
-              key={p.name}
-              initial={{ y: 50, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              className="group relative flex h-full flex-col bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow"
-            >
-              {/* Image Preview Area */}
-              <div className="w-full h-48 md:h-64 overflow-hidden rounded-t-lg">
-                <Image
-                  src={p.image}
-                  alt={`${p.name} preview`}
-                  className="w-full h-full object-cover object-top"
-                  width={1200}
-                  height={800}
-                  sizes="(min-width: 1024px) 560px, 100vw"
-                />
+        <Section id="skills" title="Skills">
+          <div className="card skills reveal">
+            {stackIndex.map((g) => (
+              <div key={g.name} className="skill">
+                <h3 className="skill__name">{g.name}</h3>
+                <Chips items={g.items} />
               </div>
+            ))}
+          </div>
+        </Section>
 
-              {/* Project Content */}
-              <div className="flex flex-1 flex-col p-4 md:p-6 space-y-3 md:space-y-4">
-                <div className="flex items-center gap-4">
-                  <div>
-                    <p className="text-lg md:text-xl font-bold font-serif text-gray-900">
-                      {p.name}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      {p.status} • {p.date}
-                    </p>
-                  </div>
-                </div>
-
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {p.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2">
-                  {p.tech.map((tech, i) => (
-                    <span
-                      key={tech + i}
-                      className="text-xs bg-gray-100 text-gray-700 px-2 md:px-3 py-1 rounded-lg font-medium border border-gray-200"
-                    >
-                      {tech}
+        <div className="split">
+          <Section id="education" title="Education">
+            <ul className="edu">
+              {education.map((e) => (
+                <li key={e.degree} className="card edu__item reveal">
+                  <h3 className="edu__degree">{e.degree}</h3>
+                  <p className="edu__school">{e.school}</p>
+                  <p className="edu__meta">
+                    {e.years} · {e.location} · {e.result}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </Section>
+          <Section id="certificates" title="Certificates">
+            <ul className="card certs reveal">
+              {certificates.map((c) => (
+                <li key={c.href}>
+                  <a className="cert" href={c.href} target="_blank" rel="noopener noreferrer">
+                    <span className="cert__title">{c.title}</span>
+                    <span className="cert__by">
+                      {c.issuer} · {c.via}
                     </span>
-                  ))}
-                </div>
-
-                <div
-                  className={`mt-auto flex items-center ${
-                    p.source ? "justify-between" : "justify-end"
-                  }`}
-                >
-                  {p.source && (
-                    <a
-                      href={p.source}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Source Code: ${p.name}`}
-                      className="relative z-10 inline-flex min-h-11 items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm"
-                    >
-                      Source Code
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-                        />
-                      </svg>
-                    </a>
-                  )}
-                  {/* Stretched link: the ::after overlay makes the whole card clickable */}
-                  <a
-                    href={p.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`View Project: ${p.name}`}
-                    className="inline-flex min-h-11 items-center gap-2 text-sm font-bold text-gray-600 hover:text-gray-900 transition-colors border border-gray-200 hover:border-gray-300 px-3 py-2 rounded-lg hover:shadow-sm after:absolute after:inset-0"
-                  >
-                    View Project
-                    <ExternalLinkIcon />
+                    <ArrowUpRightIcon className="icon cert__icon" />
                   </a>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                </li>
+              ))}
+            </ul>
+          </Section>
         </div>
 
-        {/* Load More Button */}
-        {!showAllProjects && projects.length > 4 && (
-          <motion.div
-            className="flex justify-center mt-8"
-            initial={{ y: 20, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <button
-              onClick={() => setShowAllProjects(true)}
-              className="px-8 py-3 bg-black text-white font-bold uppercase shadow-[5px_5px_0px_0px_#6c6c6c] hover:shadow-[7px_7px_0px_0px_#6c6c6c] transition-all duration-300"
-            >
-              Load More Projects
-            </button>
-          </motion.div>
-        )}
-      </section>
+        <section id="contact" className="card contact reveal" aria-labelledby="contact-title">
+          <h2 id="contact-title" className="contact__title">
+            Get in touch
+          </h2>
+          <p className="contact__note">
+            {hero.status} · {hero.workMode}
+          </p>
+          <a className="contact__email" href={`mailto:${EMAIL}`}>
+            {EMAIL}
+          </a>
+          <div className="actions actions--center">
+            <a className="btn btn--primary" href={`mailto:${EMAIL}`}>
+              Write an email
+              <ArrowRightIcon />
+            </a>
+            <a className="btn" href={RESUME_PDF} download>
+              Resume
+              <DownloadIcon />
+            </a>
+          </div>
+        </section>
+      </main>
 
-      {/* Skills Section */}
-      <section className="container mx-auto px-4 py-12 md:py-20">
-        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-8 md:mb-12">
-          <motion.h2
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-2xl md:text-3xl font-bold font-serif"
-          >
-            Skills
-          </motion.h2>
-          <motion.p
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-gray-500 text-sm"
-          >
-            Technical expertise and development tools
-          </motion.p>
-        </div>
-        <motion.div
-          className="flex flex-wrap gap-3 md:gap-4 justify-center max-w-4xl lg:max-w-6xl mx-auto"
-          initial={{ y: 50, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          {skills.map((skill) => (
-            <span
-              key={skill}
-              className="text-sm bg-white text-gray-900 px-3 md:px-4 py-2 md:py-3 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow font-medium"
-            >
-              {skill}
-            </span>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* Certificates Section */}
-      <section className="container mx-auto px-4 py-12 md:py-20">
-        <div className="space-y-2 text-center max-w-[400px] lg:max-w-[500px] mx-auto mb-8 md:mb-12">
-          <motion.h2
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-2xl md:text-3xl font-bold font-serif"
-          >
-            Certificates
-          </motion.h2>
-          <motion.p
-            initial={{ y: 50, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-gray-500 text-sm"
-          >
-            Professional certifications and achievements
-          </motion.p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl lg:max-w-6xl mx-auto">
-          {certificates.map((cert, index) => (
-            <motion.div
-              key={cert.title}
-              initial={{ y: 50, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-            >
-              <a
-                href={cert.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block bg-white border border-gray-200 rounded-lg p-4 md:p-6 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div>
-                  <p className="text-lg md:text-xl font-bold font-serif text-gray-900 group-hover:underline underline-offset-4">
-                    {cert.title}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {cert.issuedBy} • {cert.from}
-                  </p>
-                </div>
-                <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-gray-600 group-hover:text-gray-900 transition-colors border border-gray-200 group-hover:border-gray-300 px-3 py-2 rounded-lg group-hover:shadow-sm">
-                  View Certificate
-                  <ExternalLinkIcon />
-                </span>
-              </a>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="container mx-auto px-4 py-12 text-center text-gray-500 text-sm border-t border-black/30">
-        © {new Date().getFullYear()} Mahesh Moholkar
+      <footer className="foot">
+        <span>
+          © {year} {hero.name}
+        </span>
+        <span>
+          {hero.location} <LocalTime className="foot__time" />
+        </span>
+        <a href="#top">Back to top ↑</a>
       </footer>
-    </main>
+    </div>
   );
 }
