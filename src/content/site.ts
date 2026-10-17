@@ -3,6 +3,7 @@
 // Compiled from resume/resume-nextjs-python-ai.tex; replace the file in public/ when the resume changes
 export const RESUME_PDF = "/Mahesh-Moholkar-Resume.pdf";
 export const EMAIL = "mahesh.moholkar.dev@gmail.com";
+export const BLOG = "https://maheshmoholkar.hashnode.dev/";
 
 export type Highlight = string | { lead: string; text: string };
 export type Link = { label: string; href: string };

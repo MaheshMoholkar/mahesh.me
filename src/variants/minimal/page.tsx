@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import {
+  BLOG,
   education,
   EMAIL,
   experience,
@@ -133,6 +134,7 @@ export default function Page() {
       <nav className="links" aria-label="Contact">
         <TextLink href={`mailto:${EMAIL}`}>email</TextLink>
         <TextLink href={social.GitHub}>github</TextLink>
+        <TextLink href={BLOG}>blog</TextLink>
         <TextLink href={social.LinkedIn}>linkedin</TextLink>
         <TextLink href={social.X}>x</TextLink>
         <TextLink href={RESUME_PDF} download>
