@@ -54,14 +54,13 @@ a { color: inherit; }
 /* The clock is empty until hydration, so its separator only shows once there is a time */
 .clock:not(:empty)::before { content: " · "; }
 
-.mode { all: unset; flex: none; margin-top: 6px; font: 12px/18px var(--mono); color: var(--faint); cursor: pointer; }
-.mode__light { color: var(--fg); }
-:root[data-theme="dark"] .mode__light { color: var(--faint); }
-:root[data-theme="dark"] .mode__dark { color: var(--fg); }
-/* Hover and focus underline only the theme a click would switch to */
-:root:not([data-theme="dark"]) .mode:is(:hover, :focus-visible) .mode__dark,
-:root[data-theme="dark"] .mode:is(:hover, :focus-visible) .mode__light { color: var(--fg-2); text-decoration: underline; text-underline-offset: 3px; }
-.mode:focus-visible { outline: none; }
+.mode { flex: none; margin-top: 6px; font: 12px/18px var(--mono); color: var(--faint); }
+.mode button { all: unset; cursor: pointer; color: var(--faint); }
+/* The current theme is lit and not clickable-looking; the other word underlines only when it is the one hovered */
+:root:not([data-theme="dark"]) .mode__light, :root[data-theme="dark"] .mode__dark { color: var(--fg); cursor: default; }
+:root:not([data-theme="dark"]) .mode__dark:is(:hover, :focus-visible),
+:root[data-theme="dark"] .mode__light:is(:hover, :focus-visible) { color: var(--fg-2); text-decoration: underline; text-underline-offset: 3px; }
+.mode button:focus-visible { outline: none; }
 
 /* ── Contact links ── */
 .links { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 24px; padding-bottom: 28px; }

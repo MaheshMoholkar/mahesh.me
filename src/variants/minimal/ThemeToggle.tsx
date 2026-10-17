@@ -1,19 +1,28 @@
 "use client";
 
-import { useTheme } from "../shared/useTheme";
+import { useTheme, type Theme } from "../shared/useTheme";
+
+const current = (): Theme => (document.documentElement.dataset.theme === "dark" ? "dark" : "light");
 
 /**
- * "light / dark" as text, the current one in full ink. Also bound to the D key. Which word is lit is styled
+ * "light / dark" as two words; clicking one switches to it. The D key still toggles. Which word is lit is styled
  * from <html data-theme>, which the theme script sets before paint, so it is right even before hydration.
  */
 export function ThemeToggle() {
   const { theme, toggle } = useTheme();
+  const pick = (t: Theme) => () => {
+    if (current() !== t) toggle();
+  };
 
   return (
-    <button type="button" role="switch" aria-checked={theme === "dark"} aria-label="Dark mode" title="Switch theme (D)" className="theme__switch mode" onClick={toggle}>
-      <span className="mode__light">light</span>
+    <div className="mode" role="group" aria-label="Theme" title="Switch theme (D)">
+      <button type="button" className="mode__light" aria-pressed={theme === "light"} onClick={pick("light")}>
+        light
+      </button>
       <span aria-hidden="true"> / </span>
-      <span className="mode__dark">dark</span>
-    </button>
+      <button type="button" className="mode__dark" aria-pressed={theme === "dark"} onClick={pick("dark")}>
+        dark
+      </button>
+    </div>
   );
 }

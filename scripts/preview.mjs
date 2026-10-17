@@ -57,7 +57,7 @@ function flip(){root.dataset.theme=root.dataset.theme==="dark"?"light":"dark";sy
 document.querySelectorAll(".more-btn").forEach(function(b){b.dataset.more=b.textContent});
 document.addEventListener("click",function(e){
 var t=e.target;
-if(t.closest('.bx-switch,.theme__switch,.theme-btn')){flip();return}
+var pick=t.closest('.mode button');if(pick){if(root.dataset.theme!==(pick.classList.contains('mode__dark')?'dark':'light'))flip();return}if(t.closest('.bx-switch,.theme__switch,.theme-btn')){flip();return}
 var open=t.closest(".row__open");if(open){var d=open.closest(".row").querySelector("dialog");if(d){d.showModal();var c=d.querySelector(".modal__close");if(c)c.focus()}return}
 var close=t.closest(".modal__close");if(close){close.closest("dialog").close();return}
 if(t.tagName==="DIALOG"){t.close();return}
