@@ -77,39 +77,37 @@
 
 %-----------SUMMARY-----------
 \section{Summary}
-Full-Stack Developer (3+ years) on .NET and React: built a Campus ERP for a university and its affiliated colleges serving 8000+ users, with shared auth and notification microservices -- plus LLM projects on Python/FastAPI and Next.js (RAG helpdesk assistant, service desk with LLM ticket routing, natural-language reporting, document extraction) with evals in CI.
+Full-Stack Developer (3+ years) on React and .NET: built a Campus ERP for a university and its affiliated colleges serving 8000+ users, with shared auth and notification microservices -- plus LLM projects on Python/FastAPI and Next.js (RAG helpdesk assistant, service desk with LLM ticket routing, natural-language reporting, document extraction) with evals in CI.
 
 %-----------EXPERIENCE-----------
 \section{Professional Experience}
 \resumeSubHeadingListStart
 
   \resumeSubheading
-    {Full-Stack Developer}{Aug 2023 -- Present \textmd{\textit{$\cdot$ 3 yrs 3 mos}}}
+    {Software Engineer (Full-Stack \& Applied AI)}{Aug 2023 -- Present \textmd{\textit{$\cdot$ 3 yrs 3 mos}}}
     {Shivam Enterprises}{Pune, India}
     \resumeItemListStart
-      \resumeItem{Built a \textbf{Campus ERP for a university and its affiliated colleges} on \textbf{.NET 10 + React} -- one platform with colleges as tenants, serving \textbf{8000+ users}; brought p95 under 400 ms at k6 peak load with Redis HybridCache.}
+      \resumeItem{Built a \textbf{Campus ERP for a university and its affiliated colleges} on \textbf{React + .NET 10} -- one platform with colleges as tenants, serving \textbf{8000+ users}; brought p95 under 400 ms at k6 peak load with Redis HybridCache.}
       \resumeItem{Built two separate LLM projects on \textbf{Python/FastAPI} (PostgreSQL + pgvector): a \textbf{helpdesk assistant} answering from policies and circulars with citations, and \textbf{Campus Support}, a Next.js service desk for staff requests to the dev team where an LLM checks ticket completeness, classifies requests and suggests the assignee with confidence gating; added natural-language report queries and document extraction to the main ERP.}
       \resumeItem{Built the \textbf{RAG and evaluation pipeline}: hybrid retrieval (pgvector + BM25, reciprocal-rank fusion, reranking), tool calls with per-user access checks for personal data, golden-set evals with LLM-as-judge in CI.}
       \resumeItem{Built shared \textbf{auth} (JWT, role- and menu-based access control) and \textbf{notification} (outbox + Hangfire workers: SendGrid email, SMS and push with retries, delivery tracking) \textbf{microservices} used by every ERP.}
-      \resumeItem{Built separate \textbf{Admissions, Management and Procurement ERPs} (7-stage admissions pipeline; directors' console across all colleges; vendor portal, quotations, indents), each with its own database -- React UI, .NET 10 REST APIs, EF Core schema and migrations -- using the shared auth and notification microservices.}
-      \resumeItem{Built the \textbf{React/TypeScript UI} for the main ERP's exams, fees, HR, attendance, LMS and research modules with typed API clients; worked with the backend team on API contracts.}
+      \resumeItem{Built separate \textbf{Admissions, Management and Procurement ERPs}, each with its own database (React UI, .NET 10 REST APIs, EF Core), on the shared auth and notification microservices.}
       \resumeItem{Set up Serilog + correlation IDs, OpenTelemetry/Grafana, a HealthChecks dashboard and \textbf{Azure DevOps CI/CD} with Testcontainers tests and Docker builds; wrote ADRs and the onboarding runbook; mentored interns.}
     \resumeItemListEnd
-    \resumeTech{.NET 10, React, TypeScript, SQL Server, Redis, Python, FastAPI, Next.js, PostgreSQL, pgvector, LLM APIs, Docker, Azure DevOps}
+    \resumeTech{Python, FastAPI, Next.js, React, TypeScript, PostgreSQL, pgvector, LLM APIs, Redis, .NET 10, SQL Server, Docker, Azure DevOps}
 
   \resumeSubheading
-    {Frontend Developer (Part-time, Remote)}{Jan 2025 -- Jun 2026 \textmd{\textit{$\cdot$ 1 yr 6 mos}}}
+    {Frontend Engineer (Remote)}{Jan 2025 -- Jun 2026 \textmd{\textit{$\cdot$ 1 yr 6 mos}}}
     {Vision -- Multi-tenant SaaS ERP for GCC SMEs}{Kuwait}
     \resumeItemListStart
       \resumeItem{Built the \textbf{React 18 + TypeScript client} (Vite) for a multi-tenant GCC ERP -- quotation, sales order, invoice, returns, purchase order and bill screens, inventory and VAT-aware totals -- as typed forms (React Hook Form + Zod) with state-driven edit/post/void actions.}
       \resumeItem{Owned the client data layer: TanStack Router (loaders, search-param filters), TanStack Query with per-document cache invalidation and optimistic updates, Zustand for session state, real-time notifications over WebSockets.}
       \resumeItem{Shipped a bilingual \textbf{English/Arabic RTL-first UI} (i18next, shadcn/Radix + Tailwind design system), permission-manifest-driven navigation, printable document views, and a shared component library reused across the web app, public storefront and admin app.}
-      \resumeItem{Tested with \textbf{Vitest + Testing Library} and Playwright; GitHub Actions CI with Docker builds deployed on \textbf{AWS}.}
     \resumeItemListEnd
     \resumeTech{React 18, TypeScript, Vite, TanStack Router, TanStack Query, Zustand, React Hook Form, Zod, Tailwind CSS, shadcn/Radix, i18next}
 
   \resumeSubheading
-    {Fellowship -- Zero to Merge Program}{Aug 2023 -- Sep 2023 \textmd{\textit{$\cdot$ 2 mos}}}
+    {Open Source Contributor (Zero to Merge Cohort)}{Aug 2023 -- Sep 2023 \textmd{\textit{$\cdot$ 2 mos}}}
     {Cloud Native Computing Foundation (CNCF)}{Remote}
     \resumeItemListStart
       \resumeItem{CNCF mentored open-source program (Incubator Badge): PRs to Kubernetes-ecosystem projects (Go); bug fix merged into \textbf{Ockam} (Rust); documentation contributions to Kubernetes SIGs and EvalML.}
@@ -121,8 +119,8 @@ Full-Stack Developer (3+ years) on .NET and React: built a Campus ERP for a univ
 \section{Skills}
 \begin{itemize}[leftmargin=0.15in, label={}, itemsep=1pt, topsep=3pt]
   \small
-  \item \textbf{Backend:} Python (FastAPI, Pydantic), C\#/.NET 10 (EF Core, SignalR, Hangfire), REST APIs (OpenAPI), JWT auth, RBAC, SendGrid, Go
-  \item \textbf{Frontend:} React, Next.js, TypeScript, TanStack Query, TanStack Router, Zustand, React Hook Form, Zod, Tailwind CSS, i18next, Expo
+  \item \textbf{Backend:} Python (FastAPI, Pydantic), REST APIs (OpenAPI), JWT auth, RBAC, SendGrid, Go, C\#/.NET 10 (EF Core, SignalR, Hangfire)
+  \item \textbf{Frontend:} Next.js, React, TypeScript, TanStack Query, TanStack Router, Zustand, React Hook Form, Zod, Tailwind CSS, i18next, Expo
   \item \textbf{AI/ML:} LLM APIs (tool use, structured outputs, prompt caching), RAG (embeddings, hybrid retrieval, reranking), NL-to-SQL, evals
   \item \textbf{Data \& Infra:} SQL Server, PostgreSQL, pgvector, Redis, Docker, AWS, Azure DevOps, GitHub Actions, Railway, Serilog, OpenTelemetry, Grafana, xUnit, pytest, Testcontainers, Vitest, k6, Playwright
 \end{itemize}
@@ -134,10 +132,17 @@ Full-Stack Developer (3+ years) on .NET and React: built a Campus ERP for a univ
     {\textbf{Vyavasay AI ERP -- GST Billing \& Inventory SaaS for Indian SMEs} \normalfont\small(2026)}
     {\href{https://vyavasayapp.in}{\faGlobe\ \underline{vyavasayapp.in}}}
     \resumeItemListStart
-      \resumeItem{Designed, built and run a live multi-tenant GST ERP end to end: .NET API, React web app, \textbf{Next.js storefront}, Expo Android app.}
-      \resumeItem{\textbf{AI:} Claude turns a supplier's bill photo into a draft purchase bill; the mobile app finds products by photo (\textbf{Cohere} + pgvector).}
+      \resumeItem{Designed, built and run a live multi-tenant GST ERP end to end: React web app, Next.js storefront, Expo Android app, .NET API.}
+      \resumeItem{AI: Claude turns a supplier's bill photo into a draft purchase bill; the mobile app finds products by photo (Cohere + pgvector).}
     \resumeItemListEnd
     \resumeTech{Next.js, React, TypeScript, TanStack Router, Expo, PostgreSQL, pgvector, .NET 10, EF Core, Hangfire, SignalR, Docker, Railway}
+  \resumeProjectHeading
+    {\textbf{Echo -- Embeddable AI Customer Support, Chat + Voice} \normalfont\small(2026)}
+    {\href{https://github.com/MaheshMoholkar/echo}{\faGithub\ \underline{github.com/MaheshMoholkar/echo}}}
+    \resumeItemListStart
+      \resumeItem{PydanticAI agent answers chat and voice calls (Pipecat, Whisper, Kokoro) from a business's knowledge base, with human handoff.}
+    \resumeItemListEnd
+    \resumeTech{Next.js, TypeScript, Python, FastAPI, PydanticAI, PostgreSQL, pgvector, Ollama, Pipecat, Better Auth}
 \resumeSubHeadingListEnd
 
 %-----------EDUCATION-----------
