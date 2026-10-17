@@ -81,7 +81,7 @@ export const experience: ExperienceItem[] = [
     ...tenure("2023-08"),
     location: "Pune, India",
     summary:
-      "Architected a multi-tenant Campus ERP ecosystem (React, .NET 10) and three satellite platforms serving 8,000+ users at sub-400ms p95 peak latency, alongside the platform's Python/FastAPI LLM & RAG microservice.",
+      "Architected a multi-tenant Campus ERP (React, .NET 10) plus separate Admissions, Management and Procurement platforms, serving 8,000+ users at sub-400ms p95 peak latency, alongside the platform's Python/FastAPI LLM & RAG microservice.",
     highlights: [
       {
         lead: "Production AI & Hybrid RAG:",
