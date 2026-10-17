@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "variant": "node scripts/variant.mjs"
+    "variant": "node scripts/variant.mjs",
+    "preview": "node scripts/preview.mjs"
   },
   "dependencies": {
     "next": "15.4.10",

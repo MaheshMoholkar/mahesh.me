@@ -1,0 +1,256 @@
+<title>Mahesh Portfolio Variants</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600&display=swap">
+<style>
+  /* A review bench: a slim toolbar, then one stage per variant filling the rest of the screen,
+     each a label row, the variant scaled to fit, and its viewport size and zoom */
+  :root {
+    --ground: #e6e8ec;
+    --panel: #f4f5f7;
+    --ink: #15171c;
+    --ink-2: #4b505b;
+    --line: #c9cdd5;
+    --accent: #2b59e0;
+    --on-ink: #f4f5f7;
+    --font-ui: "Schibsted Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0f1114; --panel: #181b20; --ink: #e9ebef; --ink-2: #a2a8b3; --line: #2b3038; --accent: #86a3ff; --on-ink: #0f1114;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0f1114; --panel: #181b20; --ink: #e9ebef; --ink-2: #a2a8b3; --line: #2b3038; --accent: #86a3ff; --on-ink: #0f1114;
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { height: 100%; }
+  body {
+    height: 100%; min-height: 560px; margin: 0;
+    display: flex; flex-direction: column; gap: 14px;
+    padding-block: 14px 16px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    background: var(--ground); color: var(--ink);
+    font: 400 14px/20px var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, p { margin: 0; }
+  button { font: inherit; color: inherit; }
+
+  /* ── Toolbar ── */
+  .bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+  .bar__id { display: grid; gap: 2px; min-width: 0; }
+  .bar__title { font-size: 18px; line-height: 24px; font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; }
+  .bar__ref { font: 400 12px/16px var(--font-mono); color: var(--ink-2); overflow-wrap: anywhere; }
+  .controls { display: flex; flex-wrap: wrap; gap: 8px 12px; }
+
+  /* Segmented controls are radio groups; the label is the segment */
+  .seg { position: relative; display: inline-flex; padding: 2px; border: 1px solid var(--line); border-radius: 9px; background: var(--panel); }
+  .seg input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+  .seg label {
+    display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px; border-radius: 7px; cursor: pointer;
+    font-size: 13px; line-height: 18px; font-weight: 500; color: var(--ink-2); white-space: nowrap;
+  }
+  .seg label:hover { color: var(--ink); }
+  .seg input:checked + label { background: var(--ink); color: var(--on-ink); }
+  .seg input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .narrow .seg--view { display: none; }
+
+  /* ── Stages ── */
+  /* Stages share the bench's three rows (subgrid), so the frames line up even when one description runs longer */
+  .bench {
+    flex: 1 1 auto; min-height: 0;
+    display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); grid-template-rows: auto minmax(0, 1fr) auto; gap: 10px 16px;
+  }
+  .stage { grid-row: span 3; display: grid; grid-template-rows: subgrid; min-width: 0; min-height: 0; }
+  @supports not (grid-template-rows: subgrid) {
+    .stage { grid-template-rows: auto minmax(0, 1fr) auto; row-gap: 10px; }
+  }
+  .stage__head { display: grid; gap: 2px; min-width: 0; }
+  .stage__name { display: flex; align-items: center; gap: 8px; }
+  .stage__name h2 { font-size: 16px; line-height: 22px; font-weight: 600; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px; padding: 1px 7px; border: 1px solid var(--line); border-radius: 999px;
+    font: 500 11px/16px var(--font-mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-2);
+  }
+  .badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .stage__about { font-size: 13px; line-height: 18px; color: var(--ink-2); max-width: 62ch; }
+
+  .screen { position: relative; display: flex; justify-content: center; min-height: 0; }
+  .device { position: relative; height: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+  .bench[data-device="phone"] .device { border-radius: 26px; }
+  .device iframe { position: absolute; top: 0; left: 0; display: block; border: 0; transform-origin: 0 0; background: var(--panel); }
+
+  .stage__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; min-width: 0; }
+  .dims { font: 400 12px/16px var(--font-mono); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .cmd {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 28px; padding: 0 8px; cursor: pointer;
+    border: 1px solid var(--line); border-radius: 7px; background: var(--panel);
+    font: 400 12px/16px var(--font-mono); text-align: left;
+  }
+  .cmd:hover { border-color: var(--ink-2); }
+  .cmd:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .cmd code { font: inherit; }
+  .cmd__hint { color: var(--ink-2); }
+
+  .tabs { align-self: flex-start; }
+</style>
+<!-- page -->
+<header class="bar">
+  <div class="bar__id">
+    <h1 class="bar__title">Portfolio variants</h1>
+    <p class="bar__ref" id="ref">maheshmoholkar.in</p>
+  </div>
+  <div class="controls">
+    <div class="seg seg--view" role="radiogroup" aria-label="Layout">
+      <input type="radio" name="view" id="view-side" value="side"><label for="view-side">Side by side</label>
+      <input type="radio" name="view" id="view-single" value="single"><label for="view-single">One at a time</label>
+    </div>
+    <div class="seg" role="radiogroup" aria-label="Screen size">
+      <input type="radio" name="device" id="device-desktop" value="desktop"><label for="device-desktop">Desktop</label>
+      <input type="radio" name="device" id="device-phone" value="phone"><label for="device-phone">Phone</label>
+    </div>
+    <div class="seg" role="radiogroup" aria-label="Theme">
+      <input type="radio" name="theme" id="theme-light" value="light"><label for="theme-light">Light</label>
+      <input type="radio" name="theme" id="theme-dark" value="dark"><label for="theme-dark">Dark</label>
+    </div>
+  </div>
+</header>
+<div class="seg tabs" id="tabs" role="radiogroup" aria-label="Variant" hidden></div>
+<main class="bench" id="bench"></main>
+
+<script type="application/json" id="data">/*__DATA__*/null</script>
+<script>
+(function () {
+  var DATA = JSON.parse(document.getElementById("data").textContent);
+  if (!DATA) return;
+  var DEVICES = { desktop: { w: 1440 }, phone: { w: 390 } };
+
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem("variants:" + k); return v == null ? d : v; } catch (e) { return d; } },
+    set: function (k, v) { try { localStorage.setItem("variants:" + k, v); } catch (e) {} },
+  };
+  function viewerTheme() {
+    var t = document.documentElement.getAttribute("data-theme");
+    if (t === "light" || t === "dark") return t;
+    return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  var keys = DATA.variants.map(function (v) { return v.key; });
+  var state = {
+    view: store.get("view", "side") === "single" ? "single" : "side",
+    device: store.get("device", "desktop") === "phone" ? "phone" : "desktop",
+    theme: viewerTheme(),
+    focus: store.get("focus", DATA.active),
+  };
+  if (keys.indexOf(state.focus) < 0) state.focus = keys.indexOf(DATA.active) >= 0 ? DATA.active : keys[0];
+
+  var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  document.getElementById("ref").textContent = "maheshmoholkar.in" + (DATA.ref ? " · " + DATA.ref : "");
+
+  var bench = document.getElementById("bench");
+  var tabs = document.getElementById("tabs");
+  var stages = DATA.variants.map(function (v) {
+    var s = document.createElement("section");
+    s.className = "stage";
+    s.setAttribute("aria-label", v.name);
+    var cmd = "npm run variant " + v.key;
+    s.innerHTML =
+      '<div class="stage__head"><div class="stage__name"><h2>' + esc(v.name) + "</h2>" +
+      (v.key === DATA.active ? '<span class="badge" title="src/site.config.ts builds with this one">Active</span>' : "") +
+      "</div>" + (v.about ? '<p class="stage__about">' + esc(v.about) + "</p>" : "") + "</div>" +
+      '<div class="screen"><div class="device"><iframe title="' + esc(v.name) + ' variant"></iframe></div></div>' +
+      '<div class="stage__foot"><span class="dims"></span><button type="button" class="cmd" aria-label="Copy ' + esc(cmd) + '"><code>' + esc(cmd) + '</code><span class="cmd__hint">Copy</span></button></div>';
+    bench.appendChild(s);
+
+    var iframe = s.querySelector("iframe");
+    iframe.setAttribute("data-theme", state.theme);
+    iframe.addEventListener("load", function () { paint(iframe); });
+    iframe.srcdoc = v.html;
+
+    var btn = s.querySelector(".cmd"), hint = s.querySelector(".cmd__hint");
+    btn.addEventListener("click", function () {
+      var done = function (msg) { hint.textContent = msg; setTimeout(function () { hint.textContent = "Copy"; }, 1600); };
+      var select = function () { var r = document.createRange(); r.selectNodeContents(btn.querySelector("code")); var sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); done("Selected"); };
+      try { navigator.clipboard.writeText(cmd).then(function () { done("Copied"); }, select); } catch (e) { select(); }
+    });
+
+    var id = "focus-" + v.key;
+    tabs.insertAdjacentHTML("beforeend", '<input type="radio" name="focus" id="' + id + '" value="' + esc(v.key) + '"><label for="' + id + '">' + esc(v.name) + "</label>");
+    return { key: v.key, el: s, iframe: iframe, screen: s.querySelector(".screen"), device: s.querySelector(".device"), dims: s.querySelector(".dims") };
+  });
+
+  // The theme reaches into each frame: the variants style themselves from <html data-theme>
+  function paint(iframe) {
+    iframe.setAttribute("data-theme", state.theme);
+    try {
+      iframe.contentDocument.documentElement.dataset.theme = state.theme;
+      if (iframe.contentWindow.__previewSync) iframe.contentWindow.__previewSync();
+    } catch (e) {}
+  }
+
+  var narrowQuery = matchMedia("(max-width: 959px)");
+  function view() { return narrowQuery.matches ? "single" : state.view; }
+
+  function apply() {
+    var v = view();
+    document.documentElement.classList.toggle("narrow", narrowQuery.matches);
+    ["view-" + state.view, "device-" + state.device, "theme-" + state.theme, "focus-" + state.focus].forEach(function (id) {
+      var input = document.getElementById(id);
+      if (input) input.checked = true;
+    });
+    bench.dataset.device = state.device;
+    bench.style.setProperty("--cols", v === "single" ? 1 : stages.length);
+    tabs.hidden = v !== "single";
+    stages.forEach(function (st) { st.el.hidden = v === "single" && st.key !== state.focus; });
+    layout();
+  }
+
+  // Each frame renders at the device's real width and is scaled down to fit its stage
+  function layout() {
+    var vw = DEVICES[state.device].w;
+    stages.forEach(function (st) {
+      if (st.el.hidden) return;
+      var W = st.screen.clientWidth, H = st.screen.clientHeight;
+      if (!W || !H) return;
+      var s = Math.min(1, W / vw);
+      st.device.style.width = Math.floor(vw * s) + "px";
+      st.iframe.style.width = vw + "px";
+      st.iframe.style.height = Math.ceil(H / s) + "px";
+      st.iframe.style.transform = s < 1 ? "scale(" + s + ")" : "none";
+      st.dims.textContent = vw + " × " + Math.round(H / s) + " px · " + Math.round(s * 100) + "%";
+    });
+  }
+
+  document.addEventListener("change", function (e) {
+    var t = e.target;
+    if (t.name === "view") { state.view = t.value; store.set("view", t.value); }
+    else if (t.name === "device") { state.device = t.value; store.set("device", t.value); }
+    else if (t.name === "focus") { state.focus = t.value; store.set("focus", t.value); }
+    else if (t.name === "theme") { state.theme = t.value; stages.forEach(function (st) { paint(st.iframe); }); }
+    else return;
+    apply();
+  });
+
+  // D flips every frame's theme, as it does on the site itself
+  window.addEventListener("keydown", function (e) {
+    if (e.key.toLowerCase() !== "d" || e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
+    var g = e.target;
+    if (g.isContentEditable || /^(TEXTAREA|SELECT)$/.test(g.tagName) || (g.tagName === "INPUT" && g.type !== "radio")) return;
+    state.theme = state.theme === "dark" ? "light" : "dark";
+    stages.forEach(function (st) { paint(st.iframe); });
+    apply();
+  });
+
+  if (window.ResizeObserver) new ResizeObserver(layout).observe(bench);
+  else window.addEventListener("resize", layout);
+  if (narrowQuery.addEventListener) narrowQuery.addEventListener("change", apply);
+  apply();
+})();
+</script>

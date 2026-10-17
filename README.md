@@ -28,6 +28,13 @@ npm run variant cozy       # build with cozy from now on (restart `npm run dev` 
 
 The switch rewrites the one export in `src/site.config.ts`. It is a re-export rather than a runtime setting so that only the chosen variant's code, fonts and global CSS end up in the build.
 
+To compare them, build all three into one page that shows them side by side (desktop or phone width, light or dark):
+
+```bash
+npm run preview            # about two minutes; writes out/preview/
+npx serve out/preview
+```
+
 Shared pieces live in `src/variants/shared`: page metadata, the light/dark script and hook (also bound to the <kbd>D</kbd> key), Pune's local clock and the icon set.
 
 ## Content
