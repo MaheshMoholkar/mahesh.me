@@ -18,7 +18,7 @@ export const SOCIALS: Link[] = [
 export const site = {
   title: "Mahesh Moholkar — Software Engineer",
   description:
-    "Mahesh Moholkar builds multi-tenant ERP platforms, distributed .NET and Python backends, and production LLM systems. Based in Pune, open to roles.",
+    "Mahesh Moholkar builds multi-tenant ERP platforms, distributed Python and .NET backends, and production LLM systems. Based in Pune, open to roles.",
   url: "https://maheshmoholkar.in",
 };
 
@@ -81,15 +81,15 @@ export const experience: ExperienceItem[] = [
     ...tenure("2023-08"),
     location: "Pune, India",
     summary:
-      "Architected a multi-tenant Campus ERP ecosystem (.NET 10, React) and three satellite platforms serving 8,000+ users at sub-400ms p95 peak latency, alongside the platform's Python/FastAPI LLM & RAG microservice.",
+      "Architected a multi-tenant Campus ERP ecosystem (React, .NET 10) and three satellite platforms serving 8,000+ users at sub-400ms p95 peak latency, alongside the platform's Python/FastAPI LLM & RAG microservice.",
     highlights: [
-      {
-        lead: "Core Platform & Multi-Tenancy:",
-        text: "Led the architecture of a multi-tenant university ERP and isolated domain platforms (Admissions, Procurement, Management) serving 8,000+ users across 6 affiliated colleges; brought p95 latency under 400ms at k6 peak load using Redis HybridCache.",
-      },
       {
         lead: "Production AI & Hybrid RAG:",
         text: "Built the Python/FastAPI + Next.js AI service powering natural-language reporting over a semantic layer, confidence-gated ticket triage, and a cited helpdesk assistant using hybrid retrieval (pgvector + BM25, Reciprocal Rank Fusion, reranking), RBAC-enforced tool calls, and LLM-as-judge CI evals.",
+      },
+      {
+        lead: "Core Platform & Multi-Tenancy:",
+        text: "Led the architecture of a multi-tenant university ERP and isolated domain platforms (Admissions, Procurement, Management) serving 8,000+ users across 6 affiliated colleges; brought p95 latency under 400ms at k6 peak load using Redis HybridCache.",
       },
       {
         lead: "Shared Microservices:",
@@ -101,23 +101,23 @@ export const experience: ExperienceItem[] = [
       },
     ],
     stack: [
-      "ASP.NET Core (.NET 10)",
       "Python (FastAPI)",
-      "EF Core",
-      "React",
       "Next.js",
+      "React",
       "TypeScript",
-      "SQL Server",
       "PostgreSQL (pgvector)",
       "Redis HybridCache",
-      "Hangfire",
-      "OpenIddict",
-      "Serilog",
       "OpenTelemetry",
       "Grafana",
       "Testcontainers",
       "Docker",
       "Azure DevOps",
+      "ASP.NET Core (.NET 10)",
+      "EF Core",
+      "SQL Server",
+      "Hangfire",
+      "OpenIddict",
+      "Serilog",
     ],
     logo: "/logo.svg",
   },
@@ -260,17 +260,17 @@ export const projects: Project[] = [
   },
 ];
 
-// Skills index: popular, best-known tools per area, Python/AI first (a market view, not a list of what each project used)
+// Skills index: popular, best-known tools per area. Next.js/React and Python with the AI layer lead; .NET is experience, so it comes last (a market view, not a list of what each project used)
 export const stackIndex = [
+  { name: "Frontend", items: ["Next.js", "React", "TypeScript", "React Native"] },
   { name: "Python", items: ["Python", "FastAPI", "SQLAlchemy"] },
   { name: "LLMs", items: ["OpenAI", "Claude", "Gemini", "Llama"] },
   { name: "Agents & RAG", items: ["LangChain", "LangGraph", "LlamaIndex", "MCP"] },
   { name: "Vector", items: ["pgvector", "Pinecone"] },
   { name: "Evals", items: ["Ragas", "DeepEval", "Langfuse", "LangSmith"] },
-  { name: ".NET", items: ["C#", "ASP.NET Core", "EF Core", "SignalR"] },
-  { name: "Frontend", items: ["TypeScript", "React", "Next.js", "React Native"] },
   { name: "Data", items: ["PostgreSQL", "SQL Server", "Redis", "MongoDB"] },
   { name: "Cloud & DevOps", items: ["AWS", "Azure", "Docker"] },
+  { name: ".NET", items: ["C#", "ASP.NET Core", "EF Core", "SignalR"] },
 ];
 
 /** Earlier and smaller builds: a name, one line, the screenshot and its links. */

@@ -178,7 +178,8 @@ export default function Page() {
       </Section>
 
       <Section n="03" label="Projects">
-        {[flagship, ...projects].map((p) => (
+        {/* The Next.js/Python projects lead; Vyavasay (a .NET backend) follows */}
+        {[...projects, flagship].map((p) => (
           <ProjectRow key={p.name} project={p} />
         ))}
         <p className="aside">
