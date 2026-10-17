@@ -58,9 +58,10 @@ a { color: inherit; }
 .mode__light { color: var(--fg); }
 :root[data-theme="dark"] .mode__light { color: var(--faint); }
 :root[data-theme="dark"] .mode__dark { color: var(--fg); }
-.mode:hover .mode__light, .mode:hover .mode__dark { text-decoration: underline; text-underline-offset: 3px; }
-.mode:focus-visible { outline: none; color: var(--accent); }
-.mode:focus-visible .mode__light, .mode:focus-visible .mode__dark { text-decoration: underline; text-underline-offset: 3px; }
+/* Hover and focus underline only the theme a click would switch to */
+:root:not([data-theme="dark"]) .mode:is(:hover, :focus-visible) .mode__dark,
+:root[data-theme="dark"] .mode:is(:hover, :focus-visible) .mode__light { color: var(--fg-2); text-decoration: underline; text-underline-offset: 3px; }
+.mode:focus-visible { outline: none; }
 
 /* ── Contact links ── */
 .links { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 24px; padding-bottom: 28px; }
@@ -89,6 +90,8 @@ a { color: inherit; }
 .row__head:hover { background: var(--hover); }
 /* Keyboard focus: the hover tint plus an accent bar on the left, not a box round the whole row */
 .row__head:focus-visible { outline: none; background: var(--hover); box-shadow: inset 2px 0 0 var(--accent); }
+/* An open entry: its header row keeps the tint and an accent bar; the details below stay plain */
+details[open] > .row__head { background: var(--hover); box-shadow: inset 2px 0 0 var(--accent); }
 .row__head--static { grid-template-columns: minmax(0, 1fr) auto; cursor: default; }
 .row__head--static:hover { background: none; }
 .row__main { display: grid; min-width: 0; }
