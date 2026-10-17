@@ -191,7 +191,7 @@ export const flagship: Project = {
   name: "Vyavasay AI ERP",
   subtitle: "Multi-Tenant Accounting, Inventory & AI ERP Platform",
   summary:
-    "Designed, built and run a live multi-tenant GST ERP for Indian SMEs end to end: .NET API, React web app, Next.js storefront and Expo Android app.",
+    "Designed, built and run a live multi-tenant GST ERP for Indian SMEs end to end: React web app, Next.js storefront, Expo Android app and .NET API.",
   highlights: [
     {
       lead: "Transactional Posting:",
