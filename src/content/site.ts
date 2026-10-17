@@ -199,14 +199,14 @@ export const flagship: Project = {
     },
     {
       lead: "Inventory & Omnichannel:",
-      text: "Built multi-location warehouse tracking with batch/expiry controls, real-time SignalR notifications, background Hangfire jobs, an integrated online storefront, and a cross-platform Expo mobile app.",
+      text: "Built multi-location warehouse tracking with batch/expiry controls, real-time SignalR notifications, background Hangfire jobs, a Next.js online storefront, and a cross-platform Expo mobile app.",
     },
     {
       lead: "Engineering Rigor:",
       text: "ADR-driven system design, with automated integration tests verifying financial invariants and tenant isolation.",
     },
   ],
-  stack: [".NET 10", "EF Core", "PostgreSQL", "React", "TypeScript", "TanStack Router", "Expo", "Hangfire", "SignalR", "Docker", "Railway"],
+  stack: [".NET 10", "EF Core", "PostgreSQL", "React", "Next.js", "TypeScript", "TanStack Router", "Expo", "Hangfire", "SignalR", "Docker", "Railway"],
   image: { src: "/vyavasay.png", width: 1440, height: 900 },
   links: [{ label: "Live", href: "https://vyavasayapp.in/" }],
 };
